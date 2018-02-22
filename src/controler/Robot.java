@@ -1,24 +1,61 @@
 package controler;
 
+import motor.Graber;
+import motor.Propulsion;
+import sensor.Bumper;
+import sensor.ColorSensor;
+import sensor.UltraSon;
 import utils.Point;
 
 public class Robot {
 	/**
 	 * 
 	 */
-	Point p;
+	protected Point p;
 	/**
 	 * 
 	 */
-	boolean south;
+	protected boolean south;
+	/**
+	 * 
+	 */
+	protected ColorSensor    color      = null;
+	/**
+	 * 
+	 */
+	protected Propulsion     propulsion = null;
+	/**
+	 * 
+	 */
+	protected Graber         graber     = null;
+	/**
+	 * 
+	 */
+	protected Bumper pression   = null;
+	/**
+	 * 
+	 */
+	protected UltraSon   vision     = null;
 	/**
 	 * @param p
 	 * @param south
+	 * @param color
+	 * @param propulsion
+	 * @param graber
+	 * @param pression
+	 * @param vision
 	 */
-	public Robot(Point p, boolean south) {
+	public Robot(Point p, boolean south, ColorSensor color,
+			Propulsion propulsion, Graber graber, Bumper pression,
+			UltraSon vision) {
 		super();
 		this.p = p;
 		this.south = south;
+		this.color = color;
+		this.propulsion = propulsion;
+		this.graber = graber;
+		this.pression = pression;
+		this.vision = vision;
 	}
 	/**
 	 * @return the p
@@ -44,51 +81,65 @@ public class Robot {
 	public void setSouth(boolean south) {
 		this.south = south;
 	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
+	/**
+	 * @return the color
 	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((p == null) ? 0 : p.hashCode());
-		result = prime * result + (south ? 1231 : 1237);
-		return result;
+	public ColorSensor getColor() {
+		return color;
 	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
+	/**
+	 * @param color the color to set
 	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof Robot)) {
-			return false;
-		}
-		Robot other = (Robot) obj;
-		if (p == null) {
-			if (other.p != null) {
-				return false;
-			}
-		} else if (!p.equals(other.p)) {
-			return false;
-		}
-		if (south != other.south) {
-			return false;
-		}
-		return true;
+	public void setColor(ColorSensor color) {
+		this.color = color;
 	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	/**
+	 * @return the propulsion
 	 */
-	@Override
-	public String toString() {
-		return "Robot [p=" + p + ", south=" + south + "]";
+	public Propulsion getPropulsion() {
+		return propulsion;
 	}
-	
+	/**
+	 * @param propulsion the propulsion to set
+	 */
+	public void setPropulsion(Propulsion propulsion) {
+		this.propulsion = propulsion;
+	}
+	/**
+	 * @return the graber
+	 */
+	public Graber getGraber() {
+		return graber;
+	}
+	/**
+	 * @param graber the graber to set
+	 */
+	public void setGraber(Graber graber) {
+		this.graber = graber;
+	}
+	/**
+	 * @return the pression
+	 */
+	public Bumper getPression() {
+		return pression;
+	}
+	/**
+	 * @param pression the pression to set
+	 */
+	public void setPression(Bumper pression) {
+		this.pression = pression;
+	}
+	/**
+	 * @return the vision
+	 */
+	public UltraSon getVision() {
+		return vision;
+	}
+	/**
+	 * @param vision the vision to set
+	 */
+	public void setVision(UltraSon vision) {
+		this.vision = vision;
+	}
 	
 }

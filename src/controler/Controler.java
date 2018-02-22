@@ -59,7 +59,8 @@ public class Controler {
 	public void start() throws IOException, ClassNotFoundException{
 		loadCalibration();
 		screen.drawText("Calibration", 
-				"Appuyez sur echap ","pour skipper");
+				"Appuyez sur echap ","pour skipper",
+				"Appuyez sur entrer sinon");
 		boolean skip = input.waitOkEscape(Button.ID_ESCAPE);
 		if(skip || calibration()){
 			if(!skip){
@@ -270,7 +271,7 @@ public class Controler {
 					state = States.needToSeek;
 				break;
 				/*
-				 * Le bsoin de chercher un objet nécessite d'avoir le robot
+				 * Le besoin de chercher un objet nécessite d'avoir le robot
 				 * orienté face à l'ouest du terrain. Le nord étant face au camp
 				 * adverse
 				 * Le robot va lancer une rotation de 180° en cherchant si un
@@ -535,6 +536,8 @@ public class Controler {
 					}
 					break;
 				//Évite la boucle infinie
+				default:
+					break;
 				}
 				if(input.escapePressed())
 					run = false;
