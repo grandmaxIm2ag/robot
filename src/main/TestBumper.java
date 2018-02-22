@@ -2,8 +2,6 @@ package main;
 
 import controler.Calibrator;
 import lejos.hardware.Button;
-import lejos.hardware.ev3.LocalEV3;
-import lejos.hardware.lcd.GraphicsLCD;
 import motor.Graber;
 import sensor.Bumper;
 import vue.InputHandler;
