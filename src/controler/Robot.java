@@ -11,6 +11,10 @@ public class Robot {
 	/**
 	 * 
 	 */
+	float z;
+	/**
+	 * 
+	 */
 	protected Point p;
 	/**
 	 * 
@@ -56,6 +60,7 @@ public class Robot {
 		this.graber = graber;
 		this.pression = pression;
 		this.vision = vision;
+		z = 0;
 	}
 	/**
 	 * @return the p
@@ -140,6 +145,18 @@ public class Robot {
 	 */
 	public void setVision(UltraSon vision) {
 		this.vision = vision;
+	}
+	/**
+	 * @return the z
+	 */
+	public float getZ() {
+		return z;
+	}
+	/**
+	 * @param z the z to set
+	 */
+	public void setZ(float z) {
+		this.z = z;
 	}
 	
 }

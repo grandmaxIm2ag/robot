@@ -1,12 +1,13 @@
 package controler;
 
+import exception.InstructionException;
 import utils.*;
 /**
  * 
  * @author maxence
  *
  */
-public class Mapper {
+public class Mapper implements Visitor{
 	/**
 	 * 
 	 */
@@ -30,9 +31,11 @@ public class Mapper {
 	 * 
 	 * @param i
 	 * @return
+	 * @throws InstructionException 
 	 */
-	public Instruction visit (Instruction i){
-		throw new java.lang.UnsupportedOperationException("Not supported yet");
+	public Instruction visit (Instruction i) throws InstructionException{
+		throw new exception.InstructionException("Cette instruction n'a" +
+				" pas encore été implantée");
 	}
 	/**
 	 * 

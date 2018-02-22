@@ -1,22 +1,29 @@
 package controler;
 
 import java.io.IOException;
+import java.util.List;
+
+import controler.Controler.States;
 
 import lejos.hardware.Button;
+import lejos.robotics.Color;
 import motor.Graber;
 import motor.Propulsion;
+import motor.TimedMotor;
 import sensor.Bumper;
 import sensor.ColorSensor;
 import sensor.UltraSon;
 import vue.InputHandler;
 import vue.Screen;
+import utils.Instruction;
 import utils.Point;
+import utils.R2D2Constants;
 public class RobotControler {
 	
 	Robot robot;
 	protected Screen screen;
 	protected InputHandler input;
-	
+	List<TimedMotor> motors;
 	public RobotControler(){
 		robot = new Robot(new Point(0,0), false,new ColorSensor(),
 				new Propulsion(), new Graber(), new Bumper(), new UltraSon());
@@ -96,7 +103,42 @@ public class RobotControler {
 		return false;
 	}
 
-	public void mainLoop(boolean b){
-		
+
+	private void mainLoop(boolean initLeft) {
+		States state          = States.firstMove;
+		boolean run           = true;
+		boolean unique        = true;
+		boolean unique2       = true;
+		float   searchPik     = R2D2Constants.INIT_SEARCH_PIK_VALUE;
+		boolean isAtWhiteLine = false;
+		int     nbSeek        = R2D2Constants.INIT_NB_SEEK;
+		boolean seekLeft      = initLeft;
+		//Boucle de jeu
+		while(run){
+			/*
+			 * - Quand on part chercher un palet, on mesure le temps de trajet
+			 * - Quand on fait le demi tour on parcours ce même temps de trajet
+			 * - Si on croise une ligne noire vers la fin du temps de trajet
+			 *     S'orienter au nord
+			 *     vérifier pendant l'orientation la présence d'une ligne blanche
+			 *     si on voit une ligne blanche alors le prochain état sera 
+			 *     arrivé à la maison
+			 *     sinon le prochain état sera aller à la maison.
+			 */
+			try{
+				for(TimedMotor m : motors){
+					m.checkState();
+				}
+				
+			}catch(Throwable t){
+				t.printStackTrace();
+				run = false;
+			}
+		}
 	}
+	
+	public List<Instruction> getPlan(){
+		throw new java.lang.UnsupportedOperationException("Not yet implemanted");
+	}
+
 }
