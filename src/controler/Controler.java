@@ -168,7 +168,9 @@ public class Controler {
 		needToOrientateNorthToRelease,
 		isOrientatingNorthToRealease,
 		isAjustingBackHome,
-		isGoingToOrientateN}
+		isGoingToOrientateN
+	}
+
 	private void mainLoop(boolean initLeft) {
 		States state          = States.firstMove;
 		boolean run           = true;
@@ -558,21 +560,7 @@ public class Controler {
 						"Calibration de la fermeture de la pince",
 						"Appuyez sur le bouton central ","pour continuer");
 		if(input.waitOkEscape(Button.ID_ENTER)){
-			screen.drawText("Calibration", 
-						"Appuyez sur ok","pour lancer et arrêter");
-			input.waitAny();
-			graber.startCalibrate(false);
-			input.waitAny();
-			graber.stopCalibrate(false);
-			screen.drawText("Calibration", 
-						"Appuyer sur Entree", "pour commencer la",
-						"calibration de l'ouverture");
-			input.waitAny();
-			screen.drawText("Calibration", 
-						"Appuyer sur Entree", "Quand la pince est ouverte");
-			graber.startCalibrate(true);
-			input.waitAny();
-			graber.stopCalibrate(true);
+			Calibrator.celibrateGrapber(graber, true);
 
 		}else{
 			return false;
@@ -589,47 +577,7 @@ public class Controler {
 						"Préparez le robot à la ","calibration des couleurs",
 						"Appuyez sur le bouton central ","pour continuer");
 		if(input.waitOkEscape(Button.ID_ENTER)){
-			color.lightOn();
-
-			//calibration gris
-			screen.drawText("Gris", 
-					"Placer le robot sur ","la couleur grise");
-			input.waitAny();
-			color.calibrateColor(Color.GRAY);
-
-			//calibration rouge
-			screen.drawText("Rouge", "Placer le robot ","sur la couleur rouge");
-			input.waitAny();
-			color.calibrateColor(Color.RED);
-
-			//calibration noir
-			screen.drawText("Noir", "Placer le robot ","sur la couleur noir");
-			input.waitAny();
-			color.calibrateColor(Color.BLACK);
-
-			//calibration jaune
-			screen.drawText("Jaune", 
-					"Placer le robot sur ","la couleur jaune");
-			input.waitAny();
-			color.calibrateColor(Color.YELLOW);
-
-			//calibration bleue
-			screen.drawText("BLeue", 
-					"Placer le robot sur ","la couleur bleue");
-			input.waitAny();
-			color.calibrateColor(Color.BLUE);
-
-			//calibration vert
-			screen.drawText("Vert", "Placer le robot ","sur la couleur vert");
-			input.waitAny();
-			color.calibrateColor(Color.GREEN);
-
-			//calibration blanc
-			screen.drawText("Blanc", "Placer le robot ","sur la couleur blanc");
-			input.waitAny();
-			color.calibrateColor(Color.WHITE);
-
-			color.lightOff();
+			Calibrator.calibrateCoor(color, 5);
 			return true;
 		}
 		return false;
