@@ -257,5 +257,9 @@ public class Propulsion extends TimedMotor implements MoveListener{
 	public double getLastTurnedAngle(){
 		return lastTurnedAngle;
 	}
+	
+	public void runDist(float dist){
+		pilot.travel(dist);
+	}
 
 }

@@ -44,4 +44,5 @@ public class R2D2Constants {
 	public static final int   SLOW_SEARCH_SPEED          = 20;
 	public static final int   ANGLE_CORRECTION           = 2;
 	public static final float PR_ANGLE_CORRECTION        = ANGLE_CORRECTION/100f;
+	public static final float SIZE_ARENA				 = 200f;
 }

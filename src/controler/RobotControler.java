@@ -1,12 +1,16 @@
 package controler;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
+import java.util.PriorityQueue;
 
-import controler.Controler.States;
+import exception.EmptyArenaException;
+import exception.InstructionException;
 
 import lejos.hardware.Button;
-import lejos.robotics.Color;
 import motor.Graber;
 import motor.Propulsion;
 import motor.TimedMotor;
@@ -16,14 +20,33 @@ import sensor.UltraSon;
 import vue.InputHandler;
 import vue.Screen;
 import utils.Instruction;
+import utils.Palet;
 import utils.Point;
-import utils.R2D2Constants;
 public class RobotControler {
 	
-	Robot robot;
+	protected Robot robot;
 	protected Screen screen;
 	protected InputHandler input;
-	List<TimedMotor> motors;
+	protected List<Palet> palets;
+	protected List<TimedMotor> motors;
+	
+	private class Checker implements Comparator<Palet>{
+		Point p;
+		public Checker(Point p){
+			this.p = p;
+		}
+		@Override
+		public int compare(Palet arg0, Palet arg1) {
+			if(p.distance((Point)arg0.getP()) > p.distance((Point)arg0.getP()) ){
+				return 1;
+			}else if(p.distance((Point)arg0.getP()) < p.distance((Point)arg0.getP()) ){
+				return -1;
+			}else{
+				return 0;
+			}
+		}
+		
+	}
 	public RobotControler(){
 		robot = new Robot(new Point(0,0), false,new ColorSensor(),
 				new Propulsion(), new Graber(), new Bumper(), new UltraSon());
@@ -105,31 +128,30 @@ public class RobotControler {
 
 
 	private void mainLoop(boolean initLeft) {
-		States state          = States.firstMove;
 		boolean run           = true;
-		boolean unique        = true;
-		boolean unique2       = true;
-		float   searchPik     = R2D2Constants.INIT_SEARCH_PIK_VALUE;
-		boolean isAtWhiteLine = false;
-		int     nbSeek        = R2D2Constants.INIT_NB_SEEK;
-		boolean seekLeft      = initLeft;
 		//Boucle de jeu
 		while(run){
-			/*
-			 * - Quand on part chercher un palet, on mesure le temps de trajet
-			 * - Quand on fait le demi tour on parcours ce même temps de trajet
-			 * - Si on croise une ligne noire vers la fin du temps de trajet
-			 *     S'orienter au nord
-			 *     vérifier pendant l'orientation la présence d'une ligne blanche
-			 *     si on voit une ligne blanche alors le prochain état sera 
-			 *     arrivé à la maison
-			 *     sinon le prochain état sera aller à la maison.
-			 */
 			try{
 				for(TimedMotor m : motors){
 					m.checkState();
 				}
 				
+				List<Instruction> plan = getPlan();
+				if (plan == null){
+					run = false;
+				}else{
+					Visitor<Boolean> v = new ExecPlan(robot);
+					accept(v, plan);
+				}
+				
+			}catch(InstructionException e){
+				//On recalcule le plan
+				continue;
+			}catch(EmptyArenaException e){
+				//Il n'y a plus aucun palet prenable sur le terrain
+				screen.drawText("FIn", "Il n'y a plus aucun palet");
+				run = false;
+				return;
 			}catch(Throwable t){
 				t.printStackTrace();
 				run = false;
@@ -137,8 +159,68 @@ public class RobotControler {
 		}
 	}
 	
-	public List<Instruction> getPlan(){
-		throw new java.lang.UnsupportedOperationException("Not yet implemanted");
+	/**
+	 * Renvoie un plan
+	 * 
+	 * @return
+	 * @throws EmptyArenaException 
+	 */
+	public List<Instruction> getPlan() throws EmptyArenaException{
+		if(palets.size() == 0){
+			throw new EmptyArenaException();
+		}
+		PriorityQueue<Palet> pq = new PriorityQueue<Palet>(palets.size(), new Checker(robot.getP())) ;
+		for(Palet p : palets){
+			pq.offer(p);
+		}
+		List<Instruction> plan = new ArrayList<Instruction>();
+		Point init = robot.getP();
+		while(! pq.isEmpty()){
+			Palet p = pq.remove();
+			plan.add(new utils.Move(init, (Point)p.getP()));
+			plan.add(new utils.Pick(p, (Point)p.getP()));
+			plan.add(new utils.Deliver(p));
+		}
+		return plan;
+	}
+	
+	/**
+	 * Accepte un visteur renvoyant des booléens
+	 * 
+	 * @param v
+	 * @param plan
+	 * @throws Exception
+	 */
+	public void accept(Visitor<Boolean> v, List<Instruction> plan) throws Exception{
+		Iterator<Instruction> it = plan.iterator();
+		int i=0;
+		while(it.hasNext() && isFeasible(plan, i)){
+			if(! v.visit(it.next())){
+				throw new InstructionException("L'instruction a échouée");
+			}
+			i++;
+		}
+	}
+	
+	/**
+	 * Verifie que les n-i dernières instructions d'un plan sont réalisables
+	 * 
+	 * @param plan
+	 * @param i
+	 * @return
+	 */
+	public boolean isFeasible(List<Instruction> plan , int i){
+		boolean b = true;
+		for(int j =i; j<plan.size(); j++){
+			if(plan.get(j) instanceof utils.Pick){
+				boolean b1 = false;
+				for(Palet p : palets){
+					b1 |= p.getP().equals(((utils.Pick)plan.get(j)).getCoord()); 
+				}
+				b &= b1;
+			}
+		}
+		return b;
 	}
 
 }
