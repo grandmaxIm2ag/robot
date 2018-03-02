@@ -4,10 +4,9 @@ import exception.InstructionException;
 import utils.*;
 /**
  * 
- * @author maxence
  *
  */
-public class Mapper implements Visitor{
+public class Mapper implements Visitor<Instruction>{
 	/**
 	 * 
 	 */

@@ -15,6 +15,7 @@ import motor.Graber;
 import motor.Propulsion;
 import motor.TimedMotor;
 import sensor.Bumper;
+import sensor.Camera;
 import sensor.ColorSensor;
 import sensor.UltraSon;
 import vue.InputHandler;
@@ -22,6 +23,7 @@ import vue.Screen;
 import utils.Instruction;
 import utils.Palet;
 import utils.Point;
+import utils.R2D2Constants;
 public class RobotControler {
 	
 	protected Robot robot;
@@ -52,13 +54,21 @@ public class RobotControler {
 				new Propulsion(), new Graber(), new Bumper(), new UltraSon());
 		screen     = new Screen();
 		input      = new InputHandler(screen);
+		motors = new ArrayList<TimedMotor>();
+		motors.add(robot.getGraber());
+		motors.add(robot.getPropulsion());
 	}
 	
 	public void start() throws IOException, ClassNotFoundException{
+		Camera.init_camera();
 		screen.drawText("Calibration", 
-				"Appuyez sur entrer pour commencer");
+				"Appuyez sur OK pour commencer");
 		input.waitAny();
 		if(calibration()){
+			screen.drawText("Calibration Placement", 
+					"Appuyez sur OK si","vous êtes au sud",
+					"Appuyez sur toute autre si","vous êtes au nord");
+			robot.setSouth(input.isThisButtonPressed(input.waitAny(), Button.ID_ENTER));
 			screen.drawText("Lancer", 
 				"Appuyez sur OK si la","ligne noire est à gauche",
 				"Appuyez sur tout autre", "elle est à droite");
@@ -120,7 +130,7 @@ public class RobotControler {
 						"Préparez le robot à la ","calibration des couleurs",
 						"Appuyez sur le bouton central ","pour continuer");
 		if(input.waitOkEscape(Button.ID_ENTER)){
-			Calibrator.calibrateCoor(robot.color, 5);
+			Calibrator.calibrateCoor(robot.color, 1);
 			return true;
 		}
 		return false;
@@ -128,19 +138,23 @@ public class RobotControler {
 
 
 	private void mainLoop(boolean initLeft) {
-		boolean run           = true;
+		boolean run = true;
+		robot.setP(new Point(
+				robot.isSouth() ? initLeft ? 150 : 50 : initLeft ? 50 : 150,
+				robot.isSouth() ? R2D2Constants.Y_SOUTH : R2D2Constants.Y_NORTH 
+				));
 		//Boucle de jeu
 		while(run){
 			try{
 				for(TimedMotor m : motors){
 					m.checkState();
 				}
-				
+				palets = Camera.getPalet();
 				List<Instruction> plan = getPlan();
 				if (plan == null){
 					run = false;
 				}else{
-					Visitor<Boolean> v = new ExecPlan(robot);
+					Visitor<Boolean> v = new ExecPlan(robot, input, screen);
 					accept(v, plan);
 				}
 				
@@ -152,11 +166,17 @@ public class RobotControler {
 				screen.drawText("FIn", "Il n'y a plus aucun palet");
 				run = false;
 				return;
+			}catch(exception.FinishException e){
+				//Il n'y a plus aucun palet prenable sur le terrain
+				screen.drawText("Fin", "Le robot va être stopé");
+				run = false;
+				return;
 			}catch(Throwable t){
 				t.printStackTrace();
 				run = false;
 			}
 		}
+		cleanUp();
 	}
 	
 	/**
@@ -220,6 +240,7 @@ public class RobotControler {
 				b &= b1;
 			}
 		}
+		b=true;////////////////////////////////////////////////////////////////////////////////
 		return b;
 	}
 

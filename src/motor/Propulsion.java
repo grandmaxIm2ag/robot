@@ -257,9 +257,19 @@ public class Propulsion extends TimedMotor implements MoveListener{
 	public double getLastTurnedAngle(){
 		return lastTurnedAngle;
 	}
-	
+	/**
+	 * 
+	 * @param dist : la distance en centimetre
+	 */
 	public void runDist(float dist){
-		pilot.travel(dist);
+		pilot.travel(dist*10);
+	}
+
+	/**
+	 * @param orientation the orientation to set
+	 */
+	public void setOrientation(float orientation) {
+		this.orientation = orientation;
 	}
 
 }

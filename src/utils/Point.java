@@ -101,6 +101,7 @@ public class Point extends Coord{
 		Point tmp = new Point(x, point.getY());
 		float hyp = this.distance(point);
 		float adj = this.distance(tmp);
-		return (float)Math.acos((double)(hyp/adj));
+		double r = Math.acos((adj/hyp));
+		return (float)Math.toDegrees(r);
 	}
 }

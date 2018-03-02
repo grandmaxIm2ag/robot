@@ -1,6 +1,5 @@
 package controler;
 
-import exception.InstructionException;
 import utils.Deliver;
 import utils.Instruction;
 import utils.Move;
