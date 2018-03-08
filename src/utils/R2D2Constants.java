@@ -45,7 +45,7 @@ public class R2D2Constants {
 	public static final int   ANGLE_CORRECTION           = 2;
 	public static final float PR_ANGLE_CORRECTION        = ANGLE_CORRECTION/100f;
 	public static final float SIZE_ARENA				 = 200f;
-	public static final float ERROR						 = 3f;
+	public static final float ERROR						 = 5f;
 	public static final float DIST_AVOID_OBSTACLE 		 = 50f;
 	public static final float Y_SOUTH 					 = 30f;
 	public static final float Y_NORTH 					 = 270f;
@@ -53,4 +53,5 @@ public class R2D2Constants {
 	public static final int WIDTH_ARENA					 = 200;
 	public static final int LENGTH_ARENA				 = 200;
 	public static final float STRENGTH_BARREL_CORRECTION = 1.55f;
+	public static final float ANGLE_ERROR				 = 1.1f;
 }

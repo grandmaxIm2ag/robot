@@ -8,6 +8,7 @@ import utils.Palet;
 
 public class TestCamera {
 	public static void main(String [] args) throws IOException{
+		Camera.init_camera();
 		Iterator<Palet> it = Camera.getPalet().iterator();
 		while(it.hasNext()){
 			System.out.println(it.next().toString());

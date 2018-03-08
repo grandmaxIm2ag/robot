@@ -1,6 +1,7 @@
 package controler;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -11,6 +12,7 @@ import exception.EmptyArenaException;
 import exception.InstructionException;
 
 import lejos.hardware.Button;
+import lejos.robotics.navigation.Move;
 import motor.Graber;
 import motor.Propulsion;
 import motor.TimedMotor;
@@ -32,23 +34,7 @@ public class RobotControler {
 	protected List<Palet> palets;
 	protected List<TimedMotor> motors;
 	
-	private class Checker implements Comparator<Palet>{
-		Point p;
-		public Checker(Point p){
-			this.p = p;
-		}
-		@Override
-		public int compare(Palet arg0, Palet arg1) {
-			if(p.distance((Point)arg0.getP()) > p.distance((Point)arg0.getP()) ){
-				return 1;
-			}else if(p.distance((Point)arg0.getP()) < p.distance((Point)arg0.getP()) ){
-				return -1;
-			}else{
-				return 0;
-			}
-		}
-		
-	}
+	
 	public RobotControler(){
 		robot = new Robot(new Point(0,0), false,new ColorSensor(),
 				new Propulsion(), new Graber(), new Bumper(), new UltraSon());
@@ -60,7 +46,8 @@ public class RobotControler {
 	}
 	
 	public void start() throws IOException, ClassNotFoundException{
-		Camera.init_camera();
+		
+		
 		screen.drawText("Calibration", 
 				"Appuyez sur OK pour commencer");
 		input.waitAny();
@@ -137,20 +124,33 @@ public class RobotControler {
 	}
 
 
-	private void mainLoop(boolean initLeft) {
+	private void mainLoop(boolean initLeft) throws SocketException {
+		/////////////////////////////////////////////////////////
+		//////A MODIFIER LORS DE L'UTIISATION DE LA CAMERA///////
+		/////////////////////////////////////////////////////////
+		//Camera.init_camera();
+		Planner.init(new Mapper(true, robot.isSouth()));
 		boolean run = true;
 		robot.setP(new Point(
 				robot.isSouth() ? initLeft ? 150 : 50 : initLeft ? 50 : 150,
 				robot.isSouth() ? R2D2Constants.Y_SOUTH : R2D2Constants.Y_NORTH 
 				));
 		//Boucle de jeu
+		screen.clearDraw();
+		screen.drawText("Lancement du robot");
 		while(run){
 			try{
 				for(TimedMotor m : motors){
 					m.checkState();
 				}
-				palets = Camera.getPalet();
-				List<Instruction> plan = getPlan();
+				/////////////////////////////////////////////////////////
+				//////A MODIFIER LORS DE L'UTIISATION DE LA CAMERA///////
+				/////////////////////////////////////////////////////////
+				//palets = Camera.getPalet();
+				palets.clear();
+				palets.add(new Palet(new Point(5,5), true));
+				palets.add(new Palet(new Point(15,15), true));
+				List<Instruction> plan = Planner.getPlan(palets, robot.getP(), robot.isSouth());
 				if (plan == null){
 					run = false;
 				}else{
@@ -160,6 +160,8 @@ public class RobotControler {
 				
 			}catch(InstructionException e){
 				//On recalcule le plan
+				e.printStackTrace(System.err);
+				run = false;
 				continue;
 			}catch(EmptyArenaException e){
 				//Il n'y a plus aucun palet prenable sur le terrain
@@ -179,30 +181,6 @@ public class RobotControler {
 		cleanUp();
 	}
 	
-	/**
-	 * Renvoie un plan
-	 * 
-	 * @return
-	 * @throws EmptyArenaException 
-	 */
-	public List<Instruction> getPlan() throws EmptyArenaException{
-		if(palets.size() == 0){
-			throw new EmptyArenaException();
-		}
-		PriorityQueue<Palet> pq = new PriorityQueue<Palet>(palets.size(), new Checker(robot.getP())) ;
-		for(Palet p : palets){
-			pq.offer(p);
-		}
-		List<Instruction> plan = new ArrayList<Instruction>();
-		Point init = robot.getP();
-		while(! pq.isEmpty()){
-			Palet p = pq.remove();
-			plan.add(new utils.Move(init, (Point)p.getP()));
-			plan.add(new utils.Pick(p, (Point)p.getP()));
-			plan.add(new utils.Deliver(p));
-		}
-		return plan;
-	}
 	
 	/**
 	 * Accepte un visteur renvoyant des booléens
@@ -215,7 +193,8 @@ public class RobotControler {
 		Iterator<Instruction> it = plan.iterator();
 		int i=0;
 		while(it.hasNext() && isFeasible(plan, i)){
-			if(! v.visit(it.next())){
+			Instruction ins = it.next();
+			if(! ins.accept(v)){
 				throw new InstructionException("L'instruction a échouée");
 			}
 			i++;
@@ -240,8 +219,23 @@ public class RobotControler {
 				b &= b1;
 			}
 		}
-		b=true;////////////////////////////////////////////////////////////////////////////////
+		//////////////////////////A MODIFIER////////////////////////////
+		b = true;
 		return b;
+	}
+
+	/**
+	 * @return the palets
+	 */
+	public List<Palet> getPalets() {
+		return palets;
+	}
+
+	/**
+	 * @param palets the palets to set
+	 */
+	public void setPalets(List<Palet> palets) {
+		this.palets = palets;
 	}
 
 }

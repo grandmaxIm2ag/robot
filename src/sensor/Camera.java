@@ -15,6 +15,7 @@ public class Camera {
 	private static DatagramSocket dsocket;
 
 	public static void init_camera() throws SocketException{
+		System.err.println("COucou");
 		dsocket = new DatagramSocket(utils.R2D2Constants.PORT_CAMERA);
 	}
 	public static List<Palet> getPalet() throws IOException {

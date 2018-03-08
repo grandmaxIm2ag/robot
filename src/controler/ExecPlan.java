@@ -47,38 +47,44 @@ public class ExecPlan implements Visitor<Boolean> {
 		// TODO Auto-generated method stub
 		try{
 			Point p = (Point)m.getNext();
+			System.out.println(robot.getP()+" "+p);
 			float a = robot.getP().angle(p);
 			a = robot.getZ() - a;
-			screen.drawText("Angle : ",a+"");
+			a*=utils.R2D2Constants.ANGLE_ERROR;
+			System.out.println("Angle : "+a+"");
 			robot.getPropulsion().rotate(a, a<0, true);
 			float dist = p.distance(robot.getP());
-			screen.drawText("Distance : ",dist+"");
-			robot.getPropulsion().rotate(a*0.85f, false, true);
-			robot.setZ(robot.getZ()+(a*0.85f));
+			System.out.println("Distance : "+dist+"");
+			robot.getPropulsion().rotate(a, false, true);
+			boolean b = true;
 			while(robot.getPropulsion().isRunning()){
 				if(input.escapePressed()){
 					throw new exception.FinishException();
 				}
-			}
-			while(Math.abs(dist-robot.getVision().getRaw()[0]*100) > 
-							utils.R2D2Constants.ERROR){
-				robot.getPropulsion().rotate((float)a/10, false, true);
-				while(robot.getPropulsion().isRunning()){
-					if(input.escapePressed()){
-						throw new exception.FinishException();
-					}
+				if( Math.abs(dist-robot.getVision().getRaw()[0]*100) > 
+											utils.R2D2Constants.ERROR){
+					robot.getPropulsion().stopMoving();
+					b = false;
 				}
+				robot.getPropulsion().checkState();
 			}
 			robot.setZ(robot.getPropulsion().getOrientation());
+			if(b){
+				return false;
+			}
 			robot.getPropulsion().runDist(dist+utils.R2D2Constants.ERROR);
 			while(robot.getPropulsion().isRunning()){
 				if(robot.getPression().isPressed()){
 					robot.getPropulsion().stopMoving();
 					robot.getGraber().close();
+					while(robot.getGraber().isRunning()){
+						robot.getGraber().checkState();
+					}
 				}
 				if(input.escapePressed()){
 					throw new exception.FinishException();
 				}
+				robot.getPropulsion().chech_dist();
 			}
 			robot.setP((Point)m.getNext());
 			return true;
@@ -100,6 +106,7 @@ public class ExecPlan implements Visitor<Boolean> {
 				if(input.escapePressed()){
 					throw new exception.FinishException();
 				}
+				robot.getPropulsion().checkState();
 			}
 			dist = robot.getP().getY() - utils.R2D2Constants.Y_SOUTH + utils.R2D2Constants.ERROR;
 			
@@ -109,6 +116,7 @@ public class ExecPlan implements Visitor<Boolean> {
 				if(input.escapePressed()){
 					throw new exception.FinishException();
 				}
+				robot.getPropulsion().checkState();
 			}
 			dist = robot.getP().getY() - utils.R2D2Constants.Y_NORTH + utils.R2D2Constants.ERROR;
 		} 
@@ -118,26 +126,29 @@ public class ExecPlan implements Visitor<Boolean> {
 				if(input.escapePressed()){
 					throw new exception.FinishException();
 				}
+				robot.getPropulsion().checkState();
 			}
 			robot.getPropulsion().runDist(utils.R2D2Constants.DIST_AVOID_OBSTACLE);
 			while(robot.getPropulsion().isRunning()){
 				if(input.escapePressed()){
 					throw new exception.FinishException();
 				}
+				robot.getPropulsion().chech_dist();
 			}
 			robot.getPropulsion().rotate(90, true, true);
 			while(robot.getPropulsion().isRunning()){
 				if(input.escapePressed()){
 					throw new exception.FinishException();
 				}
+				robot.getPropulsion().checkState();
 			}
 		}
 		robot.getPropulsion().runDist(dist);
-		robot.getPropulsion().rotate(90, true, true);
 		while(robot.getPropulsion().isRunning()){
 			if(robot.getColor().getCurrentColor() == Color.WHITE){
 				robot.getPropulsion().stopMoving();
 			}
+			robot.getPropulsion().chech_dist();
 			if(input.escapePressed()){
 				throw new exception.FinishException();
 			}

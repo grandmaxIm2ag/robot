@@ -1,5 +1,7 @@
 package utils;
 
+import controler.Visitor;
+
 public class Pick extends Instruction {
 	/**
 	 * 
@@ -93,7 +95,9 @@ public class Pick extends Instruction {
 		return "Pick [palet=" + palet + ", coord=" + coord + "]";
 	}
 	
-	
+	public boolean accept(Visitor<Boolean> v) throws Exception{
+		return v.visit(this);
+	}
 	
 
 }

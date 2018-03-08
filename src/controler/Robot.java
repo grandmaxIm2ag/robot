@@ -1,5 +1,6 @@
 package controler;
 
+import lejos.robotics.Color;
 import motor.Graber;
 import motor.Propulsion;
 import sensor.Bumper;
@@ -158,5 +159,52 @@ public class Robot {
 	public void setZ(float z) {
 		this.z = z;
 	}
-	
+	/**
+	 * 
+	 * @param color
+	 */
+	public void followLine(int c, float dist){
+		while(color.getCurrentColor() != Color.WHITE){
+			propulsion.runDist(dist);
+			while(propulsion.isRunning()){
+				System.out.println(color.stringColor());
+				propulsion.chech_dist();
+				if(color.getCurrentColor() == Color.WHITE){
+					propulsion.stopMoving();
+				}else if(color.getCurrentColor() != c && 
+						color.getCurrentColor() != Color.BLACK){
+					propulsion.stopMoving();
+					boolean b = true;
+					propulsion.rotate(10f, false, false);
+					while(propulsion.isRunning()){
+						propulsion.checkState();
+						if(color.getCurrentColor() == c || 
+								color.getCurrentColor() == Color.WHITE){
+							propulsion.stopMoving();
+							b = false;
+						}
+					}
+					if(b){
+						propulsion.rotate(20f, true, false);
+						while(propulsion.isRunning()){
+							propulsion.checkState();
+							if(color.getCurrentColor() == c || 
+									color.getCurrentColor() == Color.WHITE){
+								propulsion.stopMoving();
+								b = false;
+							}
+						}
+					}
+					
+				}else if(color.getCurrentColor() == Color.BLACK){
+					propulsion.runDist(5);
+					while(propulsion.isRunning()){
+						propulsion.chech_dist();
+					}
+				}
+			}
+			dist -= propulsion.getTraveledDist();
+			dist += utils.R2D2Constants.ERROR;
+		}
+	}
 }

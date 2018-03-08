@@ -110,4 +110,29 @@ public class ColorSensor {
 	public float[][] getCalibration() {
 		return colors;
 	}
+	
+	/**
+	 * 
+	 * @param c
+	 * @return
+	 */
+	public String stringColor(){
+		int c = getCurrentColor();
+		if(c == Color.RED)
+			return "Red";
+		else if(c == Color.GRAY)
+			return "Grey";
+		else if(c == Color.BLACK)
+			return "Black";
+		else if(c == Color.GREEN)
+			return "Green";
+		else if(c == Color.YELLOW)
+			return "Yellow";
+		else if(c == Color.BLUE)
+			return "Bue";
+		else if(c == Color.WHITE)
+			return "White";
+		else
+			return "Unknowh Color";
+	}
 }
