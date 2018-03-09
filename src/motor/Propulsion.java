@@ -20,7 +20,7 @@ public class Propulsion extends TimedMotor implements MoveListener{
 	private Wheel     left           = null;
 	private Wheel     right          = null;
 	private Chassis   chassis        = null;
-	private MovePilot pilot          = null;
+	public MovePilot pilot          = null;
 	//Constants
 	private float     orientation    = R2D2Constants.NORTH;
 	private float     DIAMETER       = R2D2Constants.WHEEL_DIAMETER;
@@ -34,6 +34,9 @@ public class Propulsion extends TimedMotor implements MoveListener{
 	private long      stopTime       = 0;
 	private long      lastRunTime    = 0;
 	private boolean   running        = false;
+	private float 	  expected_dist  = 0;
+	private float 	  traveledDist   = 0f;
+	
 	
 	public Propulsion(){
 		// Change this to match your robot
@@ -46,6 +49,12 @@ public class Propulsion extends TimedMotor implements MoveListener{
 		pilot.setAngularSpeed(R2D2Constants.MAX_ROTATION_SPEED);
 	}
 
+	public void chech_dist(){
+		if (pilot.getMovement().getDistanceTraveled() > expected_dist){
+			this.stopMoving();
+		}
+		traveledDist = pilot.getMovement().getDistanceTraveled();
+	}
 	@Override
 	public boolean isStall() {
 		return chassis.isStalled();
@@ -256,6 +265,25 @@ public class Propulsion extends TimedMotor implements MoveListener{
 	 */
 	public double getLastTurnedAngle(){
 		return lastTurnedAngle;
+	}
+	/**
+	 * 
+	 * @param dist : la distance en centimetre
+	 */
+	public void runDist(float dist){
+		expected_dist = dist * 10;
+		run(true);
+	}
+
+	/**
+	 * @param orientation the orientation to set
+	 */
+	public void setOrientation(float orientation) {
+		this.orientation = orientation;
+	}
+	
+	public float getTraveledDist(){
+		return traveledDist;
 	}
 
 }

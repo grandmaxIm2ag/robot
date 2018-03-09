@@ -1,7 +1,7 @@
 package main;
 
 import lejos.utility.Delay;
-import controler.Controler;
+import controler.RobotControler;
 
 public class Main {
 
@@ -9,7 +9,7 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Controler controler = new Controler();
+		RobotControler controler = new RobotControler();
 		try{
 			controler.start();
 		}catch(Throwable e){
