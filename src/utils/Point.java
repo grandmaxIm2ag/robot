@@ -92,4 +92,16 @@ public class Point extends Coord{
 	public float distance (Point p) {
 		return (float)Math.sqrt(Math.pow(p.getX()-x, 2)+Math.pow(p.getY()-y, 2));
 	}
+	/**
+	 * 
+	 * @param point
+	 * @return
+	 */
+	public float angle (Point point) {
+		Point tmp = new Point(x, point.getY());
+		float hyp = this.distance(point);
+		float adj = this.distance(tmp);
+		double r = Math.acos((adj/hyp));
+		return (float)Math.toDegrees(r);
+	}
 }

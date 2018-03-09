@@ -23,11 +23,20 @@ public class Calibrator {
 	 * @param b : booléen indiquant si la pince est ouverte ou fermée
 	 */
 	public static void celibrateGrapber(Graber g, boolean isOpen){
+		screen.drawText("Calibration", 
+				"Appuyez sur ok","pour lancer et arrêter");
+		input.waitAny();
 		if(isOpen){
 			g.startCalibrate(false);
 			input.waitAny();
 			g.stopCalibrate(false);
 		}
+		screen.drawText("Calibration", 
+				"Appuyer sur Entree", "pour commencer la",
+				"calibration de l'ouverture");
+		input.waitAny();
+		screen.drawText("Calibration", 
+				"Appuyer sur Entree", "Quand la pince est ouverte");
 		g.startCalibrate(true);
 		input.waitAny();
 		g.stopCalibrate(true);

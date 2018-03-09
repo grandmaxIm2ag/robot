@@ -1,5 +1,7 @@
 package utils;
 
+import controler.Visitor;
+
 public class Deliver extends Instruction {
 	/**
 	 * 
@@ -72,5 +74,8 @@ public class Deliver extends Instruction {
 		return "Deliver [palet=" + palet + "]";
 	}
 	
+	public boolean accept(Visitor<Boolean> v) throws Exception{
+		return v.visit(this);
+	}
 	
 }

@@ -1,24 +1,67 @@
 package controler;
 
+import lejos.robotics.Color;
+import motor.Graber;
+import motor.Propulsion;
+import sensor.Bumper;
+import sensor.ColorSensor;
+import sensor.UltraSon;
 import utils.Point;
 
 public class Robot {
 	/**
 	 * 
 	 */
-	Point p;
+	float z;
 	/**
 	 * 
 	 */
-	boolean south;
+	protected Point p;
+	/**
+	 * 
+	 */
+	protected boolean south;
+	/**
+	 * 
+	 */
+	protected ColorSensor    color      = null;
+	/**
+	 * 
+	 */
+	protected Propulsion     propulsion = null;
+	/**
+	 * 
+	 */
+	protected Graber         graber     = null;
+	/**
+	 * 
+	 */
+	protected Bumper pression   = null;
+	/**
+	 * 
+	 */
+	protected UltraSon   vision     = null;
 	/**
 	 * @param p
 	 * @param south
+	 * @param color
+	 * @param propulsion
+	 * @param graber
+	 * @param pression
+	 * @param vision
 	 */
-	public Robot(Point p, boolean south) {
+	public Robot(Point p, boolean south, ColorSensor color,
+			Propulsion propulsion, Graber graber, Bumper pression,
+			UltraSon vision) {
 		super();
 		this.p = p;
 		this.south = south;
+		this.color = color;
+		this.propulsion = propulsion;
+		this.graber = graber;
+		this.pression = pression;
+		this.vision = vision;
+		z = 0;
 	}
 	/**
 	 * @return the p
@@ -44,51 +87,124 @@ public class Robot {
 	public void setSouth(boolean south) {
 		this.south = south;
 	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
+	/**
+	 * @return the color
 	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((p == null) ? 0 : p.hashCode());
-		result = prime * result + (south ? 1231 : 1237);
-		return result;
+	public ColorSensor getColor() {
+		return color;
 	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
+	/**
+	 * @param color the color to set
 	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof Robot)) {
-			return false;
-		}
-		Robot other = (Robot) obj;
-		if (p == null) {
-			if (other.p != null) {
-				return false;
+	public void setColor(ColorSensor color) {
+		this.color = color;
+	}
+	/**
+	 * @return the propulsion
+	 */
+	public Propulsion getPropulsion() {
+		return propulsion;
+	}
+	/**
+	 * @param propulsion the propulsion to set
+	 */
+	public void setPropulsion(Propulsion propulsion) {
+		this.propulsion = propulsion;
+	}
+	/**
+	 * @return the graber
+	 */
+	public Graber getGraber() {
+		return graber;
+	}
+	/**
+	 * @param graber the graber to set
+	 */
+	public void setGraber(Graber graber) {
+		this.graber = graber;
+	}
+	/**
+	 * @return the pression
+	 */
+	public Bumper getPression() {
+		return pression;
+	}
+	/**
+	 * @param pression the pression to set
+	 */
+	public void setPression(Bumper pression) {
+		this.pression = pression;
+	}
+	/**
+	 * @return the vision
+	 */
+	public UltraSon getVision() {
+		return vision;
+	}
+	/**
+	 * @param vision the vision to set
+	 */
+	public void setVision(UltraSon vision) {
+		this.vision = vision;
+	}
+	/**
+	 * @return the z
+	 */
+	public float getZ() {
+		return z;
+	}
+	/**
+	 * @param z the z to set
+	 */
+	public void setZ(float z) {
+		this.z = z;
+	}
+	/**
+	 * 
+	 * @param color
+	 */
+	public void followLine(int c, float dist){
+		while(color.getCurrentColor() != Color.WHITE){
+			propulsion.runDist(dist);
+			while(propulsion.isRunning()){
+				System.out.println(color.stringColor());
+				propulsion.chech_dist();
+				if(color.getCurrentColor() == Color.WHITE){
+					propulsion.stopMoving();
+				}else if(color.getCurrentColor() != c && 
+						color.getCurrentColor() != Color.BLACK){
+					propulsion.stopMoving();
+					boolean b = true;
+					propulsion.rotate(10f, false, false);
+					while(propulsion.isRunning()){
+						propulsion.checkState();
+						if(color.getCurrentColor() == c || 
+								color.getCurrentColor() == Color.WHITE){
+							propulsion.stopMoving();
+							b = false;
+						}
+					}
+					if(b){
+						propulsion.rotate(20f, true, false);
+						while(propulsion.isRunning()){
+							propulsion.checkState();
+							if(color.getCurrentColor() == c || 
+									color.getCurrentColor() == Color.WHITE){
+								propulsion.stopMoving();
+								b = false;
+							}
+						}
+					}
+					
+				}else if(color.getCurrentColor() == Color.BLACK){
+					propulsion.runDist(5);
+					while(propulsion.isRunning()){
+						propulsion.chech_dist();
+					}
+				}
 			}
-		} else if (!p.equals(other.p)) {
-			return false;
+			dist -= propulsion.getTraveledDist();
+			dist += utils.R2D2Constants.ERROR;
 		}
-		if (south != other.south) {
-			return false;
-		}
-		return true;
 	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "Robot [p=" + p + ", south=" + south + "]";
-	}
-	
-	
 }
