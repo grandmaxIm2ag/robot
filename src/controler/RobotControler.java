@@ -73,7 +73,7 @@ public class RobotControler {
 	/**
 	 * Effectue l'ensemble des actions nécessaires à l'extinction du programme
 	 */
-	private void cleanUp() {
+	public void cleanUp() {
 		if(!robot.graber.isOpen()){
 			robot.graber.open();
 			while(robot.graber.isRunning()){
@@ -93,11 +93,11 @@ public class RobotControler {
 	 * 
 	 * @return vrai si tout c'est bien passé.
 	 */
-	private boolean calibration() {
+	public boolean calibration() {
 		return calibrationGrabber() && calibrationCouleur();
 	}
 
-	private boolean calibrationGrabber() {
+	public boolean calibrationGrabber() {
 		screen.drawText("Calibration", 
 						"Calibration de la fermeture de la pince",
 						"Appuyez sur le bouton central ","pour continuer");
@@ -114,7 +114,7 @@ public class RobotControler {
 	 * Effectue la calibration de la couleur
 	 * @return renvoie vrai si tout c'est bien passé
 	 */
-	private boolean calibrationCouleur() {
+	public boolean calibrationCouleur() {
 		screen.drawText("Calibration", 
 						"Préparez le robot à la ","calibration des couleurs",
 						"Appuyez sur le bouton central ","pour continuer");
@@ -126,7 +126,7 @@ public class RobotControler {
 	}
 
 
-	private void mainLoop(boolean initLeft) throws SocketException {
+	public void mainLoop(boolean initLeft) throws SocketException {
 		/////////////////////////////////////////////////////////
 		//////A MODIFIER LORS DE L'UTIISATION DE LA CAMERA///////
 		/////////////////////////////////////////////////////////
