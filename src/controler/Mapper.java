@@ -90,6 +90,42 @@ public class Mapper {
 	 * @return
 	 */
 	public Coord pointToNode(Point p){
+		final int END = 30;
+		final int NODE_WIDTH = 50;
+		final int NODE_HEIGHT = 60;
+		final int MAP_WIDTH = 200;
+		final int MAP_HEIGHT = 300;
+		
+		float xIn = p.getX();
+		float yIn = p.getY();
+		float xOut, yOut;
+		
+		if (yIn <= END) {
+			yOut = 0;
+		}
+		else if (yIn >= MAP_HEIGHT - END) {
+			yOut = MAP_HEIGHT - END;
+		}
+		else {
+			yOut = yIn / NODE_HEIGHT;
+		}
+		xOut = (xIn + NODE_HEIGHT/2)/NODE_WIDTH;
+		
+		int nbX = MAP_WIDTH / NODE_WIDTH + 1;
+		int nbY = (MAP_HEIGHT - 2*END) / NODE_HEIGHT + 1; 
+		
+		if (!south) {
+			yOut = nbY - yOut;
+			xOut = nbX - xOut;
+		}
+			
+
+				
+			
+		}
+		
+		
+		
 		throw new java.lang.UnsupportedOperationException("Not supported yet");
 	}
 }
