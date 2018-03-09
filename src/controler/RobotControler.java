@@ -33,6 +33,8 @@ public class RobotControler {
 	protected InputHandler input;
 	protected List<Palet> palets;
 	protected List<TimedMotor> motors;
+	protected int nb_calibration = 4;
+	private boolean first = true;
 	
 	
 	public RobotControler(){
@@ -43,10 +45,10 @@ public class RobotControler {
 		motors = new ArrayList<TimedMotor>();
 		motors.add(robot.getGraber());
 		motors.add(robot.getPropulsion());
+		palets = new ArrayList<Palet>();
 	}
 	
 	public void start() throws IOException, ClassNotFoundException{
-		
 		
 		screen.drawText("Calibration", 
 				"Appuyez sur OK pour commencer");
@@ -117,7 +119,7 @@ public class RobotControler {
 						"Préparez le robot à la ","calibration des couleurs",
 						"Appuyez sur le bouton central ","pour continuer");
 		if(input.waitOkEscape(Button.ID_ENTER)){
-			Calibrator.calibrateCoor(robot.color, 1);
+			Calibrator.calibrateCoor(robot.color, nb_calibration);
 			return true;
 		}
 		return false;
@@ -148,8 +150,9 @@ public class RobotControler {
 				/////////////////////////////////////////////////////////
 				//palets = Camera.getPalet();
 				palets.clear();
-				palets.add(new Palet(new Point(5,5), true));
-				palets.add(new Palet(new Point(15,15), true));
+				palets.add(new Palet(new Point(50,90), true));
+				//palets.add(new Palet(new Point(150,90), true));
+				palets.add(new Palet(new Point(100,90), true));
 				List<Instruction> plan = Planner.getPlan(palets, robot.getP(), robot.isSouth());
 				if (plan == null){
 					run = false;
@@ -158,6 +161,10 @@ public class RobotControler {
 					accept(v, plan);
 				}
 				
+			/////////////////////////////////////////////////////////
+			//////A MODIFIER LORS DE L'UTIISATION DE LA CAMERA///////
+			/////////////////////////////////////////////////////////
+			run = false;
 			}catch(InstructionException e){
 				//On recalcule le plan
 				e.printStackTrace(System.err);
@@ -194,6 +201,7 @@ public class RobotControler {
 		int i=0;
 		while(it.hasNext() && isFeasible(plan, i)){
 			Instruction ins = it.next();
+			System.out.println(ins);
 			if(! ins.accept(v)){
 				throw new InstructionException("L'instruction a échouée");
 			}
