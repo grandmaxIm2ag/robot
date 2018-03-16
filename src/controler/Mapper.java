@@ -102,7 +102,7 @@ public class Mapper implements Visitor<Instruction>{
 		float yIn = p.getY();
 		float xOut, yOut;
 		
-		if (yIn <= END) {
+		/*if (yIn <= END) {
 			yOut = 0;
 		}
 		else if (yIn >= MAP_HEIGHT - END) {
@@ -111,23 +111,23 @@ public class Mapper implements Visitor<Instruction>{
 		else {
 			yOut = yIn / NODE_HEIGHT;
 		}
-		xOut = (xIn + NODE_HEIGHT/2)/NODE_WIDTH;
+		xOut = (xIn + NODE_WIDTH/2)/NODE_WIDTH;*/
 		
-		int nbX = MAP_WIDTH / NODE_WIDTH + 1;
-		int nbY = (MAP_HEIGHT - 2*END) / NODE_HEIGHT + 1; 
+		xOut = (xIn - NODE_WIDTH/2)/NODE_WIDTH + 2;
+		yOut = yIn / NODE_HEIGHT + 1;
+		
+		int nbX = MAP_WIDTH / NODE_WIDTH + 2;
+		int nbY = (MAP_HEIGHT - 2*END) / NODE_HEIGHT + 2; 
+		System.out.println("nbX = " + nbX + " et nbY = " + nbY);
 		
 		if (!south) {
-			yOut = nbY - yOut;
-			xOut = nbX - xOut;
+			yOut = nbY - (int) yOut;
+			xOut = nbX - (int) xOut;
 		}
 			
+		System.out.println("xOut = " + xOut + " et yOut = " + yOut);
 
 				
-			
-		}
-		
-		
-		
-		throw new java.lang.UnsupportedOperationException("Not supported yet");
+		return new Node((int)xOut, (int)yOut);
 	}
 }

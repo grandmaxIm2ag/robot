@@ -2,6 +2,7 @@ package unit_test;
 
 import static org.junit.Assert.assertEquals;
 
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -9,13 +10,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import utils.Deliver;
-import utils.Instruction;
-import utils.Move;
-import utils.Palet;
-import utils.Pick;
-import utils.Point;
-import utils.PointCalculator;
+import utils.*;
 import controler.Planner;
 import controler.Mapper;
 import exception.EmptyArenaException;
@@ -72,5 +67,22 @@ public class TestPlanner {
 		//Test sans palet
 		palets = new ArrayList<Palet>();
 		Planner.getPlan(palets,new Point(0,0), true);
+	}
+	
+	
+	@Test
+	public void testPointToNodeSouth() {
+		Mapper m = new Mapper(true,true);
+		Point p = new Point(25, 60);
+		Node n = new Node(2,2);
+		assertEquals(n, m.pointToNode(p));
+	}
+	
+	@Test
+	public void testPointToNodeNorth() {
+		Mapper m = new Mapper(true, false);
+		Point p = new Point(175, 60);
+		Node n = new Node(1,4);
+		assertEquals(n, m.pointToNode(p));
 	}
 }
