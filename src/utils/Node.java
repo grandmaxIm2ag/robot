@@ -38,4 +38,11 @@ public class Node extends Coord{
 	public int getJ() {
 		return this.j;
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		Node n = (Node) o;
+		return (n.getI() == this.i && n.getJ() == this.j);
+		
+	}
 }
