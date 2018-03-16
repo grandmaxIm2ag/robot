@@ -42,7 +42,17 @@ public class Node extends Coord{
 	@Override
 	public boolean equals(Object o) {
 		Node n = (Node) o;
-		return (n.getI() == this.i && n.getJ() == this.j);
-		
+		return (n.getI() == this.i && n.getJ() == this.j);		
+	}
+	
+	@Override
+	public boolean compareTo(Object o) {
+		Node n = (Node) o;
+		return (n.getI() == this.i && n.getJ() == this.j);		
+	}
+	
+	@Override
+	public String toString() {
+		return "Node[i = " + i + ", j = " + j + "]";
 	}
 }

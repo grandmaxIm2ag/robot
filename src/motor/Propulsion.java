@@ -166,7 +166,13 @@ public class Propulsion extends TimedMotor implements MoveListener{
 		else
 			pilot.rotate(orientate, true);
 	}
-
+	/**
+	 * 
+	 */
+	public void orientateSouth(){
+		orientateSouth( this.getOrientation() < 0);
+	}
+	
 	public void orientateSouth(boolean left) {
 		double orientate = left ? getRotateToNorth()-R2D2Constants.SOUTH :
 		                          getRotateToNorth()+R2D2Constants.SOUTH;
@@ -274,7 +280,16 @@ public class Propulsion extends TimedMotor implements MoveListener{
 		expected_dist = dist * 10;
 		run(true);
 	}
-
+	
+	/**
+	 * 
+	 * @param dist : la distance en centimetre
+	 */
+	public void runDist(float dist, boolean forward){
+		expected_dist = dist * 10;
+		run(forward);
+	}
+	
 	/**
 	 * @param orientation the orientation to set
 	 */
