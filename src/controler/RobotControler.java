@@ -33,7 +33,7 @@ public class RobotControler {
 	protected InputHandler input;
 	protected List<Palet> palets;
 	protected List<TimedMotor> motors;
-	protected int nb_calibration = 4;
+	protected int nb_calibration = 3;
 	private boolean first = true;
 	
 	

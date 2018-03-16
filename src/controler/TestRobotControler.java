@@ -3,6 +3,7 @@ package controler;
 import java.net.SocketException;
 import java.util.List;
 
+import lejos.robotics.Color;
 import motor.TimedMotor;
 import utils.Instruction;
 import utils.Palet;
@@ -36,8 +37,9 @@ public class TestRobotControler extends RobotControler{
 	public void mainLoop(boolean initLeft) throws SocketException {
 		robot.setP(new Point(
 				robot.isSouth() ? initLeft ? 150 : 50 : initLeft ? 50 : 150,
-				robot.isSouth() ? R2D2Constants.Y_SOUTH : R2D2Constants.Y_NORTH 
+				robot.isSouth() ? R2D2Constants.Y_NORTH : R2D2Constants.Y_SOUTH
 				));
+		System.out.println(robot.getP());
 		//Boucle de jeu
 		screen.clearDraw();
 		screen.drawText("Lancement du robot");
@@ -47,9 +49,10 @@ public class TestRobotControler extends RobotControler{
 		 * Nous commencons par test le fait que le robot soit capable de prendre 
 		 * un palet en face de lui
 		 */
-		screen.drawText("Premier test : ", "On va chercher le palet en face");
+		Point point;
+		/*screen.drawText("Premier test : ", "On va chercher le palet en face");
 		input.waitAny();
-		Point point = new Point(50f, 210f);
+		point = new Point(50f, 210f);
 		try {
 			robot.run(point, true);
 		} catch (FinishException e) {
@@ -58,12 +61,16 @@ public class TestRobotControler extends RobotControler{
 		}
 		if(robot.getGraber().isOpen()){
 			screen.drawText("Premier test : ", "ÉCHEC, le palet n'a pas été attrapé");
+		}else{
+			robot.getGraber().open();
+			while(robot.getGraber().isRunning())
+			robot.getGraber().checkState();
 		}
-		
+		*/
 		/*
 		 * Nous voulons maintenant que le robot se tourne ver le premiers palet
 		 * à sa droite
-		 */
+		 
 		screen.drawText("Second test : ", "On va chercher le palet à droite", 
 				"Veuillez positionner le robot sur l'intersection rouge blance, " +
 				"aligné sur a ligne rouge");
@@ -90,7 +97,7 @@ public class TestRobotControler extends RobotControler{
 				"aligné sur a ligne rouge",
 				"Veuillez aussi enlever tous les palets de la ligne rouge");
 		input.waitAny();
-		robot.followLine(robot.closestColor(), utils.R2D2Constants.LENGTH_ARENA);
+		robot.followLine(Color.RED, utils.R2D2Constants.LENGTH_ARENA);
 		cleanUp();
 	}
 }
