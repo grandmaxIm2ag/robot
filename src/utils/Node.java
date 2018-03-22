@@ -38,4 +38,50 @@ public class Node extends Coord{
 	public int getJ() {
 		return this.j;
 	}
+	
+	public String a() {
+		return "a"+i+j;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Node [i=" + i + ", j=" + j + "]";
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + i;
+		result = prime * result + j;
+		return result;
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof Node)) {
+			return false;
+		}
+		Node other = (Node) obj;
+		if (i != other.i) {
+			return false;
+		}
+		if (j != other.j) {
+			return false;
+		}
+		return true;
+	}
 }

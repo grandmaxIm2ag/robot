@@ -92,6 +92,42 @@ public class Mapper implements Visitor<Instruction>{
 	 * @return
 	 */
 	public Coord pointToNode(Point p){
-		throw new java.lang.UnsupportedOperationException("Not supported yet");
+		final int END = 30;
+		final int NODE_WIDTH = 50;
+		final int NODE_HEIGHT = 60;
+		final int MAP_WIDTH = 200;
+		final int MAP_HEIGHT = 300;
+		
+		float xIn = p.getX();
+		float yIn = p.getY();
+		float xOut, yOut;
+		
+		/*if (yIn <= END) {
+			yOut = 0;
+		}
+		else if (yIn >= MAP_HEIGHT - END) {
+			yOut = MAP_HEIGHT - END;
+		}
+		else {
+			yOut = yIn / NODE_HEIGHT;
+		}
+		xOut = (xIn + NODE_WIDTH/2)/NODE_WIDTH;*/
+		
+		xOut = (xIn - NODE_WIDTH/2)/NODE_WIDTH + 2;
+		yOut = yIn / NODE_HEIGHT + 1;
+		
+		int nbX = MAP_WIDTH / NODE_WIDTH + 2;
+		int nbY = (MAP_HEIGHT - 2*END) / NODE_HEIGHT + 2; 
+		//System.out.println("nbX = " + nbX + " et nbY = " + nbY);
+		
+		if (!south) {
+			yOut = nbY - (int) yOut;
+			xOut = nbX - (int) xOut;
+		}
+			
+		//System.out.println("xOut = " + xOut + " et yOut = " + yOut);
+
+				
+		return new Node((int)xOut, (int)yOut);
 	}
 }

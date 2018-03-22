@@ -102,6 +102,9 @@ public class Point extends Coord{
 		float hyp = this.distance(point);
 		float adj = this.distance(tmp);
 		double r = Math.acos((adj/hyp));
-		return (float)Math.toDegrees(r);
+		if (x < point.x)
+			return (float)Math.toDegrees(r);
+		else
+			return (float)-Math.toDegrees(r);
 	}
 }
