@@ -50,9 +50,13 @@ public class TestHSP {
 
 		// Creates the planner
 		final Properties arguments = HSP.getDefaultArguments();
-		arguments.put(HSP.Argument.DOMAIN, domain);
-		arguments.put(HSP.Argument.PROBLEM, problem);
 		arguments.put(HSP.Argument.TRACE_LEVEL, 0);
+		arguments.put(HSP.Argument.DOMAIN, domain);
+		
+		
+		
+		arguments.put(HSP.Argument.PROBLEM, problem);
+		
 		final HSP planner = new HSP(arguments);
 		final CodedProblem codproblem = planner.parseAndEncode();
 		List<String> plan = null;
