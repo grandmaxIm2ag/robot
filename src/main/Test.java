@@ -21,8 +21,9 @@ public class Test {
 				new Propulsion(), new Graber(), new Bumper(), new UltraSon());
 		robot.setP(new Point(0,0));
 		try {
-			robot.search_palet(new Point(35,50));
-		} catch (FinishException | InstructionException e) {
+			robot.rotate(90);
+			
+		} catch (Exception e /*FinishException | InstructionException e*/) {
 			System.exit(0);
 		}
 	}

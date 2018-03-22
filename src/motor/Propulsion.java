@@ -40,20 +40,25 @@ public class Propulsion extends TimedMotor implements MoveListener{
 	
 	public Propulsion(){
 		// Change this to match your robot
-		left      = WheeledChassis.modelWheel(new EV3LargeRegulatedMotor(LocalEV3.get().getPort(R2D2Constants.LEFT_WHEEL)), DIAMETER).offset(-1*R2D2Constants.DISTANCE_TO_CENTER);
-		right     = WheeledChassis.modelWheel(new EV3LargeRegulatedMotor(LocalEV3.get().getPort(R2D2Constants.RIGHT_WHEEL)), DIAMETER).offset(R2D2Constants.DISTANCE_TO_CENTER);
+		left      = WheeledChassis.modelWheel(new EV3LargeRegulatedMotor(LocalEV3.get().getPort(
+				R2D2Constants.LEFT_WHEEL)), DIAMETER).offset(-1*R2D2Constants.DISTANCE_TO_CENTER);
+		right     = WheeledChassis.modelWheel(new EV3LargeRegulatedMotor(LocalEV3.get().getPort(
+				R2D2Constants.RIGHT_WHEEL)), DIAMETER).offset(R2D2Constants.DISTANCE_TO_CENTER);
 		chassis   = new WheeledChassis(new Wheel[]{left, right},  WheeledChassis.TYPE_DIFFERENTIAL);
 		pilot     = new MovePilot(chassis);
 		pilot.addMoveListener(this);
 		pilot.setLinearAcceleration(R2D2Constants.LINEAR_ACCELERATION);
+		pilot.setLinearSpeed(150);
 		pilot.setAngularSpeed(R2D2Constants.MAX_ROTATION_SPEED);
+		
 	}
 
-	public void chech_dist(){
+	public void check_dist(){
 		if (pilot.getMovement().getDistanceTraveled() > expected_dist){
 			this.stopMoving();
 		}
 		traveledDist = pilot.getMovement().getDistanceTraveled();
+		System.out.println(traveledDist);
 	}
 	@Override
 	public boolean isStall() {

@@ -176,12 +176,12 @@ public class Robot {
 	 * @param color
 	 */
 	public void followLine(int c, float dist){
-		float angle_search_color = 15f;
+		float angle_search_color = 45f;
 		while(color.getCurrentColor() != Color.WHITE){
 			propulsion.runDist(dist);
 			while(propulsion.isRunning()){
 				//System.out.println(color.stringColor());
-				propulsion.chech_dist();
+				propulsion.check_dist();
 				if(color.getCurrentColor() == Color.WHITE){
 					propulsion.stopMoving();
 				}else if(color.getCurrentColor() != c && 
@@ -222,7 +222,7 @@ public class Robot {
 		if(deliver){
 			propulsion.runDist(10);
 			while(propulsion.isRunning()){
-				propulsion.chech_dist();
+				propulsion.check_dist();
 				if(input.escapePressed()){
 					propulsion.stopMoving();
 					throw new exception.FinishException();
@@ -234,7 +234,7 @@ public class Robot {
 			}
 			propulsion.runDist(10, false);
 			while(propulsion.isRunning()){
-				propulsion.chech_dist();
+				propulsion.check_dist();
 				if(input.escapePressed()){
 					propulsion.stopMoving();
 					throw new exception.FinishException();
@@ -267,7 +267,7 @@ public class Robot {
 		float dist = p.distance(point);
 		propulsion.runDist(dist);
 		while(propulsion.isRunning()){
-			propulsion.chech_dist();
+			propulsion.check_dist();
 			if(input.escapePressed()){
 				propulsion.stopMoving();
 				throw new exception.FinishException();
@@ -297,8 +297,8 @@ public class Robot {
 		float angle = p.angle(point);
 		angle *= 1.5;
 		angle = angle - z;
-		propulsion.rotate(angle, false, false);
 		boolean b = true && (angle!=0);
+		propulsion.rotate(angle, false, false);
 		while(propulsion.isRunning()){
 			propulsion.checkState();
 			if(input.escapePressed()){
@@ -332,11 +332,16 @@ public class Robot {
 		}
 		z = propulsion.getOrientation();
 	}
-	
+	/**
+	 * 
+	 * @param dist
+	 * @param forward
+	 * @throws FinishException
+	 */
 	public void run(float dist, boolean forward) throws FinishException{
-		propulsion.runDist(dist, forward);
+		propulsion.runDist(dist, false);
 		while(propulsion.isRunning()){
-			propulsion.checkState();
+			propulsion.check_dist();
 			if(input.escapePressed()){
 				propulsion.stopMoving();
 				throw new exception.FinishException();
@@ -372,7 +377,7 @@ public class Robot {
 	public void run_until_color(int c) throws FinishException{
 		propulsion.runDist(80f);
 		while(propulsion.isRunning()){
-			propulsion.chech_dist();
+			propulsion.check_dist();
 			if(color.getCurrentColor() == c){
 				propulsion.stopMoving();
 			}

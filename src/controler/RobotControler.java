@@ -50,7 +50,7 @@ public class RobotControler {
 	}
 	
 	public void start() throws IOException, ClassNotFoundException{
-		if(calibration()){
+		if(true/*calibration()*/){
 			screen.drawText("Calibration Placement", 
 					"Appuyez sur OK si","vous êtes au sud",
 					"Appuyez sur toute autre si","vous êtes au nord");
@@ -226,8 +226,9 @@ public class RobotControler {
 			if(! ins.accept(v)){
 				throw new InstructionException("L'instruction a échouée");
 			}
-			if(deliver_move)
+			if(deliver_move && move){
 				first_move = false;
+			}
 			if(move)
 				deliver_move = !deliver_move;
 			i++;

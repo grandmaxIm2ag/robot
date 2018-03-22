@@ -39,7 +39,7 @@ public class R2D2Constants {
 	public static final int   GRAB_RUNNING_SPEED         = 2000;
 	public static final float LINEAR_ACCELERATION        = 0.1f;
 	public static final int   VOLTE_FACE_ROTATION        = 80;
-	public static final int   MAX_ROTATION_SPEED         = 5;
+	public static final int   MAX_ROTATION_SPEED         = 40;
 	public static final int   SEARCH_SPEED               = 30;
 	public static final int   SLOW_SEARCH_SPEED          = 20;
 	public static final int   ANGLE_CORRECTION           = 2;
