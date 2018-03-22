@@ -298,19 +298,15 @@ public class Robot {
 		angle *= 1.5;
 		angle = angle - z;
 		propulsion.rotate(angle, false, false);
-		boolean b = true;
-		System.out.println("distance : "+dist);
+		boolean b = true && (angle!=0);
 		while(propulsion.isRunning()){
 			propulsion.checkState();
 			if(input.escapePressed()){
 				propulsion.stopMoving();
 				throw new exception.FinishException();
 			}
-			System.out.println(Math.abs(dist - (vision.getRaw()[0]*100)));
 			if(Math.abs(dist - (vision.getRaw()[0]*100)) <= utils.R2D2Constants.ERROR ){
 				propulsion.stopMoving();
-				System.out.println(dist);
-				System.out.println(vision.getRaw()[0]*100+" "+Math.abs(dist - (vision.getRaw()[0]*100)));
 				b = false;
 			}
 		}

@@ -34,7 +34,7 @@ public class TestRobotControler extends RobotControler{
 	/**
 	 * 
 	 */
-	public void mainLoop(boolean initLeft) throws SocketException {
+	public void mainLoop(boolean initLeft) {
 		robot.setP(new Point(
 				robot.isSouth() ? initLeft ? 150 : 50 : initLeft ? 50 : 150,
 				robot.isSouth() ? R2D2Constants.Y_NORTH : R2D2Constants.Y_SOUTH

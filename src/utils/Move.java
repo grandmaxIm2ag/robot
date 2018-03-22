@@ -1,7 +1,5 @@
 package utils;
 
-import controler.Visitor;
-
 public class Move extends Instruction {
 	/**
 	 * 
@@ -101,7 +99,7 @@ public class Move extends Instruction {
 		return "Move [previous=" + previous + ", next=" + next + "]";
 	}
 	
-	public boolean accept(Visitor<Boolean> v) throws Exception{
+	public <K> K accept(Visitor<K> v) throws Exception{
 		return v.visit(this);
 	}
 	

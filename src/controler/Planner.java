@@ -12,6 +12,7 @@ import utils.Palet;
 import utils.Instruction;
 import utils.Point;
 import utils.PointCalculator;
+import utils.Visitor;
 
 
 public class Planner {
@@ -34,39 +35,31 @@ public class Planner {
 	 * 
 	 * @param l
 	 * @return
+	 * @throws Exception 
 	 */
-	public static List<Instruction> accept(List<Instruction> l){
+	public static List<Instruction> accept(List<Instruction> l, 
+			Visitor<Instruction> v) throws Exception{
 		List<Instruction> res = new ArrayList<Instruction>();
 		Iterator<Instruction >it = res.iterator();
 		while(it.hasNext()){
-			res.add(it.next());
+			res.add(it.next().accept(v));
 		}
 		return res;
 	}
 	
 	/**
-	 * Renvoie un plan
 	 * 
+	 * @param palets List des palets enjeux
+	 * @param point Position du robot
+	 * @param isSouth Indique le robot doit déposer les palets "au sud"
 	 * @return
-	 * @throws EmptyArenaException 
+	 * @throws EmptyArenaException
 	 */
-	public static List<Instruction> getPlan(List<Palet> palets, Point point, boolean isSOuth) throws EmptyArenaException{
-		if(palets.size() == 0){
-			throw new EmptyArenaException();
-		}
-		PriorityQueue<Palet> pq = new PriorityQueue<Palet>(palets.size(), new Checker(point) );
-		for(Palet p : palets){
-			pq.offer(p);
-		}
-		List<Instruction> plan = new ArrayList<Instruction>();
-		Point init = point;
-		while(! pq.isEmpty()){
-			Palet p = pq.remove();
-			plan.add(new utils.Move(init, (Point)p.getP()));
-			plan.add(new utils.Pick(p, (Point)p.getP()));
-			plan.add(new utils.Deliver(p));
-			init = PointCalculator.getWhiteLinePoint(true, ((Point)p.getP()).getX());
-		}
-		return plan;
+	public static List<Instruction> getPlan(List<Palet> palets, Point point,
+			boolean isSOuth) throws EmptyArenaException{
+		
+		
+		
+		return null;
 	}
 }
