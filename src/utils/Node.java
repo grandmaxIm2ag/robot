@@ -39,6 +39,9 @@ public class Node extends Coord{
 		return this.j;
 	}
 	
+	public String a() {
+		return "a"+i+j;
+	}
 	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()

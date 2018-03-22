@@ -118,14 +118,14 @@ public class Mapper implements Visitor<Instruction>{
 		
 		int nbX = MAP_WIDTH / NODE_WIDTH + 2;
 		int nbY = (MAP_HEIGHT - 2*END) / NODE_HEIGHT + 2; 
-		System.out.println("nbX = " + nbX + " et nbY = " + nbY);
+		//System.out.println("nbX = " + nbX + " et nbY = " + nbY);
 		
 		if (!south) {
 			yOut = nbY - (int) yOut;
 			xOut = nbX - (int) xOut;
 		}
 			
-		System.out.println("xOut = " + xOut + " et yOut = " + yOut);
+		//System.out.println("xOut = " + xOut + " et yOut = " + yOut);
 
 				
 		return new Node((int)xOut, (int)yOut);
