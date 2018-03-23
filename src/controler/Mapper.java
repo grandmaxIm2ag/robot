@@ -1,5 +1,7 @@
 package controler;
 
+import java.util.TreeMap;
+
 import exception.InstructionException;
 import utils.*;
 /**
@@ -11,11 +13,20 @@ public class Mapper implements Visitor<Instruction>{
 	 * 
 	 */
 	private final boolean fromPlanner;
+	private final int END = 30;
+	private final int NODE_WIDTH = 50;
+	private final int NODE_HEIGHT = 60;
+	private final int MAP_WIDTH = 200;
+	private final int MAP_HEIGHT = 300;
+	private final int nbX = MAP_WIDTH / NODE_WIDTH + 2;
+	private final int nbY = (MAP_HEIGHT - 2*END) / NODE_HEIGHT + 2; 
 	/**
 	 * 
 	 */
 	private final boolean south;
 	
+	private TreeMap<Node, Point> nodesToPoints;
+	private TreeMap<Node, Point> defaultPoints;
 	/**
 	 * 
 	 * @param fromPlanner
@@ -25,6 +36,14 @@ public class Mapper implements Visitor<Instruction>{
 		super();
 		this.fromPlanner = fromPlanner;
 		this.south = south;
+		this.nodesToPoints = new TreeMap<Node,Point>();
+		this.defaultPoints = new TreeMap<Node,Point>();
+		System.out.println(1);
+		for (int i = 1; i < nbX; i++) {
+			for (int j = 1; j < nbY; j++) {
+				defaultPoints.put(new Node(i, j), new Point(NODE_WIDTH*(i-1), NODE_HEIGHT*(j-1) + NODE_HEIGHT/2));
+			}
+		}
 	}
 	/**
 	 * 
@@ -80,54 +99,51 @@ public class Mapper implements Visitor<Instruction>{
 	}
 	/**
 	 * 
-	 * @param c
-	 * @return
+	 * @param n : un noeud
+	 * @return : le point associé à ce noeud (par défaut si ce point n'est pas connu)
 	 */
-	public Point nodeToPoint(Node n){
-		throw new java.lang.UnsupportedOperationException("Not supported yet");
+	public Point nodeToPoint(Node n) {
+		
+		//System.out.println(nodesToPoints);
+		if (nodesToPoints.containsKey(n)) {
+			return nodesToPoints.get(n);
+		}
+		else if (defaultPoints.containsKey(n)) {
+			return defaultPoints.get(n);
+		}
+		else {
+			return null;
+		}
+
 	}
 	/**
 	 * 
-	 * @param c
-	 * @return
+	 * @param p : Point
+	 * @return : les coordonnées du noeud associé à ce point
 	 */
 	public Coord pointToNode(Point p){
-		final int END = 30;
-		final int NODE_WIDTH = 50;
-		final int NODE_HEIGHT = 60;
-		final int MAP_WIDTH = 200;
-		final int MAP_HEIGHT = 300;
 		
 		float xIn = p.getX();
 		float yIn = p.getY();
 		float xOut, yOut;
 		
-		/*if (yIn <= END) {
-			yOut = 0;
-		}
-		else if (yIn >= MAP_HEIGHT - END) {
-			yOut = MAP_HEIGHT - END;
-		}
-		else {
-			yOut = yIn / NODE_HEIGHT;
-		}
-		xOut = (xIn + NODE_WIDTH/2)/NODE_WIDTH;*/
-		
 		xOut = (xIn - NODE_WIDTH/2)/NODE_WIDTH + 2;
 		yOut = yIn / NODE_HEIGHT + 1;
 		
-		int nbX = MAP_WIDTH / NODE_WIDTH + 2;
-		int nbY = (MAP_HEIGHT - 2*END) / NODE_HEIGHT + 2; 
-		//System.out.println("nbX = " + nbX + " et nbY = " + nbY);
 		
+		/* Inverse les noeuds en fonction des camps
 		if (!south) {
 			yOut = nbY - (int) yOut;
 			xOut = nbX - (int) xOut;
-		}
-			
-		//System.out.println("xOut = " + xOut + " et yOut = " + yOut);
+		}*/
+		Node n = new Node((int)xOut, (int)yOut);
 
-				
-		return new Node((int)xOut, (int)yOut);
+		nodesToPoints.put(n, p);
+		
+		return n;
+	}
+	
+	public boolean getDirecttion() {
+		return south;
 	}
 }
