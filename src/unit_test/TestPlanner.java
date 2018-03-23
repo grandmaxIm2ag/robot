@@ -16,60 +16,87 @@ import controler.Mapper;
 import exception.EmptyArenaException;
 
 public class TestPlanner {
-
+	/**
+	 * 
+	 */
+	List<Palet> palet;
+	
+	/**
+	 * 
+	 */
 	@Before
 	public void init(){
 		Planner.init(new Mapper(true,true));
+		palet = new ArrayList<Palet>();
+		palet.add(new Palet(new Point(50, 90), true));
+		palet.add(new Palet(new Point(150, 90), true));
+		palet.add(new Palet(new Point(100, 90), true));
 	}
 	
-	/////////////////////////////////////////////////////////
-	/////A MODIFIER LORSQUE LE PLANNER SERA OPERATIONNEL/////
-	/////////////////////////////////////////////////////////
+	/**
+	 * 
+	 * @throws EmptyArenaException
+	 */
+	@Test
+	public void testGetPlan1() throws EmptyArenaException{
+		Point p = new Point(50,30);
+		
+		List<Instruction> expected_plan = new ArrayList<Instruction>();
+		expected_plan.add(new Move(p, palet.get(0).getP()));
+		expected_plan.add(new Pick(palet.get(0), palet.get(0).getP()));
+		expected_plan.add(new Move(palet.get(0).getP(), p));
+		expected_plan.add(new Deliver(palet.get(0)));
+		
+		List<Instruction> plan = Planner.getPlan(palet, p, true);
+	}
+	
+	/**
+	 * 
+	 * @throws EmptyArenaException
+	 */
+	@Test
+	public void testGetPlan2() throws EmptyArenaException{
+		Point p = new Point(50,30);
+		
+		List<Instruction> expected_plan = new ArrayList<Instruction>();
+		expected_plan.add(new Move(p, palet.get(1).getP()));
+		expected_plan.add(new Pick(palet.get(1), palet.get(1).getP()));
+		expected_plan.add(new Move(palet.get(1).getP(), new Point(150, 30)));
+		expected_plan.add(new Deliver(palet.get(1)));
+		
+		List<Instruction> plan = Planner.getPlan(palet, p, true);
+	}
+	
+	/**
+	 * 
+	 * @throws EmptyArenaException
+	 */
 	@Test(expected=EmptyArenaException.class)
-	public void testGetPlan() throws EmptyArenaException{
-		Iterator<Instruction> it_expected;
-		Iterator<Instruction> it_ret;
-		List<Instruction> ret;
-		List<Instruction> expected;
-		List<Palet> palets;
+	public void testGetPlan3() throws EmptyArenaException{
+		Point p = new Point(50,30);
 		
-		//Test avec un seul palet
-		palets = new ArrayList<Palet>();
-		palets.add(new Palet(new Point(5,5), true));
-		expected = new ArrayList<Instruction>();
-		expected.add(new Move(new Point(0,0), new Point(5,5)));
-		expected.add(new Pick(new Palet(new Point(5,5), true), new Point (5,5)));
-		expected.add(new Deliver(new Palet(new Point(5,5), true)));
-		ret = Planner.getPlan(palets, new Point(0,0), true);
-		it_expected = expected.iterator();
-		it_ret = ret.iterator();
-		assertEquals(ret.size(), expected.size());
-		while(it_expected.hasNext()){
-			assertEquals(it_expected.next(), it_ret.next());
-		}
+		List<Instruction> expected_plan = new ArrayList<Instruction>();
+		expected_plan.add(new Move(p, palet.get(2).getP()));
+		expected_plan.add(new Pick(palet.get(2), palet.get(2).getP()));
+		expected_plan.add(new Move(palet.get(2).getP(), new Point(100, 30)));
+		expected_plan.add(new Deliver(palet.get(2)));
 		
-		//Test avec plusieurs palets
-		palets = new ArrayList<Palet>();
-		palets.add(new Palet(new Point(5,5), true));
-		palets.add(new Palet(new Point(15,15), true));
-		expected = new ArrayList<Instruction>();
-		expected.add(new Move(new Point(0,0), new Point(5,5)));
-		expected.add(new Pick(new Palet(new Point(5,5), true), new Point (5,5)));
-		expected.add(new Deliver(new Palet(new Point(5,5), true)));
-		Point p = PointCalculator.getWhiteLinePoint(true, 5);
-		ret = Planner.getPlan(palets, new Point(0,0), true);
-		it_expected = expected.iterator();
-		it_ret = ret.iterator();
-		assertEquals(ret.size(), expected.size());
-		while(it_expected.hasNext()){
-			assertEquals(it_expected.next(), it_ret.next());
-		}
-		//Test sans palet
-		palets = new ArrayList<Palet>();
-		Planner.getPlan(palets,new Point(0,0), true);
+		List<Instruction> plan = Planner.getPlan(palet, p, true);
+	}
+	/**
+	 * 
+	 * @throws EmptyArenaException
+	 */
+	@Test(expected=EmptyArenaException.class)
+	public void testGetPlanEmptyArena() throws EmptyArenaException{
+		Point p = new Point(50,30);
+		palet.clear();
+		Planner.getPlan(palet, p, true);
 	}
 	
-	
+	/**
+	 * 
+	 */
 	@Test
 	public void testPointToNodeSouth() {
 		Mapper m = new Mapper(true,true);
@@ -78,6 +105,9 @@ public class TestPlanner {
 		assertEquals(n, m.pointToNode(p));
 	}
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void testPointToNodeNorth() {
 		Mapper m = new Mapper(true, false);

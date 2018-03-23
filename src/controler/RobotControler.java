@@ -3,29 +3,29 @@ package controler;
 import java.io.IOException;
 import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.PriorityQueue;
 
 import exception.EmptyArenaException;
 import exception.InstructionException;
 
 import lejos.hardware.Button;
-import lejos.robotics.navigation.Move;
 import motor.Graber;
 import motor.Propulsion;
 import motor.TimedMotor;
 import sensor.Bumper;
-import sensor.Camera;
 import sensor.ColorSensor;
 import sensor.UltraSon;
 import vue.InputHandler;
 import vue.Screen;
+import utils.Deliver;
 import utils.Instruction;
 import utils.Palet;
+import utils.Move;
+import utils.Pick;
 import utils.Point;
 import utils.R2D2Constants;
+import utils.Visitor;
 public class RobotControler {
 	
 	protected Robot robot;
@@ -33,8 +33,9 @@ public class RobotControler {
 	protected InputHandler input;
 	protected List<Palet> palets;
 	protected List<TimedMotor> motors;
-	protected int nb_calibration = 3;
-	private boolean first = true;
+	protected int nb_calibration = 1;
+	private boolean first_move = true;
+	private boolean deliver_move = false;
 	
 	
 	public RobotControler(){
@@ -49,10 +50,6 @@ public class RobotControler {
 	}
 	
 	public void start() throws IOException, ClassNotFoundException{
-		
-		screen.drawText("Calibration", 
-				"Appuyez sur OK pour commencer");
-		input.waitAny();
 		if(calibration()){
 			screen.drawText("Calibration Placement", 
 					"Appuyez sur OK si","vous êtes au sud",
@@ -125,8 +122,12 @@ public class RobotControler {
 		return false;
 	}
 
-
-	public void mainLoop(boolean initLeft) throws SocketException {
+	/**
+	 * 
+	 * @param initLeft Booléen indiquant si le robot comence à gauche ou à droite
+	 * 
+	 */
+	public void mainLoop(boolean initLeft) {
 		/////////////////////////////////////////////////////////
 		//////A MODIFIER LORS DE L'UTIISATION DE LA CAMERA///////
 		/////////////////////////////////////////////////////////
@@ -135,7 +136,7 @@ public class RobotControler {
 		boolean run = true;
 		robot.setP(new Point(
 				robot.isSouth() ? initLeft ? 150 : 50 : initLeft ? 50 : 150,
-				robot.isSouth() ? R2D2Constants.Y_SOUTH : R2D2Constants.Y_NORTH 
+				robot.isSouth() ? R2D2Constants.Y_NORTH : R2D2Constants.Y_SOUTH
 				));
 		//Boucle de jeu
 		screen.clearDraw();
@@ -145,26 +146,35 @@ public class RobotControler {
 				for(TimedMotor m : motors){
 					m.checkState();
 				}
+				
 				/////////////////////////////////////////////////////////
 				//////A MODIFIER LORS DE L'UTIISATION DE LA CAMERA///////
+				//////				ET DU PLANNER				  ///////
 				/////////////////////////////////////////////////////////
+				//palets.clear();
 				//palets = Camera.getPalet();
-				palets.clear();
-				palets.add(new Palet(new Point(50,90), true));
-				//palets.add(new Palet(new Point(150,90), true));
-				palets.add(new Palet(new Point(100,90), true));
-				List<Instruction> plan = Planner.getPlan(palets, robot.getP(), robot.isSouth());
-				if (plan == null){
-					run = false;
-				}else{
-					Visitor<Boolean> v = new ExecPlan(robot, input, screen);
-					accept(v, plan);
-				}
+				//List<Instruction> plan = Planner.getPlan(palets, robot.getP(), robot.isSouth());
+				List<Instruction> plan = new ArrayList<Instruction>();
+				plan.add(new Move(robot.getP(), new Point(50, 210)));
+				plan.add(new Pick(new Palet(new Point(50, 210), true), new Point(50, 210)));
+				plan.add(new Move(new Point(50,210), new Point(50,30)));
+				plan.add(new Deliver(new Palet(new Point(50, 210), true)));
+				plan.add(new Move(new Point(50, 30), new Point(50, 90)));
+				plan.add(new Pick(new Palet(new Point(50, 90), true), new Point(50, 90)));
+				plan.add(new Move(new Point(50,90), new Point(50,30)));
+				plan.add(new Deliver(new Palet(new Point(50, 90), true)));
+				plan.add(new Move(new Point(50, 30), new Point(100, 90)));
+				plan.add(new Pick(new Palet(new Point(100, 90), true), new Point(100, 90)));
+				plan.add(new Move(new Point(100,90), new Point(100,30)));
+				plan.add(new Deliver(new Palet(new Point(100, 90), true)));
+				plan.add(new Move(new Point(150, 30), new Point(150, 90)));
+				plan.add(new Pick(new Palet(new Point(150, 90), true), new Point(150, 90)));
+				plan.add(new Move(new Point(150,90), new Point(150,30)));
+				plan.add(new Deliver(new Palet(new Point(150, 90), true)));
+				accept(plan);
 				
-			/////////////////////////////////////////////////////////
-			//////A MODIFIER LORS DE L'UTIISATION DE LA CAMERA///////
-			/////////////////////////////////////////////////////////
-			run = false;
+				//A modifier !!!!!!!!
+				run = false;
 			}catch(InstructionException e){
 				//On recalcule le plan
 				e.printStackTrace(System.err);
@@ -174,13 +184,15 @@ public class RobotControler {
 				//Il n'y a plus aucun palet prenable sur le terrain
 				screen.drawText("FIn", "Il n'y a plus aucun palet");
 				run = false;
-				return;
 			}catch(exception.FinishException e){
 				//Il n'y a plus aucun palet prenable sur le terrain
 				screen.drawText("Fin", "Le robot va être stopé");
 				run = false;
-				return;
-			}catch(Throwable t){
+			}catch(SocketException se){
+				screen.drawText("Problème :", "Connexion à la caméra impossible");
+				run = false;
+			}
+			catch(Throwable t){
 				t.printStackTrace();
 				run = false;
 			}
@@ -196,15 +208,29 @@ public class RobotControler {
 	 * @param plan
 	 * @throws Exception
 	 */
-	public void accept(Visitor<Boolean> v, List<Instruction> plan) throws Exception{
+	public void accept(List<Instruction> plan) throws Exception{
 		Iterator<Instruction> it = plan.iterator();
 		int i=0;
+		Visitor<Boolean> plan_pick = new ExecPlan(robot, input, screen);
+		Visitor<Boolean> plan_first = new ExecFirstPlan(robot, input, screen);
+		Visitor<Boolean> plan_deliver = new ExecPlanDeliver(robot, input, screen);
 		while(it.hasNext() && isFeasible(plan, i)){
 			Instruction ins = it.next();
-			System.out.println(ins);
+			boolean move = (ins instanceof Move);
+			String trace = ins.toString()+"\n";
+			trace += deliver_move && move ? (first_move? "plan_first": 
+				"plan_deliver") : "plan_pick";
+			System.out.println(trace);
+			Visitor<Boolean> v = deliver_move && move ? (first_move? plan_first: 
+				plan_deliver) : plan_pick;
 			if(! ins.accept(v)){
 				throw new InstructionException("L'instruction a échouée");
 			}
+			if(deliver_move && move){
+				first_move = false;
+			}
+			if(move)
+				deliver_move = !deliver_move;
 			i++;
 		}
 	}

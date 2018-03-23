@@ -1,13 +1,9 @@
 package utils;
 
 public class R2D2Constants {
-	public static final String LEFT_WHEEL = "B";
-	public static final String RIGHT_WHEEL= "C";
-	public static final String PINCH      = "A";
-	
-	public static final String COLOR_SENSOR = "S1";
-	public static final String TOUCH_SENSOR = "S2";
-	public static final String IR_SENSOR    = "S4";
+	public static final String LEFT_WHEEL = "C";
+	public static final String RIGHT_WHEEL= "A";
+	public static final String PINCH      = "D";
 	
 	public static final int   QUARTER_SECOND        = 250;
 	public static final int   HALF_SECOND           = 500;
@@ -39,7 +35,7 @@ public class R2D2Constants {
 	public static final int   GRAB_RUNNING_SPEED         = 2000;
 	public static final float LINEAR_ACCELERATION        = 0.1f;
 	public static final int   VOLTE_FACE_ROTATION        = 80;
-	public static final int   MAX_ROTATION_SPEED         = 50;
+	public static final int   MAX_ROTATION_SPEED         = 40;
 	public static final int   SEARCH_SPEED               = 30;
 	public static final int   SLOW_SEARCH_SPEED          = 20;
 	public static final int   ANGLE_CORRECTION           = 2;
