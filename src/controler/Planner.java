@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import exception.EmptyArenaException;
@@ -222,7 +224,7 @@ public class Planner {
 	public static List<Instruction> accept(List<Instruction> l, 
 			Visitor<Instruction> v) throws Exception{
 		List<Instruction> res = new ArrayList<Instruction>();
-		Iterator<Instruction >it = res.iterator();
+		Iterator<Instruction >it = l.iterator();
 		while(it.hasNext()){
 			res.add(it.next().accept(v));
 		}
@@ -240,7 +242,9 @@ public class Planner {
 	public static List<Instruction> getPlan(List<Palet> palets, Point point,
 			boolean isSOuth)throws EmptyArenaException{
 		
-		if(palets.size() == 0){
+		Map<String, Node> map = new HashMap<String, Node>();
+		
+		if(palets.isEmpty()){
 			throw new EmptyArenaException();
 		}
 		List<String> res = new ArrayList<>();
@@ -255,8 +259,10 @@ public class Planner {
 			bw1 = new BufferedWriter(new FileWriter(tempt));
 			bw1.write(intro);
 		    bw1.write("	");
-		    for(int i=0;i<pallets.size();i++)
+		    for(int i=0;i<pallets.size();i++){
 		    	bw1.write("pl"+i+" ");
+		    	map.put("pl"+i, pallets.get(i));
+		    }
 		    bw1.write("- Pallet)\n(:init\n"+"	(gripperempty)\n");
 		    for(int i=0;i<pallets.size();i++)
 		    	bw1.write("	(at pl"+i+" a"+pallets.get(i).getI()+pallets.get(i).getJ()+")\n");
@@ -274,11 +280,17 @@ public class Planner {
 				res = cleanPlan(planner.aStarSearch(codproblem));
 			}
 			
+			for(int i=0; i<7; i++)
+				for(int j=0; j<7; j++)
+					map.put("a"+i+""+j, new Node(i,j));
+			FactoryInstruction.init_map(map);
+			FactoryInstruction.init_south(isSOuth);
 			List<Instruction> plan1 = new ArrayList<Instruction>();
 			for(String str : res)
 				plan1.add(FactoryInstruction.create(str));
 			
-			return accept(plan1, mapper);
+			List<Instruction> final_plan = accept(plan1, mapper);
+			return final_plan;
 			
 		} catch (Exception e) {
 			e.printStackTrace();

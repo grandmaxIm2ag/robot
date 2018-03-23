@@ -20,9 +20,7 @@ public class TestPointCalculator {
 		x = rand.nextFloat();
 		y = rand.nextFloat();
 	}
-	/////////////////////////////////////////////////////////
-	/////A MODIFIER LORSQUE LE PLANNER SERA OPERATIONNEL/////
-	/////////////////////////////////////////////////////////
+	
 	/**
 	 * 
 	 */

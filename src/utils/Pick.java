@@ -16,6 +16,10 @@ public class Pick extends Instruction {
 	 */
 	public Pick(Palet palet, Coord coord) {
 		super();
+		if(! palet.getP().equals(coord)){
+			throw new IllegalArgumentException("Le palet à attraper doit avoir "+
+					"la même position que celle indiquée par "+coord);
+		}
 		this.palet = palet;
 		this.coord = coord;
 	}

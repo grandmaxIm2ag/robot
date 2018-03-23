@@ -16,6 +16,14 @@ public class Move extends Instruction {
 	 */
 	public Move(Coord previous, Coord next) {
 		super();
+		if(! previous.getClass().equals(next.getClass())){
+			throw new IllegalArgumentException(previous+" et "+next+" doit être" +
+					" du même type");
+		}
+		if(previous.equals(next)){
+			throw new IllegalArgumentException(previous+" et "+next+" doivent " +
+					"être différents");
+		}
 		this.previous = previous;
 		this.next = next;
 	}
