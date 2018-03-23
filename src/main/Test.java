@@ -7,6 +7,8 @@ import sensor.ColorSensor;
 import sensor.UltraSon;
 import utils.Point;
 import controler.Robot;
+import exception.FinishException;
+import exception.InstructionException;
 
 public class Test {
 
@@ -17,14 +19,12 @@ public class Test {
 		// TODO Auto-generated method stub
 		Robot robot = new Robot(new Point(0,0), false,new ColorSensor(),
 				new Propulsion(), new Graber(), new Bumper(), new UltraSon());
-		robot.setSouth(false);
-		robot.getPropulsion().rotate(-50f, false, false);
-		while(robot.getPropulsion().isRunning())
-			robot.getPropulsion().checkState();
-		robot.getPropulsion().orientateNorth();
-		while(robot.getPropulsion().isRunning())
-			robot.getPropulsion().checkState();
-		
+		robot.setP(new Point(0,0));
+		try {
+			robot.search_palet(new Point(35,50));
+		} catch (FinishException | InstructionException e) {
+			System.exit(0);
+		}
 	}
 
 }

@@ -21,22 +21,17 @@ import controler.Robot;
 import controler.RobotControler;
 import exception.EmptyArenaException;
 
-
-public class TestControler {
-	Robot robot;
-	RobotControler control;
+/**
+ * 
+ */
+public class TestUtils{
 	
+	/**
+	 * On initialise les différentes variables utilisées par les différents
+	 * tests
+	 */
 	@Before
 	public void init(){
-		robot = new Robot(new Point(0,0), false,null,null,null,null,null);
-		control = new RobotControler();
-	}
-	@Test
-	public void testDistAndAngle() {
-		Point p = new Point(-5,0);
-		assertTrue(5f == robot.getP().distance(p));
-		p = new Point(5,5);
-		assertTrue(45f == robot.getP().angle(p));
 	}
 
 }

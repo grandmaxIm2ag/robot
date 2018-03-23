@@ -176,6 +176,7 @@ public class Robot {
 	 * @param color
 	 */
 	public void followLine(int c, float dist){
+		float angle_search_color = 15f;
 		while(color.getCurrentColor() != Color.WHITE){
 			propulsion.runDist(dist);
 			while(propulsion.isRunning()){
@@ -187,7 +188,7 @@ public class Robot {
 						color.getCurrentColor() != Color.BLACK){
 					propulsion.stopMoving();
 					boolean b = true;
-					propulsion.rotate(10f, false, false);
+					propulsion.rotate(angle_search_color, false, false);
 					while(propulsion.isRunning()){
 						propulsion.checkState();
 						if(color.getCurrentColor() == c || 
@@ -197,7 +198,7 @@ public class Robot {
 						}
 					}
 					if(b){
-						propulsion.rotate(20f, true, false);
+						propulsion.rotate(angle_search_color*2, true, false);
 						while(propulsion.isRunning()){
 							propulsion.checkState();
 							if(color.getCurrentColor() == c || 
@@ -208,11 +209,6 @@ public class Robot {
 						}
 					}
 					
-				}else if(color.getCurrentColor() == Color.BLACK){
-					propulsion.runDist(5);
-					while(propulsion.isRunning()){
-						propulsion.chech_dist();
-					}
 				}
 			}
 			dist -= propulsion.getTraveledDist();
@@ -297,24 +293,28 @@ public class Robot {
 	 */
 	public void search_palet(Point point)
 			throws FinishException, InstructionException{
-		float dist = point.distance(point);
+		float dist = this.getP().distance(point);
 		float angle = p.angle(point);
-		angle *= 1.2;
-		angle = z - angle;
+		angle *= 1.5;
+		angle = angle - z;
 		propulsion.rotate(angle, false, false);
 		boolean b = true;
+		System.out.println("distance : "+dist);
 		while(propulsion.isRunning()){
 			propulsion.checkState();
 			if(input.escapePressed()){
 				propulsion.stopMoving();
 				throw new exception.FinishException();
 			}
-			if(Math.abs(dist - (vision.getRaw()[0]*100)) >= utils.R2D2Constants.ERROR ){
+			System.out.println(Math.abs(dist - (vision.getRaw()[0]*100)));
+			if(Math.abs(dist - (vision.getRaw()[0]*100)) <= utils.R2D2Constants.ERROR ){
 				propulsion.stopMoving();
+				System.out.println(dist);
+				System.out.println(vision.getRaw()[0]*100+" "+Math.abs(dist - (vision.getRaw()[0]*100)));
 				b = false;
 			}
 		}
-		z = propulsion.getOrientation();
+		z  = propulsion.getOrientation();
 		if(b){
 			throw new exception.InstructionException();
 		}

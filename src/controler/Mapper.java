@@ -121,12 +121,11 @@ public class Mapper implements Visitor<Instruction>{
 	 * @param p : Point
 	 * @return : les coordonnées du noeud associé à ce point
 	 */
-	public Coord pointToNode(Point p){
-		
+	public Coord pointToNode(Point p) {
 		float xIn = p.getX();
 		float yIn = p.getY();
 		float xOut, yOut;
-		
+	
 		xOut = (xIn - NODE_WIDTH/2)/NODE_WIDTH + 2;
 		yOut = yIn / NODE_HEIGHT + 1;
 		
