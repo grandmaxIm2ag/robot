@@ -44,6 +44,7 @@ public class ExecPlan implements Visitor<Boolean> {
 	@Override
 	public Boolean visit(Move m) throws Exception {
 		try{
+			System.out.println("COUCOU !!!!!!!!!!");
 			robot.search_palet((Point) m.getNext());
 		}catch(exception.InstructionException e){
 			/*

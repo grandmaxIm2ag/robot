@@ -8,7 +8,7 @@ import lejos.hardware.sensor.EV3TouchSensor;
 public class Bumper {
 	private Port port = null;
 	private EV3TouchSensor touch = null;
-	public final static String TOUCH_SENSOR = "S1";
+	public final static String TOUCH_SENSOR = "S3";
 	public Bumper(){
 		port = LocalEV3.get().getPort(TOUCH_SENSOR);
 		touch= new EV3TouchSensor(port);
@@ -16,6 +16,7 @@ public class Bumper {
 	
 	public boolean isPressed(){
 		float[] sample = raw();
+		System.out.println(sample[0]);
 		return sample[0] != 0;
 	}
 

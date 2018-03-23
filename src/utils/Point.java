@@ -103,8 +103,14 @@ public class Point extends Coord{
 		float adj = this.distance(tmp);
 		double r = Math.acos((adj/hyp));
 		if (x < point.x)
-			return (float)Math.toDegrees(r);
+			if(y>point.y)
+				return 180+(float)Math.toDegrees(r);
+			else
+				return (float)Math.toDegrees(r);
 		else
-			return (float)-Math.toDegrees(r);
+			if(y>point.y)
+				return 180-(float)Math.toDegrees(r);
+			else
+				return (float)-Math.toDegrees(r);
 	}
 }

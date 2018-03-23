@@ -6,7 +6,6 @@ import lejos.hardware.port.Port;
 
 public class Graber extends TimedMotor{
 
-	public static final String PINCH = "D";
 	public final static int GRAB_CALIBRATE_SPEED = 300;
 	public final static int GRAB_RUNNING_SPEED = 600;
 	private EV3LargeRegulatedMotor graber = null;
@@ -21,7 +20,7 @@ public class Graber extends TimedMotor{
 
 
 	public Graber(){
-		port   = LocalEV3.get().getPort(PINCH);
+		port   = LocalEV3.get().getPort(utils.R2D2Constants.PINCH);
 		graber = new EV3LargeRegulatedMotor(port);
 	}
 

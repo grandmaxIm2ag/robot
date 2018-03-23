@@ -96,8 +96,10 @@ public class Robot {
 	 */
 	public void setSouth(boolean south) {
 		this.south = south;
-		this.getPropulsion().setOrientation(south ? utils.R2D2Constants.NORTH
-				: utils.R2D2Constants.SOUTH);
+		this.z = (south ? utils.R2D2Constants.SOUTH
+				: utils.R2D2Constants.NORTH);
+		this.propulsion.setOrientation(z);
+		
 	}
 	/**
 	 * @return the color
@@ -266,19 +268,21 @@ public class Robot {
 	public void run(Point point, boolean stop_palet) throws FinishException{
 		float dist = p.distance(point);
 		propulsion.runDist(dist);
-		while(propulsion.isRunning()){
+		while(propulsion.isRunning() && !pression.isPressed()){
+			System.out.println(pression.isPressed());
 			propulsion.check_dist();
 			if(input.escapePressed()){
 				propulsion.stopMoving();
 				throw new exception.FinishException();
 			}
-			if(stop_palet){
-				if(pression.isPressed()){
-					propulsion.stopMoving();
-					graber.close();
-					while(graber.isRunning()){
-						graber.checkState();
-					}
+		}
+		if(stop_palet){
+			if(pression.isPressed()){
+				propulsion.stopMoving();
+				graber.close();
+				while(graber.isRunning()){
+					System.out.println("coucou je me ferme");
+					graber.checkState();
 				}
 			}
 		}
@@ -354,11 +358,21 @@ public class Robot {
 	 * @throws FinishException
 	 */
 	public void orientate(boolean to_goal) throws FinishException{
-		if(south == to_goal){
-			propulsion.orientateSouth();
+		if(south){
+			if(to_goal){
+				propulsion.orientateSouth();
+			}else{
+				propulsion.orientateNorth();
+			}
+				
 		}else{
-			propulsion.orientateSouth();
+			if(!to_goal){
+				propulsion.orientateSouth();
+			}else{
+				propulsion.orientateNorth();
+			}
 		}
+			
 		while(propulsion.isRunning()){
 			propulsion.checkState();
 			if(input.escapePressed()){

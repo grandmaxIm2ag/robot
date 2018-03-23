@@ -58,7 +58,6 @@ public class Propulsion extends TimedMotor implements MoveListener{
 			this.stopMoving();
 		}
 		traveledDist = pilot.getMovement().getDistanceTraveled();
-		System.out.println(traveledDist);
 	}
 	@Override
 	public boolean isStall() {
@@ -175,7 +174,7 @@ public class Propulsion extends TimedMotor implements MoveListener{
 	 * 
 	 */
 	public void orientateSouth(){
-		orientateSouth( this.getOrientation() < 0);
+		orientateSouth( this.getOrientation() > utils.R2D2Constants.SOUTH);
 	}
 	
 	public void orientateSouth(boolean left) {
