@@ -21,7 +21,16 @@ public class Test {
 				new Propulsion(), new Graber(), new Bumper(), new UltraSon());
 		robot.setP(new Point(0,0));
 		try {
-			robot.rotate(90);
+			System.out.println("GO !!");
+			//robot.getPression()
+			while(robot.getGraber().isOpen()){
+				System.out.println("coucou");
+				if(robot.getPression().isPressed()){
+					System.out.println("C'est partir");
+					robot.getGraber().close();
+					while(robot.getGraber().isRunning());
+				}
+			}
 			
 		} catch (Exception e /*FinishException | InstructionException e*/) {
 			System.exit(0);

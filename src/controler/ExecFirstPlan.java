@@ -20,7 +20,7 @@ public class ExecFirstPlan extends ExecPlan {
 	@Override
 	public Boolean visit(Move m) throws Exception {
 		//On va à la ligne blanche
-		float angle = 35;
+		float angle = -25;
 		float dist1 = 20;
 		float dist2 = 140;
 		robot.rotate(angle);

@@ -50,7 +50,7 @@ public class RobotControler {
 	}
 	
 	public void start() throws IOException, ClassNotFoundException{
-		if(true/*calibration()*/){
+		if(calibration()){
 			screen.drawText("Calibration Placement", 
 					"Appuyez sur OK si","vous êtes au sud",
 					"Appuyez sur toute autre si","vous êtes au nord");

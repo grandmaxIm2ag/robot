@@ -176,7 +176,7 @@ public class Robot {
 	 * @param color
 	 */
 	public void followLine(int c, float dist){
-		float angle_search_color = 45f;
+		float angle_search_color = 30f;
 		while(color.getCurrentColor() != Color.WHITE){
 			propulsion.runDist(dist);
 			while(propulsion.isRunning()){
@@ -198,7 +198,7 @@ public class Robot {
 						}
 					}
 					if(b){
-						propulsion.rotate(angle_search_color*2, true, false);
+						propulsion.rotate(angle_search_color*3, true, false);
 						while(propulsion.isRunning()){
 							propulsion.checkState();
 							if(color.getCurrentColor() == c || 
@@ -339,7 +339,7 @@ public class Robot {
 	 * @throws FinishException
 	 */
 	public void run(float dist, boolean forward) throws FinishException{
-		propulsion.runDist(dist, false);
+		propulsion.runDist(dist, forward);
 		while(propulsion.isRunning()){
 			propulsion.check_dist();
 			if(input.escapePressed()){
