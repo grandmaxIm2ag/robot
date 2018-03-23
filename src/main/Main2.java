@@ -33,14 +33,14 @@ public class Main2 {
 		for(String s:trames) {
 			String []pl=s.split(";");
 			pt = new Point(Integer.parseInt(pl[1]), Integer.parseInt(pl[2]));
-			//System.out.println(pt);
 			pallets.add((Node) m.pointToNode(pt));
+			//System.out.println(pt);
 		}
 		
 		ArrayList<Point> points = new ArrayList<Point>();
 
 		for (Node n : pallets) {
-			System.out.println(n);
+			//System.out.println(n);
 			pt = m.nodeToPoint(n);
 			points.add(pt);
 		}
