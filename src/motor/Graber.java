@@ -16,7 +16,7 @@ public class Graber extends TimedMotor{
 	private long lastAskedRunning         = -1;
 	
 	private boolean isClose = false;
-	private boolean isOpen  = false;
+	private boolean isOpen  = true;
 	private boolean isRunin = false;
 
 

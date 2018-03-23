@@ -1,13 +1,11 @@
 package controler;
 
-import lejos.robotics.Color;
 import utils.Deliver;
 import utils.Instruction;
 import utils.Move;
 import utils.Pick;
 import utils.Point;
-import utils.PointCalculator;
-import utils.R2D2Constants;
+import utils.Visitor;
 import vue.InputHandler;
 import vue.Screen;
 
@@ -49,7 +47,7 @@ public class ExecPlan implements Visitor<Boolean> {
 			robot.search_palet((Point) m.getNext());
 		}catch(exception.InstructionException e){
 			/*
-			 * Si la recherche du palet plannifier échoue
+			 * Si la recherche du palet plannifiée échoue
 			 * alors l'exécution du plan échoue
 			 */
 			return false;
@@ -69,7 +67,14 @@ public class ExecPlan implements Visitor<Boolean> {
 	 */
 	@Override
 	public Boolean visit(Deliver d) throws Exception {
-		return robot.getGraber().isOpen();
+		boolean b = robot.getGraber().isOpen();
+		if(!b){
+			robot.getGraber().open();
+			while(robot.getGraber().isRunning())
+				robot.getGraber().checkState();
+			robot.orientate(false);
+		}
+		return b;
 	}
 	
 	/**
@@ -77,7 +82,11 @@ public class ExecPlan implements Visitor<Boolean> {
 	 */
 	@Override
 	public Boolean visit(Pick p) throws Exception {
-		return robot.graber.isClose();
+		boolean b =robot.graber.isClose();
+		if(!b){
+			robot.orientate(false);
+		}
+		return b;
 	}
 	
 
