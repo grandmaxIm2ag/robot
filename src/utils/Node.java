@@ -42,12 +42,18 @@ public class Node extends Coord implements Comparable {
 	}
 	
 	
-	
 	/**
 	 * 
 	 * 
 	 * return
 	 */
+	@Override
+	public boolean equals(Object o) {
+		if (o==null || !(o instanceof Node) ) return false;
+		Node n = (Node) o;
+		return (n.getI() == this.i && n.getJ() == this.j);		
+	}
+	
 	@Override
 	public int compareTo(Object o) {
 		Node n = (Node) o;
@@ -59,6 +65,11 @@ public class Node extends Coord implements Comparable {
 			return 0;		
 		else
 			return -1;
+	}
+	
+
+	public String a() {
+		return "a"+i+j;
 	}
 	
 	/**
@@ -79,28 +90,5 @@ public class Node extends Coord implements Comparable {
 		result = prime * result + i;
 		result = prime * result + j;
 		return result;
-	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof Node)) {
-			return false;
-		}
-		Node other = (Node) obj;
-		if (i != other.i) {
-			return false;
-		}
-		if (j != other.j) {
-			return false;
-		}
-		return true;
 	}
 }
