@@ -104,7 +104,7 @@ public class Mapper implements Visitor<Instruction>{
 	 */
 	public Point nodeToPoint(Node n) {
 		
-		System.out.println(n);
+		//System.out.println(nodesToPoints);
 		if (nodesToPoints.containsKey(n)) {
 			return nodesToPoints.get(n);
 		}
@@ -130,12 +130,20 @@ public class Mapper implements Visitor<Instruction>{
 		xOut = (xIn - NODE_WIDTH/2)/NODE_WIDTH + 2;
 		yOut = yIn / NODE_HEIGHT + 1;
 		
+		
 		/* Inverse les noeuds en fonction des camps
 		if (!south) {
 			yOut = nbY - (int) yOut;
 			xOut = nbX - (int) xOut;
 		}*/
-				
-		return new Node((int)xOut, (int)yOut);
+		Node n = new Node((int)xOut, (int)yOut);
+
+		nodesToPoints.put(n, p);
+		
+		return n;
+	}
+	
+	public boolean getDirecttion() {
+		return south;
 	}
 }

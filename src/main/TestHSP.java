@@ -56,24 +56,35 @@ public class TestHSP {
 	private final static String intro = "(define (problem CoreGame)\n" + 
 			"(:domain Robot)\n" + 
 			"(:objects \n" + 
-			"	a51 a52 a53 a54 a55 - node\n" + 
-			"	a41 a42 a43 a44 a45 - node\n" + 
-			"	a31 a32 a33 a34 a35 - node\n" + 
-			"	a21 a22 a23 a24 a25 - node\n" + 
-			"	a11 a12 a13 a14 a15 - node\n" + 
-			"	pl1 pl2 pl3 pl4 pl5 - Pallet\n" + 
-			"	pl6 pl7 pl8 pl9 - Pallet)\n" + 
-			"(:init";
-	private final static String last = "(connected dock a51)\n" + 
-			"	(connected dock a52)\n" + 
-			"	(connected dock a53)\n" + 
-			"	(connected dock a54)\n" + 
-			"	(connected dock a55)\n" +
-			"	(connected a53 dock)\n" + 
-			"	(connected a54 dock)\n" + 
-			"	(connected a52 dock)\n" + 
-			"	(connected a55 dock)\n" +
+			"	a55 a45 a35 a25 a15 - node\n" + 
+			"	a54 a44 a34 a24 a14 - node\n" + 
+			"	a53 a43 a33 a23 a13 - node\n" + 
+			"	a52 a42 a32 a22 a12 - node\n" + 
+			"	a51 a41 a31 a21 a11 - node\n";
+
+	private final static String north = "	(connected dock a15)\n" + 
+			"	(connected dock a25)\n" + 
+			"	(connected dock a35)\n" + 
+			"	(connected dock a45)\n" + 
+			"	(connected dock a55)\n" + 
+			"	(connected a15 dock)\n" + 
+			"	(connected a25 dock)\n" + 
+			"	(connected a35 dock)\n" +
+			"	(connected a45 dock)\n" + 
+			"	(connected a55 dock)\n";
+	
+	private final static String south = "	(connected dock a51)\n" + 
+			"	(connected dock a41)\n" + 
+			"	(connected dock a31)\n" + 
+			"	(connected dock a21)\n" + 
+			"	(connected dock a11)\n" + 
 			"	(connected a51 dock)\n" + 
+			"	(connected a41 dock)\n" + 
+			"	(connected a31 dock)\n" +
+			"	(connected a21 dock)\n" + 
+			"	(connected a11 dock)\n";	
+	
+	private final static String last = 
 			"	(connected a11 a12)\n" + 
 			"	(connected a11 a21)\n" + 
 			"	(connected a12 a11)\n" + 
@@ -142,7 +153,7 @@ public class TestHSP {
 			"	(connected a45 a35)\n" + 
 			"	(connected a45 a55)\n" + 
 			"	(connected a51 a41)\n" + 
-			"	(connected a51 a52)\n" + 
+			"	(connected a51 a52)\n" + 			
 			"	(connected a52 a51)\n" + 
 			"	(connected a52 a42)\n" + 
 			"	(connected a52 a53)\n" + 
@@ -153,17 +164,12 @@ public class TestHSP {
 			"	(connected a54 a44)\n" + 
 			"	(connected a54 a55)\n" + 
 			"	(connected a55 a54)\n" + 
-			"	(connected a55 a45)\n" +  
+			"	(connected a55 a45)\n" + 
 			")\n" + 
 			"\n" + 
-			"(:goal (and\n" + 
-			"		(at-dock pl1)\n" + 
-			"		(at-dock pl2)\n" + 
-			"		(at-dock pl3)\n" + 
-			"		(at-dock pl4)\n" + 
-			"	)\n" + 
-			")\n" + 
-			")";
+			"(:goal (finished)\n" + 
+			"))";
+	
 	private final static String tb = "(define (problem CoreGame)\n" + 
 			"(:domain Robot)\n" + 
 			"(:objects \n" + 
@@ -297,10 +303,8 @@ public class TestHSP {
 				"3;208;213\n" + 
 				"4;208;278";
 		String []trames=msg.split("\n");
-
-		boolean south = false;
 		List<Node> pallets = new ArrayList<>();
-		Mapper m = new Mapper(true, south);
+		Mapper m = new Mapper(true, false);
 		Point pt;
 		for(String s:trames) {
 			String []pl=s.split(";");
@@ -320,7 +324,16 @@ public class TestHSP {
  	    bw.close();
 
  	    BufferedWriter bw1 = new BufferedWriter(new FileWriter(tempt));
-	    bw1.write(tb);
+	    bw1.write(intro);
+	    bw1.write("	");
+	    for(int i=0;i<pallets.size();i++)
+	    	bw1.write("pl"+i+" ");
+	    bw1.write("- Pallet)\n(:init\n"+"	(gripperempty)\n");
+	    for(int i=0;i<pallets.size();i++)
+	    	bw1.write("	(at pl"+i+" a"+pallets.get(i).getI()+pallets.get(i).getJ()+")\n");
+	    bw1.write("	(at-robby a31)\n");
+	    bw1.write(north);
+	    bw1.write(last);
 	    bw1.close();
 
 		// Creates the planner
@@ -340,8 +353,24 @@ public class TestHSP {
 			long end = System.currentTimeMillis();
 		    System.out.println((end - start) + " ms");
 		}
-		
+		List<String> res = new ArrayList<>();
+		for(int i=0;i<plan.size();i++) {
+			if(plan.get(i).contains("move") && i+1<plan.size() && plan.get(i+1).contains("move")){
+				int j;
+				for(j=i+1;j<plan.size() && plan.get(j).contains("move");j++);
+				j--;
+				String []ps = plan.get(i).split(" ");
+				String []pd = plan.get(j).split(" ");
+				res.add("move "+ps[1]+" "+pd[2]);
+				i = j;
+			}
+			else
+				res.add(plan.get(i));
+		}
 		for(String id:plan)
+			System.out.println(id);
+		System.out.println();
+		for(String id:res)
 			System.out.println(id);
 	}
 
