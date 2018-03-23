@@ -1,11 +1,13 @@
 package utils;
 
+import java.lang.Math;
+
 /**
- * Cette classe représente un noeud dans un graphe, identifier par une abcisse 
+ * Cette classe représente un noeud dans un graphe, identifier par une abscisse 
  * i et une ordonné j
  *
  */
-public class Node extends Coord{
+public class Node extends Coord implements Comparable {
 	/**
 	 * L'abcisse du noeud
 	 */
@@ -46,9 +48,16 @@ public class Node extends Coord{
 	}
 	
 	@Override
-	public boolean compareTo(Object o) {
+	public int compareTo(Object o) {
 		Node n = (Node) o;
-		return (n.getI() == this.i && n.getJ() == this.j);		
+		double thisDist = Math.sqrt(i*i + j*j);
+		double oDist = Math.sqrt(n.getI()*n.getI() + n.getJ()*n.getJ());
+		if (oDist - thisDist > 0)
+			return 1;
+		else if (oDist == thisDist)
+			return 0;		
+		else
+			return -1;
 	}
 	
 	@Override

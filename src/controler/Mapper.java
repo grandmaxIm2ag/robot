@@ -130,10 +130,11 @@ public class Mapper implements Visitor<Instruction>{
 		xOut = (xIn - NODE_WIDTH/2)/NODE_WIDTH + 2;
 		yOut = yIn / NODE_HEIGHT + 1;
 		
+		/* Inverse les noeuds en fonction des camps
 		if (!south) {
 			yOut = nbY - (int) yOut;
 			xOut = nbX - (int) xOut;
-		}
+		}*/
 				
 		return new Node((int)xOut, (int)yOut);
 	}
