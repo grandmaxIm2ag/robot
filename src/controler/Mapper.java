@@ -63,10 +63,10 @@ public class Mapper implements Visitor<Instruction>{
 	public Instruction visit(Move m){
 		if(fromPlanner)
 			return new Move(nodeToPoint((Node)m.getPrevious()),
-					nodeToPoint((Node)m.getPrevious()));
+					nodeToPoint((Node)m.getNext()));
 		else
 			return new Move(pointToNode((Point)m.getPrevious()),
-					pointToNode((Point)m.getPrevious()));
+					pointToNode((Point)m.getNext()));
 		
 	}
 	/**
@@ -104,7 +104,6 @@ public class Mapper implements Visitor<Instruction>{
 	 */
 	public Point nodeToPoint(Node n) {
 		
-		//System.out.println(nodesToPoints);
 		if (nodesToPoints.containsKey(n)) {
 			return nodesToPoints.get(n);
 		}
