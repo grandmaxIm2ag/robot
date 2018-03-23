@@ -68,7 +68,12 @@ public class TestHSP {
 			"	(connected dock a52)\n" + 
 			"	(connected dock a53)\n" + 
 			"	(connected dock a54)\n" + 
-			"	(connected dock a55)\n" + 
+			"	(connected dock a55)\n" +
+			"	(connected a53 dock)\n" + 
+			"	(connected a54 dock)\n" + 
+			"	(connected a52 dock)\n" + 
+			"	(connected a55 dock)\n" +
+			"	(connected a51 dock)\n" + 
 			"	(connected a11 a12)\n" + 
 			"	(connected a11 a21)\n" + 
 			"	(connected a12 a11)\n" + 
@@ -138,22 +143,17 @@ public class TestHSP {
 			"	(connected a45 a55)\n" + 
 			"	(connected a51 a41)\n" + 
 			"	(connected a51 a52)\n" + 
-			"	(connected a51 dock)\n" + 
 			"	(connected a52 a51)\n" + 
 			"	(connected a52 a42)\n" + 
 			"	(connected a52 a53)\n" + 
-			"	(connected a52 dock)\n" + 
 			"	(connected a53 a52)\n" + 
 			"	(connected a53 a43)\n" + 
 			"	(connected a53 a54)\n" + 
-			"	(connected a53 dock)\n" + 
 			"	(connected a54 a53)\n" + 
 			"	(connected a54 a44)\n" + 
 			"	(connected a54 a55)\n" + 
-			"	(connected a54 dock)\n" + 
 			"	(connected a55 a54)\n" + 
-			"	(connected a55 a45)\n" + 
-			"	(connected a55 dock)\n" + 
+			"	(connected a55 a45)\n" +  
 			")\n" + 
 			"\n" + 
 			"(:goal (and\n" + 
@@ -167,16 +167,16 @@ public class TestHSP {
 	private final static String tb = "(define (problem CoreGame)\n" + 
 			"(:domain Robot)\n" + 
 			"(:objects \n" + 
-			"	a51 a52 a53 a54 a55 - node\n" + 
-			"	a41 a42 a43 a44 a45 - node\n" + 
-			"	a31 a32 a33 a34 a35 - node\n" + 
-			"	a21 a22 a23 a24 a25 - node\n" + 
-			"	a11 a12 a13 a14 a15 - node\n" + 
+			"	a55 a45 a35 a25 a15 - node\n" + 
+			"	a54 a44 a34 a24 a14 - node\n" + 
+			"	a53 a43 a33 a23 a13 - node\n" + 
+			"	a52 a42 a32 a22 a12 - node\n" + 
+			"	a51 a41 a31 a21 a11 - node\n" + 
 			"	pl1 pl2 pl3 pl4 pl5 - Pallet\n" + 
 			"	pl6 pl7 pl8 pl9 - Pallet)\n" + 
 			"(:init\n" + 
 			"	;; Initial configuration\n" + 
-			"	(at-robby a14)\n" + 
+			"	(at-robby a31)\n" + 
 			"	(gripperempty)\n" + 
 			"	(at pl1 a22)\n" + 
 			"	(at pl2 a23)\n" + 
@@ -189,11 +189,16 @@ public class TestHSP {
 			"	(at pl9 a44)\n" + 
 			"\n" + 
 			"	;; Graph construction\n" + 
-			"	(connected dock a51)\n" + 
-			"	(connected dock a52)\n" + 
-			"	(connected dock a53)\n" + 
-			"	(connected dock a54)\n" + 
+			"	(connected dock a15)\n" + 
+			"	(connected dock a25)\n" + 
+			"	(connected dock a35)\n" + 
+			"	(connected dock a45)\n" + 
 			"	(connected dock a55)\n" + 
+			"	(connected a15 dock)\n" + 
+			"	(connected a25 dock)\n" + 
+			"	(connected a35 dock)\n" +
+			"	(connected a45 dock)\n" + 
+			"	(connected a55 dock)\n" + 
 			"	(connected a11 a12)\n" + 
 			"	(connected a11 a21)\n" + 
 			"	(connected a12 a11)\n" + 
@@ -262,37 +267,30 @@ public class TestHSP {
 			"	(connected a45 a35)\n" + 
 			"	(connected a45 a55)\n" + 
 			"	(connected a51 a41)\n" + 
-			"	(connected a51 a52)\n" + 
-			"	(connected a51 dock)\n" + 
+			"	(connected a51 a52)\n" + 			
 			"	(connected a52 a51)\n" + 
 			"	(connected a52 a42)\n" + 
 			"	(connected a52 a53)\n" + 
-			"	(connected a52 dock)\n" + 
 			"	(connected a53 a52)\n" + 
 			"	(connected a53 a43)\n" + 
 			"	(connected a53 a54)\n" + 
-			"	(connected a53 dock)\n" + 
 			"	(connected a54 a53)\n" + 
 			"	(connected a54 a44)\n" + 
 			"	(connected a54 a55)\n" + 
-			"	(connected a54 dock)\n" + 
 			"	(connected a55 a54)\n" + 
 			"	(connected a55 a45)\n" + 
-			"	(connected a55 dock)\n" + 
 			")\n" + 
 			"\n" + 
 			"(:goal (finished)\n" + 
 			"))";
 	
 	public static void main(String[] args) throws IOException {
-		//final String domain = "ressource/pddl/domain.pddl";
-		//final String problem = "ressource/pddl/table.pddl";
 		
 		/*dsocket = new DatagramSocket(8888);
 		byte[]buffer=new byte[2048];
 		DatagramPacket packet=new DatagramPacket(buffer, buffer.length);
 		dsocket.receive(packet);
-		String msg=new String(buffer,0,packet.getLength());
+		String msg=new String(buffer,0,packet.getLength());*/
 		String msg = "0;198;24\n" + 
 				"1;202;85\n" + 
 				"2;206;145\n" + 
@@ -312,35 +310,34 @@ public class TestHSP {
 		}
 
 		for(Node n : pallets)
-			System.out.println(n);*/
-
+			System.out.println(n);
+		
 		File tempd = File.createTempFile("dom", ".tmp"); 
 		File tempt = File.createTempFile("tab", ".tmp"); 
+		
 		BufferedWriter bw = new BufferedWriter(new FileWriter(tempd));
  	    bw.write(dom);
  	    bw.close();
- 	   System.out.println("cocou1");
+
  	    BufferedWriter bw1 = new BufferedWriter(new FileWriter(tempt));
 	    bw1.write(tb);
 	    bw1.close();
-	    System.out.println("cocou0");
+
 		// Creates the planner
 		final Properties arguments = HSP.getDefaultArguments();
 		arguments.put(HSP.Argument.TRACE_LEVEL, 0);
 		arguments.put(HSP.Argument.DOMAIN, tempd.getAbsolutePath());
 		
-		System.out.println("cocou1");
+
 		arguments.put(HSP.Argument.PROBLEM, tempt.getAbsolutePath());
-		System.out.println("cocou3");
 		final HSP planner = new HSP(arguments);
 		final CodedProblem codproblem = planner.parseAndEncode();
 		List<String> plan = null;
-		System.out.println("cocou2");
+
 		if (codproblem.isSolvable()) {
-			System.out.println("cocou4");
-		    long start = System.currentTimeMillis();;
+		    long start = System.currentTimeMillis();
 			plan = planner.aStarSearch(codproblem);
-			long end = System.currentTimeMillis();;
+			long end = System.currentTimeMillis();
 		    System.out.println((end - start) + " ms");
 		}
 		
