@@ -12,24 +12,24 @@ import utils.Pick;
 import utils.Point;
 
 /**
- * 
+ * Tests unitaires des différentes classes héritant de Instruction
  */
 public class TestInstruction {
 	/**
-	 * 
+	 * un pick
 	 */
 	Pick pick;
 	/**
-	 * 
+	 * un déplacement
 	 */
 	Move move;
 	/**
-	 * 
+	 * un dépot
 	 */
 	Deliver deliver;
 	
 	/**
-	 * 
+	 * Initialise les instructons
 	 */
 	@Before
 	public void init(){
@@ -39,7 +39,7 @@ public class TestInstruction {
 	}
 	
 	/**
-	 * 
+	 * Premier test pour un déplacement
 	 */
 	@Test
 	public void testMove(){
@@ -48,14 +48,14 @@ public class TestInstruction {
 		assertFalse(move.equals(new Move(new Point(0,9), new Point(0,0))));
 	}
 	/**
-	 * 
+	 * Second test pour un déplacement
 	 */
 	@Test(expected=IllegalArgumentException.class)
 	public void testMoveException(){
 		new Move(new Point(0,0), new Node(0,1));
 	}
 	/**
-	 * 
+	 * Troisème test pour déplacement
 	 */
 	@Test(expected=IllegalArgumentException.class)
 	public void testMoveException2(){
@@ -63,7 +63,7 @@ public class TestInstruction {
 	}
 	
 	/**
-	 * 
+	 * test du pick
 	 */
 	@Test
 	public void testPick(){
@@ -73,7 +73,7 @@ public class TestInstruction {
 				new Point(1,0))));
 	}
 	/**
-	 * 
+	 * Second test du pick
 	 */
 	@Test(expected=IllegalArgumentException.class)
 	public void testPickException(){
@@ -81,7 +81,7 @@ public class TestInstruction {
 	}
 	
 	/**
-	 * 
+	 * test du dépot
 	 */
 	@Test
 	public void testDeliver(){

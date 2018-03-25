@@ -9,22 +9,29 @@ import utils.Visitor;
 import vue.InputHandler;
 import vue.Screen;
 
+/**
+ * 
+ * Classe héritant de Visitor permettant d'exécuter un plan
+ */
 public class ExecPlan implements Visitor<Boolean> {
 	/**
-	 * 
+	 * Le robot à controller
 	 */
 	protected Robot robot;
 	/**
-	 * 
+	 * l'inputhandler
 	 */
 	protected InputHandler input;
 	/**
-	 * 
+	 * L'écran du robot
 	 */
 	protected Screen screen;
 	/**
+	 * Constructeur de la classe ExecPlan
 	 * 
-	 * @param r
+	 * @param r le robot
+	 * @param i l'inputhandler
+	 * @param s l'écran
 	 */
 	public ExecPlan(Robot r, InputHandler i, Screen s){
 		robot = r;
@@ -32,19 +39,32 @@ public class ExecPlan implements Visitor<Boolean> {
 		screen = s;
 	}
 	/**
+	 * Visite une instruction
 	 * 
+	 * @param i l'instruction à visiter
+	 * 
+	 * @return true si l'instruction s'est normalement dérouler
+	 * @throws exception Traitée par l'appelant
 	 */
 	@Override
 	public Boolean visit(Instruction i) throws Exception {
 		throw new exception.InstructionException("Instruction non traîtée");
 	}
+	
 	/**
+	 * Visite un déplacement
 	 * 
+	 * @param m le mouvement à visiter
+	 * 
+	 * @return false si le palet n'est pas trouver, true sinon
+	 * 
+	 * @throws exception Traitée par l'appelant, ce sont toutes les exceptions
+	 * retourné par search_palet que ne sont pas des InstructionException
 	 */
 	@Override
 	public Boolean visit(Move m) throws Exception {
 		try{
-			System.out.println("COUCOU !!!!!!!!!!");
+			//On cherche le palet
 			robot.search_palet((Point) m.getNext());
 		}catch(exception.InstructionException e){
 			/*
@@ -64,7 +84,14 @@ public class ExecPlan implements Visitor<Boolean> {
 	}
 	
 	/**
+	 * Vérifie que le robot est bien arrivé à la ligne blanche pour déposer le 
+	 * palet
 	 * 
+	 * @param d le dépot à visiter
+	 * 
+	 * @return true si les pinces sont ouvertes
+	 * 
+	 * @throws exception Traité par l'appelant
 	 */
 	@Override
 	public Boolean visit(Deliver d) throws Exception {
@@ -79,7 +106,13 @@ public class ExecPlan implements Visitor<Boolean> {
 	}
 	
 	/**
+	 * Vérifie qu'un palet a été attrapé
 	 * 
+	 * @param p
+	 * 
+	 * @return true si les pinces sont fermées
+	 * 
+	 * @throws exception Traité par l'appelant
 	 */
 	@Override
 	public Boolean visit(Pick p) throws Exception {

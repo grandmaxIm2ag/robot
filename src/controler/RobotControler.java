@@ -26,29 +26,59 @@ import utils.Pick;
 import utils.Point;
 import utils.R2D2Constants;
 import utils.Visitor;
+
+/**
+ * 
+ * Classe permettant le contrôle d'un robot
+ */
 public class RobotControler {
 	
+	/**
+	 * Le robot
+	 */
 	protected Robot robot;
+	/**
+	 * L'écran
+	 */
 	protected Screen screen;
+	/**
+	 * L'inouthandler
+	 */
 	protected InputHandler input;
+	/**
+	 * La liste des palets sur la table
+	 */
 	protected List<Palet> palets;
-	protected List<TimedMotor> motors;
+	/**
+	 * Le nombre de calibration pour les couleurs
+	 */
 	protected int nb_calibration = 1;
+	/**
+	 * Booléen indiquant que le robot ramène le premier palet
+	 */
 	private boolean first_move = true;
+	/**
+	 * Booléen indiquant que le robot doit ramener un palet attrapé
+	 */
 	private boolean deliver_move = false;
 	
-	
+	/**
+	 * Constructeur de la classe RobotControler
+	 */
 	public RobotControler(){
 		robot = new Robot(new Point(0,0), false,new ColorSensor(),
 				new Propulsion(), new Graber(), new Bumper(), new UltraSon());
 		screen     = new Screen();
 		input      = new InputHandler(screen);
-		motors = new ArrayList<TimedMotor>();
-		motors.add(robot.getGraber());
-		motors.add(robot.getPropulsion());
 		palets = new ArrayList<Palet>();
 	}
 	
+	/**
+	 * Démarre la partie
+	 * 
+	 * @throws IOException Traitée par l'appelant
+	 * @throws ClassNotFoundException Traitée par l'appelant
+	 */
 	public void start() throws IOException, ClassNotFoundException{
 		if(calibration()){
 			screen.drawText("Calibration Placement", 
@@ -94,6 +124,11 @@ public class RobotControler {
 		return calibrationGrabber() && calibrationCouleur();
 	}
 
+	/**
+	 * Calibre la pince
+	 * 
+	 * @return vrai si tout c'est bien passé.
+	 */
 	public boolean calibrationGrabber() {
 		screen.drawText("Calibration", 
 						"Calibration de la fermeture de la pince",
@@ -123,7 +158,8 @@ public class RobotControler {
 	}
 
 	/**
-	 * 
+	 * Boucle de jeu
+	 *  
 	 * @param initLeft Booléen indiquant si le robot comence à gauche ou à droite
 	 * 
 	 */
@@ -143,10 +179,6 @@ public class RobotControler {
 		screen.drawText("Lancement du robot");
 		while(run){
 			try{
-				for(TimedMotor m : motors){
-					m.checkState();
-				}
-				
 				/////////////////////////////////////////////////////////
 				//////A MODIFIER LORS DE L'UTIISATION DE LA CAMERA///////
 				//////				ET DU PLANNER				  ///////

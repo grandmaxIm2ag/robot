@@ -5,14 +5,30 @@ import utils.Point;
 import vue.InputHandler;
 import vue.Screen;
 
+/**
+ * Visiteur exécutant le déplacement permettant de déposer un palet
+ */
 public class ExecPlanDeliver extends ExecPlan {
 
+	/**
+	 * Constructeur de la classe ExecPlanDeliver
+	 * 
+	 * @param r le robot
+	 * @param i l'inputhandler
+	 * @param s l'écran
+	 */
 	public ExecPlanDeliver(Robot r, InputHandler i, Screen s) {
 		super(r, i, s);
 	}
 
 	/**
+	 * Visite un dépalcement
 	 * 
+	 * @param m le déplacement
+	 * 
+	 * @return true si le déplacement s'est ien déroulé
+	 * 
+	 * @throws Exception Traitée par l'appelant
 	 */
 	@Override
 	public Boolean visit(Move m) throws Exception {

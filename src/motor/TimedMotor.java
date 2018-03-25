@@ -1,5 +1,8 @@
 package motor;
-
+/**
+ * 
+ * Classe reprénsent moteur
+ */
 public abstract class TimedMotor {
 	/**
 	 * Dans le cas d'un lancement du moteur pour un temps donné,
