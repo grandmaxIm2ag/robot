@@ -7,13 +7,20 @@ import sensor.ColorSensor;
 import vue.InputHandler;
 import vue.Screen;
 
+/**
+ * 
+ *Classe permettant de calibrer le robot avant chaque partie
+ */
 public class Calibrator {
-	
+	/**
+	 * L'écran du robot
+	 */
 	static public Screen screen = new Screen();
+	/**
+	 * 
+	 */
 	static public InputHandler input = new InputHandler(screen);
 	
-
-	public static void InitCalibrator() {}
 	
 	/**
 	 * Lance la calibration pour la pince, la calibration fini avec les pinces

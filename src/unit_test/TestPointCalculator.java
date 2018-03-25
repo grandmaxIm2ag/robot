@@ -10,10 +10,24 @@ import org.junit.Test;
 import utils.Point;
 import utils.PointCalculator;
 
+/**
+ * 
+ * test unitaire pour la classe PointCalculator
+ *
+ */
 public class TestPointCalculator {
+	/**
+	 * une cordonnée aléatoire
+	 */
 	float x;
+	/**
+	 * Une coordonnée aléatoire
+	 */
 	float y;
 	
+	/**
+	 * initialise x et y
+	 */
 	@Before
 	public void init(){
 		Random rand = new Random();
@@ -22,7 +36,7 @@ public class TestPointCalculator {
 	}
 	
 	/**
-	 * 
+	 * test de la classe
 	 */
 	@Test
 	public void testWhiteLine(){

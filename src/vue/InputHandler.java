@@ -1,15 +1,29 @@
 package vue;
 
 import lejos.hardware.Button;
-
+/**
+ * 
+ * handler des boutons
+ */
 public class InputHandler {
-
+	/**
+	 * L'écran
+	 */
 	private Screen screen;
 
+	/**
+	 * Constructeur de la classe InputHandler
+	 * @param screen l'écran
+	 */
 	public InputHandler(Screen screen) {
 		this.screen = screen;
 	}
-	
+	/**
+	 * Attend la pression d'un bouton
+	 * 
+	 * @param id le bouton en attente
+	 * @return true si le bouto a été préssé
+	 */
 	public boolean waitOkEscape(int id){
 		screen.printQuit();
 		screen.printOk();

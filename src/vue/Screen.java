@@ -3,16 +3,35 @@ package vue;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.Font;
 import lejos.hardware.lcd.GraphicsLCD;
-
+/**
+ * Classe permettant a gestion de l'écran
+ */
 public class Screen {
 
+	/**
+	 * Le nombre maximum de lignes à afficher
+	 */
 	private static int maxLignes = 8;
+	/**
+	 * l'écran
+	 */
 	private GraphicsLCD g;
+	/**
+	 * 
+	 */
 	private int y_quit     = 100;
+	/**
+	 * Largeur de l'écran
+	 */
 	private int width_quit = 45;
+	/**
+	 * Hauteur de l'écran
+	 */
 	private int height_quit = width_quit/2;
 	
-
+	/**
+	 * Constructeur de la classe screen
+	 */
 	public Screen(){
 		g = LocalEV3.get().getGraphicsLCD();
 	}
@@ -35,6 +54,9 @@ public class Screen {
 		}
 	}
 
+	/**
+	 * Écran de fin
+	 */
 	protected void printQuit(){
 		int arc_diam = 6;
 		g.drawString("QUIT", 9, y_quit+7, 0);

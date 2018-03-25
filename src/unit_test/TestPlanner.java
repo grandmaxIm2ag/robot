@@ -15,16 +15,16 @@ import controler.Planner;
 import controler.Mapper;
 import exception.EmptyArenaException;
 /**
- * 
+ * Test du plannificateur
  */
 public class TestPlanner {
 	/**
-	 * 
+	 * La liste des palets
 	 */
 	List<Palet> palet;
 	
 	/**
-	 * 
+	 * Initialise la liste des palets
 	 */
 	@Before
 	public void init(){
@@ -36,7 +36,7 @@ public class TestPlanner {
 	}
 	
 	/**
-	 * 
+	 * Premier test
 	 * @throws EmptyArenaException
 	 */
 	@Test
@@ -59,7 +59,7 @@ public class TestPlanner {
 	}
 	
 	/**
-	 * 
+	 * Second test
 	 * @throws EmptyArenaException
 	 */
 	@Test
@@ -82,7 +82,7 @@ public class TestPlanner {
 	}
 	
 	/**
-	 * 
+	 * Troisième test
 	 * @throws EmptyArenaException
 	 */
 	@Test
@@ -104,7 +104,7 @@ public class TestPlanner {
 		}
 	}
 	/**
-	 * 
+	 * Quatrième test
 	 * @throws EmptyArenaException
 	 */
 	@Test(expected=EmptyArenaException.class)
@@ -114,7 +114,7 @@ public class TestPlanner {
 	}
 	
 	/**
-	 * 
+	 * Cinquième test
 	 */
 	@Test
 	public void testPointToNodeSouth() {

@@ -9,15 +9,30 @@ import java.util.List;
 
 import utils.Palet;
 import utils.Point;
-
+/**
+ * Classe permettant la communication avec le serveur de la caméra
+ *
+ */
 public class Camera {
-	
+	/**
+	 * La socker pour la communication
+	 */
 	private static DatagramSocket dsocket;
 
+	/**
+	 * initialise la caméra
+	 * @throws SocketException problème de comunication
+	 */
 	public static void init_camera() throws SocketException{
 		System.err.println("COucou");
 		dsocket = new DatagramSocket(utils.R2D2Constants.PORT_CAMERA);
 	}
+	/**
+	 * Renvoie la liste des palets sur la table
+	 * 
+	 * @return les palets
+	 * @throws IOException problème de communication
+	 */
 	public static List<Palet> getPalet() throws IOException {
 		
 		byte[]buffer=new byte[2048];
@@ -40,7 +55,11 @@ public class Camera {
 		return palets;
 	}
 	
-	
+	/**
+	 * Corrige la distorsion de Barrel en un point
+	 * @param p le point à corriger
+	 * @return le point corrigé
+	 */
 	public static Point correction(Point p){
 		float halfwidth = utils.R2D2Constants.WIDTH_ARENA / 2f;
 		float halflength = utils.R2D2Constants.LENGTH_ARENA / 2f;

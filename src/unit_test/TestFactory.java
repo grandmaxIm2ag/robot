@@ -17,16 +17,16 @@ import utils.Palet;
 import utils.Pick;
 
 /**
- * 
+ * Test de la fabrique
  */
 public class TestFactory {
 	/**
-	 * 
+	 * Map pour la fabrique
 	 */
 	HashMap<String, Node> map;
 	
 	/**
-	 * 
+	 * Initialise la Map
 	 */
 	@Before
 	public void init(){
@@ -39,7 +39,7 @@ public class TestFactory {
 	}
 	
 	/**
-	 * 
+	 * Test de la fabrication d'un déplacement
 	 * @throws InstructionException
 	 */
 	@Test
@@ -53,7 +53,7 @@ public class TestFactory {
 		assertEquals(m2, FactoryInstruction.create(string_m2));
 	}
 	/**
-	 * 
+	 * Test de la fabrication d'un pick
 	 * @throws InstructionException
 	 */
 	@Test
@@ -63,7 +63,7 @@ public class TestFactory {
 		assertEquals(p, FactoryInstruction.create(string_p));
 	}
 	/**
-	 * 
+	 * test de la fabrication d'un dépot
 	 * @throws InstructionException
 	 */
 	@Test
@@ -73,7 +73,7 @@ public class TestFactory {
 		assertEquals(d, FactoryInstruction.create(string_d));
 	}
 	/**
-	 * 
+	 * test pour la levé d'exception de la fabrique
 	 * @throws InstructionException
 	 */
 	@Test(expected=exception.InstructionException.class)

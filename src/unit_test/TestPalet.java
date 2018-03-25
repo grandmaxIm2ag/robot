@@ -12,17 +12,17 @@ import utils.Point;
 
 /**
  * 
- *
+ * Test unitaire pour la classe Palet
  */
 public class TestPalet {
 
 	/**
-	 * 
+	 * Palet pour le test
 	 */
 	Palet palet;
 	
 	/**
-	 * 
+	 * Initialise le palet
 	 */
 	@Before
 	public void init() {
@@ -30,7 +30,7 @@ public class TestPalet {
 	}
 	
 	/**
-	 * 
+	 * Le test
 	 */
 	@Test
 	public void test(){

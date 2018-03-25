@@ -15,41 +15,48 @@ import vue.Screen;
 
 public class Robot {
 	/**
-	 * 
+	 * L'orientation du robot
 	 */
 	float z;
 	/**
-	 * 
+	 * La position du robot
 	 */
 	protected Point p;
 	/**
-	 * 
+	 * Indique si la zone d'en-but est au sud 
 	 */
 	protected boolean south;
 	/**
-	 * 
+	 * Le capteur de couleur
 	 */
 	protected ColorSensor    color      = null;
 	/**
-	 * 
+	 * Les moteurs des roues
 	 */
 	protected Propulsion     propulsion = null;
 	/**
-	 * 
+	 * La pince
 	 */
 	protected Graber         graber     = null;
 	/**
-	 * 
+	 * Le capteur de pression
 	 */
 	protected Bumper pression   = null;
 	/**
-	 * 
+	 * Le sonar
 	 */
 	protected UltraSon   vision     = null;
-	
+	/**
+	 * L'écran du robot
+	 */
 	protected Screen screen;
+	/**
+	 * l'inputhandler
+	 */
 	protected InputHandler input;
 	/**
+	 * Contructeur de la classe Robot
+	 * 
 	 * @param p
 	 * @param south
 	 * @param color
@@ -74,24 +81,28 @@ public class Robot {
 		z = 0;
 	}
 	/**
+	 * Getteur de p
 	 * @return the p
 	 */
 	public Point getP() {
 		return p;
 	}
 	/**
+	 * Setteur de p
 	 * @param p the p to set
 	 */
 	public void setP(Point p) {
 		this.p = p;
 	}
 	/**
+	 * Getteur de south
 	 * @return the south
 	 */
 	public boolean isSouth() {
 		return south;
 	}
 	/**
+	 * Setter de south
 	 * @param south the south to set
 	 */
 	public void setSouth(boolean south) {
@@ -102,87 +113,101 @@ public class Robot {
 		
 	}
 	/**
+	 * Getteur de color
 	 * @return the color
 	 */
 	public ColorSensor getColor() {
 		return color;
 	}
 	/**
+	 * Setteur de color
 	 * @param color the color to set
 	 */
 	public void setColor(ColorSensor color) {
 		this.color = color;
 	}
 	/**
+	 * Getteur de propulsion
 	 * @return the propulsion
 	 */
 	public Propulsion getPropulsion() {
 		return propulsion;
 	}
 	/**
+	 * Setteur de propulsion
 	 * @param propulsion the propulsion to set
 	 */
 	public void setPropulsion(Propulsion propulsion) {
 		this.propulsion = propulsion;
 	}
 	/**
+	 * Getteur de graber
 	 * @return the graber
 	 */
 	public Graber getGraber() {
 		return graber;
 	}
 	/**
+	 * Setteur de graber
 	 * @param graber the graber to set
 	 */
 	public void setGraber(Graber graber) {
 		this.graber = graber;
 	}
 	/**
+	 * Getteur de pression
 	 * @return the pression
 	 */
 	public Bumper getPression() {
 		return pression;
 	}
 	/**
+	 * Setteur de pression
 	 * @param pression the pression to set
 	 */
 	public void setPression(Bumper pression) {
 		this.pression = pression;
 	}
 	/**
+	 * Getteur de vision
 	 * @return the vision
 	 */
 	public UltraSon getVision() {
 		return vision;
 	}
 	/**
+	 * Setteur de vision
 	 * @param vision the vision to set
 	 */
 	public void setVision(UltraSon vision) {
 		this.vision = vision;
 	}
 	/**
+	 * Getteur de z
 	 * @return the z
 	 */
 	public float getZ() {
 		return z;
 	}
 	/**
+	 * Setteur de z
 	 * @param z the z to set
 	 */
 	public void setZ(float z) {
 		this.z = z;
 	}
+	
 	/**
+	 * Suit un ligne
 	 * 
-	 * @param color
+	 * @param c la couleur de la ligne suivie
+	 * @param dist la distance maximale à parcourir sur la ligne
 	 */
 	public void followLine(int c, float dist){
 		float angle_search_color = 30f;
 		while(color.getCurrentColor() != Color.WHITE){
 			propulsion.runDist(dist);
 			while(propulsion.isRunning()){
-				//System.out.println(color.stringColor());
 				propulsion.check_dist();
 				if(color.getCurrentColor() == Color.WHITE){
 					propulsion.stopMoving();
@@ -219,9 +244,20 @@ public class Robot {
 		p = PointCalculator.getWhiteLinePoint(south, c);
 	}
 	
+	/**
+	 * 
+	 * Suit une ligne et dépose le palet si deliver est à true
+	 * 
+	 * @param c la couleur 
+	 * @param dist la distance maximale
+	 * @param deliver booléen indiquant s'il faut lacher un palet
+	 * 
+	 * @throws FinishException Traîtée par l'appelant
+	 */
 	public void followLine(int c, float dist, boolean deliver) throws FinishException{
 		followLine(c, dist);
 		if(deliver){
+			//On avance de 10 centimètres
 			propulsion.runDist(10);
 			while(propulsion.isRunning()){
 				propulsion.check_dist();
@@ -230,10 +266,12 @@ public class Robot {
 					throw new exception.FinishException();
 				}
 			}
+			//On ouvre a pince
 			graber.open();
 			while(graber.isRunning()){
 				graber.checkState();
 			}
+			//On recule de 10 centimètres
 			propulsion.runDist(10, false);
 			while(propulsion.isRunning()){
 				propulsion.check_dist();
@@ -245,9 +283,10 @@ public class Robot {
 		}
 	}
 	/**
+	 * Renvie la couleur la plus proche de la ligne verticale de la position 
+	 * du robot
 	 * 
-	 * @param p
-	 * @return
+	 * @return une couleur
 	 */
 	public int closestColor(){
 		if(Math.abs(utils.R2D2Constants.X_RED - this.p.getX()) < 5){
@@ -260,40 +299,46 @@ public class Robot {
 	}
 	
 	/**
+	 * Déplace le robot jusqu'à un point p
 	 * 
-	 * @param dist
-	 * @param point
+	 * @param stop_palet booélen indiquant s'il y a un palet à attraper
+	 * @param point la position à atteindre
 	 * @throws FinishException 
 	 */
 	public void run(Point point, boolean stop_palet) throws FinishException{
+		//On calcul la distance à parcourir
 		float dist = p.distance(point);
+		//On lance les moteurs
 		propulsion.runDist(dist);
 		while(propulsion.isRunning() && !pression.isPressed()){
-			System.out.println(pression.isPressed());
 			propulsion.check_dist();
 			if(input.escapePressed()){
 				propulsion.stopMoving();
 				throw new exception.FinishException();
 			}
-		}
-		if(stop_palet){
-			if(pression.isPressed()){
-				propulsion.stopMoving();
-				graber.close();
-				while(graber.isRunning()){
-					System.out.println("coucou je me ferme");
-					graber.checkState();
+			//Si il y a un palet à attraper, on vérifie que pression est préssé
+			if(stop_palet){
+				if(pression.isPressed()){
+					propulsion.stopMoving();
+					graber.close();
+					while(graber.isRunning()){
+						System.out.println("coucou je me ferme");
+						graber.checkState();
+					}
 				}
 			}
 		}
+		
 		p = point;
 	}
 	
 	/**
+	 * Cherche un paletaux alentours d'une position
 	 * 
-	 * @param point
-	 * @throws FinishException
-	 * @throws InstructionException
+	 * @param point la position théorique du palet
+	 * 
+	 * @throws FinishException Traitée par l'appelant
+	 * @throws InstructionException Traitée par l'appelant
 	 */
 	public void search_palet(Point point)
 			throws FinishException, InstructionException{
@@ -321,9 +366,11 @@ public class Robot {
 	}
 	
 	/**
+	 * Tourne le robot
 	 * 
-	 * @param angle
-	 * @throws FinishException
+	 * @param angle l'angle à parcourir
+	 * 
+	 * @throws FinishException Traitée par l'appelant
 	 */
 	public void rotate(float angle) throws FinishException{
 		propulsion.rotate(angle, false, false);
@@ -337,10 +384,10 @@ public class Robot {
 		z = propulsion.getOrientation();
 	}
 	/**
-	 * 
-	 * @param dist
-	 * @param forward
-	 * @throws FinishException
+	 * Avance le robot
+	 * @param dist la distance à parcourir
+	 * @param forward cooléen indiquant si on avance ou recule
+	 * @throws FinishException Traitée par l'appelant
 	 */
 	public void run(float dist, boolean forward) throws FinishException{
 		propulsion.runDist(dist, forward);
@@ -353,9 +400,11 @@ public class Robot {
 		}
 	}
 	/**
+	 * Oriente le robot
+	 * @param to_goal indiquant si le robot doit être orienté vers sa zone 
+	 * d'en-but si la valeur est true, de l'autre coté sinon
 	 * 
-	 * @param to_goal
-	 * @throws FinishException
+	 * @throws FinishException Traitée par l'appelant
 	 */
 	public void orientate(boolean to_goal) throws FinishException{
 		if(south){
@@ -384,9 +433,9 @@ public class Robot {
 	}
 
 	/**
-	 * 
-	 * @param c
-	 * @throws FinishException
+	 * Déplace le robot jusqu'à qu'une couleur soit atteinte
+	 * @param c la couleur à atteindre
+	 * @throws FinishException Traitée par l'appelant
 	 */
 	public void run_until_color(int c) throws FinishException{
 		propulsion.runDist(80f);
