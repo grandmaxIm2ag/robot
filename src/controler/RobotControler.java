@@ -12,7 +12,6 @@ import exception.InstructionException;
 import lejos.hardware.Button;
 import motor.Graber;
 import motor.Propulsion;
-import motor.TimedMotor;
 import sensor.Bumper;
 import sensor.ColorSensor;
 import sensor.UltraSon;
@@ -56,11 +55,11 @@ public class RobotControler {
 	/**
 	 * Booléen indiquant que le robot ramène le premier palet
 	 */
-	private boolean first_move = true;
+	protected boolean first_move = true;
 	/**
 	 * Booléen indiquant que le robot doit ramener un palet attrapé
 	 */
-	private boolean deliver_move = false;
+	protected boolean deliver_move = false;
 	
 	/**
 	 * Constructeur de la classe RobotControler
