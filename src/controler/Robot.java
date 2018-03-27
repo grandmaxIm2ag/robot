@@ -451,4 +451,58 @@ public class Robot {
 		}
 	}
 
+	/**
+	 * Vérifie que le robot se trouve sur une des trois lignes verticales.
+	 * 
+	 * @return vrai si le robot se trouve sur une des lignes verticales.
+	 */
+	public boolean is_on_vertical_line(){
+		return(Math.abs(p.getX() - utils.R2D2Constants.X_BLACK) < 5) ||
+				(Math.abs(p.getX() - utils.R2D2Constants.X_RED) < 5) ||
+				(Math.abs(p.getX() - utils.R2D2Constants.X_YELLOW) < 5);
+	}
+	
+	/**
+	 * Déplace le robot jusqu'à une lige horizontale noire.
+	 * @throws FinishException 
+	 */
+	public void go_t_line(int c) throws FinishException{
+		orientate_to_line(c);
+		run_until_color(c);
+	}
+	
+	/**
+	 * Oriente le robot dans la direction de la ligne noire
+	 */
+	public void orientate_to_line(int c){
+		if(p.getX() > x_line(c)){
+			propulsion.orientateEast();
+			while(propulsion.isRunning()){
+				propulsion.checkState();
+			}
+		}else{
+			propulsion.orientateWest();
+			while(propulsion.isRunning()){
+				propulsion.checkState();
+			}
+		}
+		z = propulsion.getOrientation();
+	}
+	
+	/**
+	 * Renvoie l'absice d'une couleur
+	 * 
+	 * @param c le couleur
+	 * @return l'abcise de c
+	 */
+	public float x_line(int c){
+		if(c == Color.BLACK)
+			return utils.R2D2Constants.X_BLACK;
+		else if(c == Color.RED)
+			return utils.R2D2Constants.X_RED;
+		else if(c == Color.YELLOW)
+			return utils.R2D2Constants.X_YELLOW;
+		else
+			throw new IllegalArgumentException();
+	}
 }
