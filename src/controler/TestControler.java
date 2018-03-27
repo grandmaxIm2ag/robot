@@ -36,7 +36,7 @@ public class TestControler extends RobotControler{
 				));
 		screen.clearDraw();
 		screen.drawText("Lancement du robot");
-		int tests = 7, current_test=0;
+		int tests = 8, current_test=0;
 		try{
 			
 			/*
@@ -162,6 +162,33 @@ public class TestControler extends RobotControler{
 			robot.search_palet(new Point(100,210));
 			robot.run(new Point(100,210), true);
 			robot.getGraber().open();
+			
+			/*
+			 * Cinquièm test :
+			 * 
+			 *  On va vérifier le bon comportement de la méthode go_to_line 
+			 *  et de ses dépendances.
+			 
+			 *  Suivez les instructions sur le robot, et vérifiez le bon 
+			 *  déroulement du test
+			 */
+			
+			screen.drawText("Partie I test V : ",
+					"Le robot va devoir tournr et avancer jusqu'à la ligne noire"
+					,"Placer le robot entre la ligne noire et la ligne rouge"
+							+"orienté vers le sud"
+					,"Press ENTER");
+			robot.setZ(180);
+			
+			robot.go_to_line(Color.BLACK);
+			
+			screen.drawText("Partie I test V : "
+					,"Placer le robot entre la ligne noire et la ligne jaune"+
+							"orienté vers le nord"
+					,"Press ENTER");
+			robot.setZ(0);
+			robot.setP(new Point(utils.R2D2Constants.X_BLACK+20, 50));
+			robot.go_to_line(Color.BLACK);
 			current_test++;
 			
 			///////////////////////////////////////////////////////////////////

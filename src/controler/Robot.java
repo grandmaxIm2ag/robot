@@ -162,7 +162,7 @@ public class Robot {
 		return pression;
 	}
 	/**
-	 * Setteur de pression
+	 * Setter de pression
 	 * @param pression the pression to set
 	 */
 	public void setPression(Bumper pression) {
@@ -289,13 +289,21 @@ public class Robot {
 	 * @return une couleur
 	 */
 	public int closestColor(){
-		if(Math.abs(utils.R2D2Constants.X_RED - this.p.getX()) < 5){
-			return Color.RED;
-		}else if(Math.abs(utils.R2D2Constants.X_BLACK- this.p.getX()) < 5){
-			return Color.BLACK;
-		}else{
-			return Color.YELLOW;
+		int [] res = new int[3];
+ 		int [] colors = new int[3];
+		colors[0] = (int)Math.abs(p.getX() - utils.R2D2Constants.X_RED);
+		res[0] = (int)utils.R2D2Constants.X_RED;
+		colors[1] = (int)Math.abs(p.getX() - utils.R2D2Constants.X_YELLOW);
+		res[1] = (int)utils.R2D2Constants.X_YELLOW;
+		colors[2] = (int)Math.abs(p.getX() - utils.R2D2Constants.X_BLACK);
+		res[2] = (int)utils.R2D2Constants.X_BLACK;
+		
+		int i_min=0;
+		for(int i =1; i<colors.length; i++) {
+			if(colors[i] < colors[i_min])
+				i_min = i;
 		}
+		return colors[i_min];
 	}
 	
 	/**
@@ -457,7 +465,8 @@ public class Robot {
 	 * @return vrai si le robot se trouve sur une des lignes verticales.
 	 */
 	public boolean is_on_vertical_line(){
-		return(Math.abs(p.getX() - utils.R2D2Constants.X_BLACK) < 5) ||
+		return
+				(Math.abs(p.getX() - utils.R2D2Constants.X_BLACK) < 5) ||
 				(Math.abs(p.getX() - utils.R2D2Constants.X_RED) < 5) ||
 				(Math.abs(p.getX() - utils.R2D2Constants.X_YELLOW) < 5);
 	}
@@ -466,9 +475,10 @@ public class Robot {
 	 * Déplace le robot jusqu'à une lige horizontale noire.
 	 * @throws FinishException 
 	 */
-	public void go_t_line(int c) throws FinishException{
+	public void go_to_line(int c) throws FinishException{
 		orientate_to_line(c);
 		run_until_color(c);
+		p =  new Point(x_line(c), p.getY());
 	}
 	
 	/**

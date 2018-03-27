@@ -1,6 +1,7 @@
 package controler;
 
 import utils.Move;
+import utils.Point;
 import vue.InputHandler;
 import vue.Screen;
 
@@ -38,13 +39,13 @@ public class ExecFirstPlan extends ExecPlan {
 		robot.rotate(angle);
 		robot.run(dist1, true);
 		robot.rotate((-angle)*1.3f);
-		
+		robot.setP(new Point(robot.isSouth() ? robot.getP().getX() + 10 
+				: robot.getP().getX() - 10, robot.getP().getY()));
 		//On avant sur un metre
 		robot.run(dist2, true);
 		
 		//On se déplace jusqu'à la ligne à suivre
-		robot.rotate(-angle);
-		robot.run_until_color(robot.closestColor());
+		robot.go_to_line(robot.closestColor());
 		robot.orientate(true);
 		
 		//On suit la ligne
