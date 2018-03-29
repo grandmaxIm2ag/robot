@@ -18,5 +18,4 @@ public class MainTestControler {
 		}
 		System.exit(0);
 	}
-
 }

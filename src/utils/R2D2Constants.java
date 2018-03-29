@@ -1,5 +1,7 @@
 package utils;
 
+import lejos.robotics.Color;
+
 public class R2D2Constants {
 	public static final String LEFT_WHEEL = "D";
 	public static final String RIGHT_WHEEL= "A";
@@ -53,4 +55,12 @@ public class R2D2Constants {
 	public static final int LENGTH_ARENA				 = 200;
 	public static final float STRENGTH_BARREL_CORRECTION = 1.55f;
 	public static final float ANGLE_ERROR				 = 1.1f;
+	
+	public static final int[] colors = {Color.YELLOW, Color.BLACK, Color.RED};
+	public final static int YELLOW = 0;
+	public final static int BLACK = 1;
+	public final static int RED = 2;
+	
+	public final static float size_sonar = 15f;
+	
 }

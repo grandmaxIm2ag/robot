@@ -50,7 +50,7 @@ public class Graber extends TimedMotor{
 	/**
 	 * Booléen indiquant que les moteurs sont en marche
 	 */
-	private boolean isRunin = false;
+	private boolean isRunin = false; 
 
 	/**
 	 * Contructeur de la clase Graber
@@ -80,6 +80,7 @@ public class Graber extends TimedMotor{
 	 */
 	public void stopCalibrate(boolean open){
 		stopMoving();
+		isRunin = false;
 		long stoping = System.currentTimeMillis();
 		if(open){
 			movementTimeOpen = stoping - startCalibrateOpen;

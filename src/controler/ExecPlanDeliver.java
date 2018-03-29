@@ -3,6 +3,7 @@ package controler;
 import lejos.robotics.Color;
 import utils.Move;
 import utils.Point;
+import utils.PointCalculator;
 import vue.InputHandler;
 import vue.Screen;
 
@@ -38,17 +39,21 @@ public class ExecPlanDeliver extends ExecPlan {
 		 * Si on ne se trouve pas sur une ligne verticale, on se déplace sur 
 		 * la ligne noire
 		 */
-		if(!robot.is_on_vertical_line()) {
+		if(!utils.PointCalculator.is_on_vertical_line(robot.getP())) {
 			robot.go_to_line(Color.BLACK);
+			robot.run(10, true);
 		}
 		
 		//On se retourne vers la ligne de but
 		robot.orientate(true);
+		
 		//On roule jusqu'à la ligne blanche et on dépose le palet
-		robot.followLine(robot.closestColor(), robot.getP().distance((Point)
+		robot.followLine(PointCalculator.closestColor(robot.getP()), robot.getP().distance((Point)
 				m.getNext()), true);
+		
 		//On se retourne
 		robot.orientate(false);
+		
 		return true;
 	}
 

@@ -5,6 +5,7 @@ import utils.Instruction;
 import utils.Move;
 import utils.Pick;
 import utils.Point;
+import utils.PointCalculator;
 import utils.Visitor;
 import vue.InputHandler;
 import vue.Screen;
@@ -64,6 +65,29 @@ public class ExecPlan implements Visitor<Boolean> {
 	@Override
 	public Boolean visit(Move m) throws Exception {
 		try{
+			
+			//On avance de 10 centimètres
+			robot.run(10,  true);
+			
+			//On va jusqu'à la ligne du palet
+			robot.go_to_line(PointCalculator.closestColor((Point)m.getNext()));
+			robot.run(10, true);
+			robot.orientate(false);
+			float dist = Math.abs(robot.getP().getY()-((Point)m.getNext()).getY
+					());
+			
+			//On se rapproche du palet à attraper
+			if(dist > 30) {
+				dist-=30;
+				robot.followLine(PointCalculator.closestColor((Point)m.getNext
+						()), dist);
+				robot.setP(new Point(PointCalculator.getWhiteLinePoint(true, 
+						PointCalculator.closestColor((Point)m.getNext())).getX(),
+						robot.isSouth() ? robot.getP().getY() + dist : robot.
+								getP().getY() - dist));
+			}
+			
+			
 			//On cherche le palet
 			robot.search_palet((Point) m.getNext());
 		}catch(exception.InstructionException e){

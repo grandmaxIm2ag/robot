@@ -33,7 +33,7 @@ public class Calibrator {
 		screen.drawText("Calibration", 
 				"Appuyez sur ok","pour lancer et arrêter");
 		input.waitAny();
-		if(isOpen){
+		if(isOpen){ 
 			g.startCalibrate(false);
 			input.waitAny();
 			g.stopCalibrate(false);

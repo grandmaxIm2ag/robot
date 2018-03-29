@@ -10,6 +10,7 @@ import utils.Move;
 import utils.Palet;
 import utils.Pick;
 import utils.Point;
+import utils.PointCalculator;
 import utils.R2D2Constants;
 
 public class TestControler extends RobotControler{
@@ -38,18 +39,6 @@ public class TestControler extends RobotControler{
 		screen.drawText("Lancement du robot");
 		int tests = 8, current_test=0;
 		try{
-			
-			/*
-			 * Les tests vont être effectués en deux parties :
-			 * 
-			 * 1- tester les différentes méthodes de le classe robot
-			 * 2- tester différent plans simples
-			 */
-			
-			///////////////////////////////////////////////////////////////////
-			///////						PARTIE I						///////
-			///////////////////////////////////////////////////////////////////
-						
 			/*
 			 * Premier Test :
 			 * 
@@ -114,6 +103,9 @@ public class TestControler extends RobotControler{
 			robot.setP(new Point(50, 270));
 			robot.run(new Point(50,210), true);
 			robot.getGraber().open();
+			while(robot.getGraber().isRunning()) {
+				robot.getGraber().checkState();
+			}
 			
 			screen.drawText("Partie I test II : "
 					,"Le robot va devoir avancer jusqu'a la ligne rouge"
@@ -134,37 +126,18 @@ public class TestControler extends RobotControler{
 			
 			screen.drawText("Partie I test III : "
 					,"Placer le robot sur la ligne"
-					,"rouge et enlever tous les palets de cette ligne"
+					,"jaune et enlever tous les palets de cette ligne"
 					,"Press ENTER");
 			input.waitOkEscape(Button.ID_ENTER);
 			robot.setP(new Point(50, 270));
 			robot.setZ(180);
-			robot.followLine(robot.closestColor(), utils.R2D2Constants.LENGTH_ARENA);
+			robot.followLine(PointCalculator.closestColor((Point)robot.getP())
+					, utils.R2D2Constants.LENGTH_ARENA);
 			current_test++;
 			
-			/*
-			 * Quatrième Test : 
-			 * 
-			 *  On va tester le méthode de recherche de palet
-			 *
-			 *  Suivez les instructions sur le robot, et vérifiez le bon 
-			 *  déroulement du test
-			 */
-			
-			screen.drawText("Partie I test IV : ",
-					"Le robot va devoir avancer de"
-					,"60 cm pour attraper un palet après s'être tourener"
-					,"Placer le robot sur (50, 270) et le palet sur (100, 210)"
-					,"Press ENTER");
-			input.waitOkEscape(Button.ID_ENTER);
-			robot.setP(new Point(50, 270));
-			robot.setZ(180);
-			robot.search_palet(new Point(100,210));
-			robot.run(new Point(100,210), true);
-			robot.getGraber().open();
 			
 			/*
-			 * Cinquièm test :
+			 * Cinquième test :
 			 * 
 			 *  On va vérifier le bon comportement de la méthode go_to_line 
 			 *  et de ses dépendances.
@@ -178,101 +151,51 @@ public class TestControler extends RobotControler{
 					,"Placer le robot entre la ligne noire et la ligne rouge"
 							+"orienté vers le sud"
 					,"Press ENTER");
+			input.waitOkEscape(Button.ID_ALL);
 			robot.setZ(180);
-			
+			robot.setP(new Point(utils.R2D2Constants.X_BLACK+20, 50));
 			robot.go_to_line(Color.BLACK);
 			
 			screen.drawText("Partie I test V : "
 					,"Placer le robot entre la ligne noire et la ligne jaune"+
 							"orienté vers le nord"
 					,"Press ENTER");
+			input.waitOkEscape(Button.ID_ALL);
 			robot.setZ(0);
-			robot.setP(new Point(utils.R2D2Constants.X_BLACK+20, 50));
+			robot.setP(new Point(utils.R2D2Constants.X_BLACK-20, 50));
 			robot.go_to_line(Color.BLACK);
 			current_test++;
 			
-			///////////////////////////////////////////////////////////////////
-			///////						PARTIE II						///////
-			///////////////////////////////////////////////////////////////////
 			/*
-			 * Premier Test :
+			 * Quatrième Test : 
 			 * 
-			 * On va vérifier que le robot est capable d'effectuer un Move
-			 * pour récupérer un palet
-			 * 
-			 * Nous allons donc créer un plan contenant seulement un Move et 
-			 * un Pick, et allons tester que ce plan se déroule correctement.
-			 * Le palet se trouveras en face du robot.
-			 * 
-			 * Suivre les instructions sur le robot pour la préparation :
-			 */
-			screen.drawText("Partie II Test I"
-					,"Placer le robot à l'intersection blanc/jaune"
-					,"orienté vers le sud");
-			input.waitOkEscape(Button.ID_ENTER);
-			robot.setP(new Point(utils.R2D2Constants.X_YELLOW,
-					utils.R2D2Constants.Y_NORTH));
-			this.deliver_move = false;
-			robot.setZ(utils.R2D2Constants.SOUTH);
-			input.waitOkEscape(Button.ID_ENTER);
-			List<Instruction> plan = new ArrayList<Instruction>();
-			Point p = new Point(utils.R2D2Constants.X_RED,
-					utils.R2D2Constants.Y_NORTH-60);
-			plan.add(new Move(robot.getP(), p));
-			plan.add(new Pick(new Palet(p,true), p));
-			accept(plan);
-			current_test++;
-			
-			
-			/*
-			 * Deuxième Test : 
-			 * 
-			 * On va vérifier que le robot est capable de rammener le 
-			 * palet précédement récupéré.
-			 * 
-			 * On va donc créer un plan plannifiant un déplacement et un deliver
+			 *  On va tester le méthode de recherche de palet
+			 *
+			 *  Suivez les instructions sur le robot, et vérifiez le bon 
+			 *  déroulement du test
 			 */
 			
-			screen.drawText("Partie II Test II");
-			robot.setP(new Point(utils.R2D2Constants.X_YELLOW,
-					utils.R2D2Constants.Y_NORTH-60));
-			this.deliver_move = true;
-			robot.setZ(utils.R2D2Constants.SOUTH);
+			screen.drawText("Partie I test IV : ",
+					"Le robot va devoir avancer de"
+					,"80 cm pour attraper un palet après s'être tourener"
+					,"Placer le robot sur (50, 270) et le palet sur (100, 210)"
+					,"Press ENTER");
 			input.waitOkEscape(Button.ID_ENTER);
-			plan = new ArrayList<Instruction>();
-			p = new Point(utils.R2D2Constants.X_YELLOW,
-					utils.R2D2Constants.Y_NORTH);
-			plan.add(new Move(robot.getP(), p));
-			plan.add(new Deliver(new Palet(p,true)));
-			accept(plan);
-			current_test++;
-			
-			/*
-			 * troisème Test : 
-			 * 
-			 * On va vérifier que le robot est capable de rammener le 
-			 * palet précédement récupéré.
-			 * 
-			 * On va donc créer un plan plannifiant un déplacement et un deliver
-			 */
-			
-			screen.drawText("Partie III Test 1"
-					,"Placer le robot à l'intersection blanc/jaune"
-					,"orienté vers le sud et un palet en face");
-			robot.setP(new Point(utils.R2D2Constants.X_YELLOW,
-					utils.R2D2Constants.Y_NORTH));
-			robot.run(new Point(50, 210), true);
-			this.deliver_move = true;
-			this.first_move = true;
-			robot.setZ(utils.R2D2Constants.SOUTH);
-			input.waitOkEscape(Button.ID_ENTER);
-			plan = new ArrayList<Instruction>();
-			p = new Point(utils.R2D2Constants.X_YELLOW,
-					utils.R2D2Constants.Y_SOUTH);
-			plan.add(new Move(robot.getP(), p));
-			plan.add(new Deliver(new Palet(robot.getP(),true)));
-			accept(plan);
-			current_test++;
+			Point pal = new Point(100,210);
+			robot.setP(new Point(50, 270));
+			robot.setZ(180);
+			robot.run(10, true);
+			robot.setP(new Point(50, 260));
+			robot.go_to_line(PointCalculator.closestColor(pal));
+			robot.orientate(false);
+			float dist = Math.abs(robot.getP().getY() - pal.getY());
+			if(dist > 30)	
+				robot.followLine(PointCalculator.closestColor(pal), dist-30);
+			robot.search_palet(new Point(100,210));
+			robot.run(new Point(100,210), true);
+			robot.getGraber().open();
+			while(robot.graber.isRunning());
+				robot.getGraber().checkState();
 			
 			screen.drawText("FIN DES TESTS", "XP");
 		}

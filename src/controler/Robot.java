@@ -55,6 +55,10 @@ public class Robot {
 	 */
 	protected InputHandler input;
 	/**
+	 * 
+	 */
+	private boolean pressed;
+	/**
 	 * Contructeur de la classe Robot
 	 * 
 	 * @param p
@@ -195,6 +199,7 @@ public class Robot {
 	 */
 	public void setZ(float z) {
 		this.z = z;
+		propulsion.setOrientation(z);
 	}
 	
 	/**
@@ -205,15 +210,20 @@ public class Robot {
 	 */
 	public void followLine(int c, float dist){
 		float angle_search_color = 30f;
-		while(color.getCurrentColor() != Color.WHITE){
+		while(color.getCurrentColor() != Color.WHITE && dist > 0){
 			propulsion.runDist(dist);
 			while(propulsion.isRunning()){
 				propulsion.check_dist();
 				if(color.getCurrentColor() == Color.WHITE){
 					propulsion.stopMoving();
-				}else if(color.getCurrentColor() != c && 
-						color.getCurrentColor() != Color.BLACK){
+				}
+				else if(color.getCurrentColor() != c){
 					propulsion.stopMoving();
+					if(color.getCurrentColor() == Color.BLACK) {
+						propulsion.runDist(5);
+						while(propulsion.isRunning())
+							propulsion.check_dist();
+					}
 					boolean b = true;
 					propulsion.rotate(angle_search_color, false, false);
 					while(propulsion.isRunning()){
@@ -239,7 +249,6 @@ public class Robot {
 				}
 			}
 			dist -= propulsion.getTraveledDist();
-			dist += utils.R2D2Constants.ERROR;
 		}
 		p = PointCalculator.getWhiteLinePoint(south, c);
 	}
@@ -257,8 +266,8 @@ public class Robot {
 	public void followLine(int c, float dist, boolean deliver) throws FinishException{
 		followLine(c, dist);
 		if(deliver){
-			//On avance de 10 centimètres
-			propulsion.runDist(10);
+			//On avance de 15 centimètres
+			propulsion.runDist(15);
 			while(propulsion.isRunning()){
 				propulsion.check_dist();
 				if(input.escapePressed()){
@@ -271,8 +280,8 @@ public class Robot {
 			while(graber.isRunning()){
 				graber.checkState();
 			}
-			//On recule de 10 centimètres
-			propulsion.runDist(10, false);
+			//On recule de 5 centimètres
+			propulsion.runDist(5, false);
 			while(propulsion.isRunning()){
 				propulsion.check_dist();
 				if(input.escapePressed()){
@@ -282,29 +291,7 @@ public class Robot {
 			}
 		}
 	}
-	/**
-	 * Renvie la couleur la plus proche de la ligne verticale de la position 
-	 * du robot
-	 * 
-	 * @return une couleur
-	 */
-	public int closestColor(){
-		int [] res = new int[3];
- 		int [] colors = new int[3];
-		colors[0] = (int)Math.abs(p.getX() - utils.R2D2Constants.X_RED);
-		res[0] = (int)utils.R2D2Constants.X_RED;
-		colors[1] = (int)Math.abs(p.getX() - utils.R2D2Constants.X_YELLOW);
-		res[1] = (int)utils.R2D2Constants.X_YELLOW;
-		colors[2] = (int)Math.abs(p.getX() - utils.R2D2Constants.X_BLACK);
-		res[2] = (int)utils.R2D2Constants.X_BLACK;
-		
-		int i_min=0;
-		for(int i =1; i<colors.length; i++) {
-			if(colors[i] < colors[i_min])
-				i_min = i;
-		}
-		return colors[i_min];
-	}
+	
 	
 	/**
 	 * Déplace le robot jusqu'à un point p
@@ -317,26 +304,24 @@ public class Robot {
 		//On calcul la distance à parcourir
 		float dist = p.distance(point);
 		//On lance les moteurs
+		pressed =false;
 		propulsion.runDist(dist);
-		while(propulsion.isRunning() && !pression.isPressed()){
+		while(propulsion.isRunning() && !pressed){
 			propulsion.check_dist();
+			pressed = pression.isPressed();
 			if(input.escapePressed()){
 				propulsion.stopMoving();
 				throw new exception.FinishException();
 			}
 			//Si il y a un palet à attraper, on vérifie que pression est préssé
-			if(stop_palet){
-				if(pression.isPressed()){
-					propulsion.stopMoving();
-					graber.close();
-					while(graber.isRunning()){
-						System.out.println("coucou je me ferme");
-						graber.checkState();
-					}
-				}
+		}
+		propulsion.stopMoving();
+		if(stop_palet){
+			graber.close();
+			while(graber.isRunning()){
+				graber.checkState();
 			}
 		}
-		
 		p = point;
 	}
 	
@@ -362,7 +347,10 @@ public class Robot {
 				propulsion.stopMoving();
 				throw new exception.FinishException();
 			}
-			if(Math.abs(dist - (vision.getRaw()[0]*100)) <= utils.R2D2Constants.ERROR ){
+			float diff = Math.abs(dist - (vision.getRaw()[0]*100 + utils.R2D2Constants.
+					size_sonar));
+			System.out.println(diff);
+			if(diff <= utils.R2D2Constants.ERROR ){
 				propulsion.stopMoving();
 				b = false;
 			}
@@ -459,23 +447,15 @@ public class Robot {
 		}
 	}
 
-	/**
-	 * Vérifie que le robot se trouve sur une des trois lignes verticales.
-	 * 
-	 * @return vrai si le robot se trouve sur une des lignes verticales.
-	 */
-	public boolean is_on_vertical_line(){
-		return
-				(Math.abs(p.getX() - utils.R2D2Constants.X_BLACK) < 5) ||
-				(Math.abs(p.getX() - utils.R2D2Constants.X_RED) < 5) ||
-				(Math.abs(p.getX() - utils.R2D2Constants.X_YELLOW) < 5);
-	}
 	
 	/**
 	 * Déplace le robot jusqu'à une lige horizontale noire.
 	 * @throws FinishException 
 	 */
 	public void go_to_line(int c) throws FinishException{
+		if(PointCalculator.closestColor(p) == c)
+			//On est déjà sur la bonne ligne
+			return;
 		orientate_to_line(c);
 		run_until_color(c);
 		p =  new Point(x_line(c), p.getY());

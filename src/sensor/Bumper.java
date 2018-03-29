@@ -36,7 +36,6 @@ public class Bumper {
 	 */
 	public boolean isPressed(){
 		float[] sample = raw();
-		System.out.println(sample[0]);
 		return sample[0] != 0;
 	}
 

@@ -1,7 +1,9 @@
 package controler;
 
+import lejos.robotics.Color;
 import utils.Move;
 import utils.Point;
+import utils.PointCalculator;
 import vue.InputHandler;
 import vue.Screen;
 
@@ -31,25 +33,25 @@ public class ExecFirstPlan extends ExecPlan {
 	@Override
 	public Boolean visit(Move m) throws Exception {
 		//On va à la ligne blanche
-		float angle = -30;
-		float dist1 = 40;
-		float dist2 = 100;
 		
 		//On se décale à la droite de la ligne contenant le palet
-		robot.rotate(angle);
-		robot.run(dist1, true);
-		robot.rotate((-angle)*1.3f);
-		robot.setP(new Point(robot.isSouth() ? robot.getP().getX() + 10 
-				: robot.getP().getX() - 10, robot.getP().getY()));
-		//On avant sur un metre
-		robot.run(dist2, true);
+		robot.rotate(90); 
+		robot.run(20, true);
+		robot.orientate(true);
+		robot.setP(new Point(robot.isSouth() ? robot.getP().getX() + 20 
+				: robot.getP().getX() - 20, robot.getP().getY()));
+		
+		//On avant jusquà la dernière ligne horizontale
+		robot.run_until_color(robot.isSouth() ? Color.GREEN : Color.BLUE);
+		robot.run(25, true);
 		
 		//On se déplace jusqu'à la ligne à suivre
-		robot.go_to_line(robot.closestColor());
+		robot.go_to_line(PointCalculator.closestColor(robot.getP()));
+		robot.run(8, true);
 		robot.orientate(true);
 		
 		//On suit la ligne
-		robot.followLine(robot.closestColor(), dist2, true);
+		robot.followLine(PointCalculator.closestColor(robot.getP()), 130,true);
 		
 		//On se retourne
 		robot.orientate(false);
