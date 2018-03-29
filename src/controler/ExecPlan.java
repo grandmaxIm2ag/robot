@@ -65,7 +65,7 @@ public class ExecPlan implements Visitor<Boolean> {
 	@Override
 	public Boolean visit(Move m) throws Exception {
 		try{
-			
+			float max_dist = 30;
 			//On avance de 10 centimètres
 			robot.run(10,  true);
 			
@@ -77,8 +77,8 @@ public class ExecPlan implements Visitor<Boolean> {
 					());
 			
 			//On se rapproche du palet à attraper
-			if(dist > 30) {
-				dist-=30;
+			if(dist > max_dist) {
+				dist-=max_dist;
 				robot.followLine(PointCalculator.closestColor((Point)m.getNext
 						()), dist);
 				robot.setP(new Point(PointCalculator.getWhiteLinePoint(true, 

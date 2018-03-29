@@ -26,13 +26,12 @@ public class ExecFirstPlan extends ExecPlan {
 	}
 
 	/**
-	 * Méthode visit pour un move
+	 * Méthode visit pour un move précédent le premier deliver
 	 * 
 	 * @param m le mouvement à effectuer
 	 */
 	@Override
 	public Boolean visit(Move m) throws Exception {
-		//On va à la ligne blanche
 		
 		//On se décale à la droite de la ligne contenant le palet
 		robot.rotate(90); 
@@ -41,7 +40,7 @@ public class ExecFirstPlan extends ExecPlan {
 		robot.setP(new Point(robot.isSouth() ? robot.getP().getX() + 20 
 				: robot.getP().getX() - 20, robot.getP().getY()));
 		
-		//On avant jusquà la dernière ligne horizontale
+		//On avance jusqu'à la dernière ligne horizontale
 		robot.run_until_color(robot.isSouth() ? Color.GREEN : Color.BLUE);
 		robot.run(25, true);
 		
@@ -51,11 +50,10 @@ public class ExecFirstPlan extends ExecPlan {
 		robot.orientate(true);
 		
 		//On suit la ligne
-		robot.followLine(PointCalculator.closestColor(robot.getP()), 130,true);
+		robot.followLine(PointCalculator.closestColor(robot.getP()), 60,true);
 		
 		//On se retourne
 		robot.orientate(false);
 		return true;
 	}
-
 }

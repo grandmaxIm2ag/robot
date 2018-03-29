@@ -2,7 +2,6 @@ package controler;
 
 import lejos.robotics.Color;
 import utils.Move;
-import utils.Point;
 import utils.PointCalculator;
 import vue.InputHandler;
 import vue.Screen;
@@ -48,8 +47,9 @@ public class ExecPlanDeliver extends ExecPlan {
 		robot.orientate(true);
 		
 		//On roule jusqu'à la ligne blanche et on dépose le palet
-		robot.followLine(PointCalculator.closestColor(robot.getP()), robot.getP().distance((Point)
-				m.getNext()), true);
+		robot.followLine(PointCalculator.closestColor(robot.getP()), Math.abs(
+				robot.getP().getY() - (robot.isSouth() ? utils.R2D2Constants.
+						Y_SOUTH : utils.R2D2Constants.Y_NORTH)), true);
 		
 		//On se retourne
 		robot.orientate(false);
