@@ -67,7 +67,7 @@ public class ExecPlan implements Visitor<Boolean> {
 		try{
 			float max_dist = 30;
 			//On avance de 10 centimètres
-			robot.run(10,  true);
+			/*robot.run(10,  true);
 			
 			//On va jusqu'à la ligne du palet
 			robot.go_to_line(PointCalculator.closestColor((Point)m.getNext()));
@@ -86,9 +86,14 @@ public class ExecPlan implements Visitor<Boolean> {
 						robot.isSouth() ? robot.getP().getY() + dist : robot.
 								getP().getY() - dist));
 			}
-			
+			*/
 			
 			//On cherche le palet
+			Point point = (Point)m.getNext();
+			float angle = robot.getP().angle(point);
+			angle = angle - robot.getZ();
+			robot.rotate(angle);
+			robot.run(robot.getP().distance(point)-max_dist, true);
 			robot.search_palet((Point) m.getNext());
 		}catch(exception.InstructionException e){
 			/*

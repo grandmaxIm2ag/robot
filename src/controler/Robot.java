@@ -335,11 +335,10 @@ public class Robot {
 	 */
 	public void search_palet(Point point)
 			throws FinishException, InstructionException{
-		float dist = this.getP().distance(point);
-		float angle = p.angle(point);
-		angle *= 1.5;
-		angle = angle - z;
-		boolean b = true && (angle!=0);
+		float dist = this.getP().distance(point)-propulsion.getTraveledDist();
+		rotate(-15);
+		float angle = 30;
+		boolean b = true;
 		propulsion.rotate(angle, false, false);
 		while(propulsion.isRunning()){
 			propulsion.checkState();
