@@ -267,12 +267,12 @@ public class Planner {
 				res = cleanPlan(planner.aStarSearch(codproblem));
 			}
 			
-			FactoryInstruction.init_map(m);
-			List<Instruction> plan1 = new ArrayList<Instruction>();
-			for(String str : res)
-				plan1.add(FactoryInstruction.create(str));
-			
-			return accept(plan1);
+//			FactoryInstruction.init_map(m);
+//			List<Instruction> plan1 = new ArrayList<Instruction>();
+//			for(String str : res)
+//				plan1.add(FactoryInstruction.create(str));
+//			
+//			return accept(plan1);
 			
 		} catch (IOException e) {
 			e.printStackTrace();

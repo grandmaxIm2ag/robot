@@ -30,4 +30,12 @@ public class PointCalculator {
 		float y = isSouth ? R2D2Constants.Y_SOUTH : R2D2Constants.Y_NORTH;
 		return new Point(x,y);
 	}
+	
+	/*
+	 * 
+	 */
+	public static Point getNewPoint(Point p, float alpha, float dist){
+		
+		return null;
+	}
 }

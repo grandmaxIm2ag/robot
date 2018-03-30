@@ -40,6 +40,10 @@ public class Camera {
 		return palets;
 	}
 	
+	public static Point update(Point p_old){
+		
+		return null;
+	}
 	
 	public static Point correction(Point p){
 		float halfwidth = utils.R2D2Constants.WIDTH_ARENA / 2f;
