@@ -88,14 +88,18 @@ public class PointCalculator {
 	}
 	
 	
-	public static Point getPointFromAngle(Point p, float dist, float angle) {
+	public static Point getPointFromAngle(Point p, float dist, float currentDirection, float newDirection) {
 		//Angle en degrés, convertir en radians
+		float angle = newDirection - 90;
 		angle = degreesToRadians(angle);
 		float x = p.getX();
 		float y = p.getY();
 		float cos = (float) Math.cos(angle);
 		float sin = (float) Math.sin(angle);
 	
-		return new Point(x + cos*dist, y + sin*dist);
+		if (angle > 90.0 && angle < -90.0)
+			return new Point(x + cos*dist, y + sin*dist);
+		
+		else return new Point(x - cos*dist, y - sin*dist);
 	}
 }
