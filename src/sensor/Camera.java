@@ -25,7 +25,6 @@ public class Camera {
 	 * @throws SocketException problème de comunication
 	 */
 	public static void init_camera() throws SocketException{
-		System.err.println("COucou");
 		dsocket = new DatagramSocket(utils.R2D2Constants.PORT_CAMERA);
 	}
 	/**

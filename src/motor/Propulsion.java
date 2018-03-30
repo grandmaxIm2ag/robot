@@ -89,7 +89,7 @@ public class Propulsion extends TimedMotor implements MoveListener{
 		pilot     = new MovePilot(chassis);
 		pilot.addMoveListener(this);
 		pilot.setLinearAcceleration(R2D2Constants.LINEAR_ACCELERATION);
-		pilot.setLinearSpeed(150);
+		pilot.setLinearSpeed(250);
 		pilot.setAngularSpeed(R2D2Constants.MAX_ROTATION_SPEED);
 		
 	}
@@ -220,10 +220,7 @@ public class Propulsion extends TimedMotor implements MoveListener{
 	 */
 	public void orientateEast() {
 		double orientate = getRotateToNorth()+R2D2Constants.EAST;
-		if(orientate < 0)
-			pilot.rotate(orientate, false);
-		else
-			pilot.rotate(orientate, true);
+		rotate( (int) orientate, false, false);
 	}
 	/**
 	 * Orient le robot vers le sud

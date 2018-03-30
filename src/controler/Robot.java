@@ -113,8 +113,7 @@ public class Robot {
 		this.south = south;
 		this.z = (south ? utils.R2D2Constants.SOUTH
 				: utils.R2D2Constants.NORTH);
-		this.propulsion.setOrientation(z);
-		
+		this.propulsion.setOrientation(z);	
 	}
 	/**
 	 * Getteur de color
@@ -216,6 +215,7 @@ public class Robot {
 				propulsion.check_dist();
 				if(color.getCurrentColor() == Color.WHITE){
 					propulsion.stopMoving();
+					dist = 0;
 				}
 				else if(color.getCurrentColor() != c){
 					propulsion.stopMoving();
@@ -313,10 +313,11 @@ public class Robot {
 				propulsion.stopMoving();
 				throw new exception.FinishException();
 			}
+			if(pressed)
+				propulsion.stopMoving();
 			//Si il y a un palet à attraper, on vérifie que pression est préssé
 		}
-		propulsion.stopMoving();
-		if(stop_palet){
+		if(stop_palet && pressed){
 			graber.close();
 			while(graber.isRunning()){
 				graber.checkState();
@@ -333,11 +334,10 @@ public class Robot {
 	 * @throws FinishException Traitée par l'appelant
 	 * @throws InstructionException Traitée par l'appelant
 	 */
-	public void search_palet(Point point)
+	public void search_palet(Point point, float d)
 			throws FinishException, InstructionException{
-		float dist = this.getP().distance(point)-propulsion.getTraveledDist();
-		rotate(-15);
-		float angle = 30;
+		float dist = this.getP().distance(point)-d;
+		float angle = 15;
 		boolean b = true;
 		propulsion.rotate(angle, false, false);
 		while(propulsion.isRunning()){
@@ -352,6 +352,23 @@ public class Robot {
 			if(diff <= utils.R2D2Constants.ERROR ){
 				propulsion.stopMoving();
 				b = false;
+			}
+		}
+		if(b) {
+			propulsion.rotate(-2*angle, false, false);
+			while(propulsion.isRunning()){
+				propulsion.checkState();
+				if(input.escapePressed()){
+					propulsion.stopMoving();
+					throw new exception.FinishException();
+				}
+				float diff = Math.abs(dist - (vision.getRaw()[0]*100 + utils.R2D2Constants.
+						size_sonar));
+				System.out.println(diff);
+				if(diff <= utils.R2D2Constants.ERROR ){
+					propulsion.stopMoving();
+					b = false;
+				}
 			}
 		}
 		z  = propulsion.getOrientation();
@@ -452,9 +469,6 @@ public class Robot {
 	 * @throws FinishException 
 	 */
 	public void go_to_line(int c) throws FinishException{
-		if(PointCalculator.closestColor(p) == c)
-			//On est déjà sur la bonne ligne
-			return;
 		orientate_to_line(c);
 		run_until_color(c);
 		p =  new Point(x_line(c), p.getY());
@@ -493,5 +507,19 @@ public class Robot {
 			return utils.R2D2Constants.X_YELLOW;
 		else
 			throw new IllegalArgumentException();
+	}
+	
+	public void orientate_east() {
+		propulsion.orientateEast();
+		while(propulsion.isRunning())
+			propulsion.checkState();
+		z = propulsion.getOrientation();
+	}
+	
+	public void orientate_west() {
+		propulsion.orientateWest();
+		while(propulsion.isRunning())
+			propulsion.checkState();
+		setZ(propulsion.getOrientation());
 	}
 }

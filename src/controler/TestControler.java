@@ -191,7 +191,7 @@ public class TestControler extends RobotControler{
 			float dist = Math.abs(robot.getP().getY() - pal.getY());
 			if(dist > 30)	
 				robot.followLine(PointCalculator.closestColor(pal), dist-30);
-			robot.search_palet(new Point(100,210));
+			robot.search_palet(new Point(100,210), 0);
 			robot.run(new Point(100,210), true);
 			robot.getGraber().open();
 			while(robot.graber.isRunning());
