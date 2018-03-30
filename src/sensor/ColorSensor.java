@@ -6,14 +6,36 @@ import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.robotics.Color;
 import lejos.robotics.SampleProvider;
 import lejos.robotics.filter.MeanFilter;
-
+/**
+ * Classe représentant un capteur de couleur
+ * @author maxence
+ *
+ */
 public class ColorSensor {
+	/**
+	 * Numéro de port
+	 */
 	public final static String CAPTEUR = "S4";
-	
+	/**
+	 * Les valeurs receuillies à la calibration
+	 */
 	private float[][] colors;
+	/**
+	 * Port du capteur
+	 */
 	private Port port;
+	/**
+	 * Le capteur
+	 */
 	private EV3ColorSensor colorSensor;
+	/**
+	 * Booléen servant à la calibration
+	 */
 	private boolean alreadyCalibrate[];
+	
+	/**
+	 * Constructeur
+	 */
 	public ColorSensor(){
 		port        = LocalEV3.get().getPort(CAPTEUR);
 		colorSensor = new EV3ColorSensor(port);
@@ -104,7 +126,7 @@ public class ColorSensor {
 	}
 
 	/**
-	 * 
+	 * Getteur de celibration
 	 * @return la calibration
 	 */
 	public float[][] getCalibration() {
@@ -112,9 +134,9 @@ public class ColorSensor {
 	}
 	
 	/**
+	 * Renvoie la représentation textuelle de la couleur lue par le capteur
 	 * 
-	 * @param c
-	 * @return
+	 * @return une couleur
 	 */
 	public String stringColor(){
 		int c = getCurrentColor();

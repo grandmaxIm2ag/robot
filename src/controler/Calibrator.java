@@ -7,13 +7,20 @@ import sensor.ColorSensor;
 import vue.InputHandler;
 import vue.Screen;
 
+/**
+ * 
+ *Classe permettant de calibrer le robot avant chaque partie
+ */
 public class Calibrator {
-	
+	/**
+	 * L'écran du robot
+	 */
 	static public Screen screen = new Screen();
+	/**
+	 * 
+	 */
 	static public InputHandler input = new InputHandler(screen);
 	
-
-	public static void InitCalibrator() {}
 	
 	/**
 	 * Lance la calibration pour la pince, la calibration fini avec les pinces
@@ -26,7 +33,7 @@ public class Calibrator {
 		screen.drawText("Calibration", 
 				"Appuyez sur ok","pour lancer et arrêter");
 		input.waitAny();
-		if(isOpen){
+		if(isOpen){ 
 			g.startCalibrate(false);
 			input.waitAny();
 			g.stopCalibrate(false);
@@ -58,23 +65,16 @@ public class Calibrator {
 			
 			for(int i=1; i<=nbIter; i++){
 				//calibration gris
-				screen.drawText("Gris ");
+				screen.drawText("Gris "+i+"/"+nbIter);
 				Button.waitForAnyPress();
 				color.calibrateColor(Color.GRAY);
 			}
 			
-			for(int i=1; i<=nbIter; i++){
-				//calibration blue
-				screen.clearDraw();
-				screen.drawText("Bleu ");
-				Button.waitForAnyPress();
-				color.calibrateColor(Color.BLUE);
-			}
 			
 			for(int i=1; i<=nbIter; i++){
 				//calibration noir
 				screen.clearDraw();
-				screen.drawText("Noir ");
+				screen.drawText("Noir "+i+"/"+nbIter);
 				Button.waitForAnyPress();
 				color.calibrateColor(Color.BLACK);
 			}
@@ -82,23 +82,16 @@ public class Calibrator {
 			for(int i=1; i<=nbIter; i++){
 				//calibration jaune
 				screen.clearDraw();
-				screen.drawText("Jaune ");
+				screen.drawText("Jaune "+i+"/"+nbIter);
 				Button.waitForAnyPress();
 				color.calibrateColor(Color.YELLOW);
 			}
 			
-			for(int i=1; i<=nbIter; i++){
-				//calibration green
-				screen.clearDraw();
-				screen.drawText("Vert ");
-				Button.waitForAnyPress();
-				color.calibrateColor(Color.GREEN);
-			}
 			
 			for(int i=1; i<=nbIter; i++){
 				//calibration red
 				screen.clearDraw();
-				screen.drawText("Rouge ");
+				screen.drawText("Rouge "+i+"/"+nbIter);
 				Button.waitForAnyPress();
 				color.calibrateColor(Color.RED);
 			}
@@ -106,7 +99,7 @@ public class Calibrator {
 			for(int i=1; i<=nbIter; i++){
 				//calibration white
 				screen.clearDraw();
-				screen.drawText("Blanc ");
+				screen.drawText("Blanc "+i+"/"+nbIter);
 				Button.waitForAnyPress();
 				color.calibrateColor(Color.WHITE);
 			}

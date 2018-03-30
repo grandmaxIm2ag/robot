@@ -41,8 +41,15 @@ public class Node extends Coord implements Comparable {
 		return this.j;
 	}
 	
+	
+	/**
+	 * 
+	 * 
+	 * return
+	 */
 	@Override
 	public boolean equals(Object o) {
+		if (o==null || !(o instanceof Node) ) return false;
 		Node n = (Node) o;
 		return (n.getI() == this.i && n.getJ() == this.j);		
 	}
@@ -60,8 +67,28 @@ public class Node extends Coord implements Comparable {
 			return -1;
 	}
 	
+
+	public String a() {
+		return "a"+i+j;
+	}
+	
+	/**
+	 * 
+	 * return
+	 */
 	@Override
 	public String toString() {
 		return "Node[i = " + i + ", j = " + j + "]";
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + i;
+		result = prime * result + j;
+		return result;
 	}
 }

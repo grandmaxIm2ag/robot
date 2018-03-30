@@ -40,8 +40,8 @@ public class Point extends Coord{
 		return this.y;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
+	/**
+	 * 
 	 */
 	@Override
 	public int hashCode() {
@@ -52,16 +52,17 @@ public class Point extends Coord{
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	/**
+	 * 
+	 * return
 	 */
 	@Override
 	public String toString() {
 		return "Point [x=" + x + ", y=" + y + "]";
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
+	/**
+	 * return
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -103,8 +104,14 @@ public class Point extends Coord{
 		float adj = this.distance(tmp);
 		double r = Math.acos((adj/hyp));
 		if (x < point.x)
-			return (float)Math.toDegrees(r);
+			if(y>point.y)
+				return 180+(float)Math.toDegrees(r);
+			else
+				return (float)Math.toDegrees(r);
 		else
-			return (float)-Math.toDegrees(r);
+			if(y>point.y)
+				return 180-(float)Math.toDegrees(r);
+			else
+				return (float)-Math.toDegrees(r);
 	}
 }

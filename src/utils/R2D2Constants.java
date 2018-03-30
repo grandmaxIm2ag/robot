@@ -1,13 +1,11 @@
 package utils;
 
+import lejos.robotics.Color;
+
 public class R2D2Constants {
-	public static final String LEFT_WHEEL = "B";
-	public static final String RIGHT_WHEEL= "C";
-	public static final String PINCH      = "A";
-	
-	public static final String COLOR_SENSOR = "S1";
-	public static final String TOUCH_SENSOR = "S2";
-	public static final String IR_SENSOR    = "S4";
+	public static final String LEFT_WHEEL = "D";
+	public static final String RIGHT_WHEEL= "A";
+	public static final String PINCH      = "C";
 	
 	public static final int   QUARTER_SECOND        = 250;
 	public static final int   HALF_SECOND           = 500;
@@ -39,7 +37,7 @@ public class R2D2Constants {
 	public static final int   GRAB_RUNNING_SPEED         = 2000;
 	public static final float LINEAR_ACCELERATION        = 0.1f;
 	public static final int   VOLTE_FACE_ROTATION        = 80;
-	public static final int   MAX_ROTATION_SPEED         = 50;
+	public static final int   MAX_ROTATION_SPEED         = 40;
 	public static final int   SEARCH_SPEED               = 30;
 	public static final int   SLOW_SEARCH_SPEED          = 20;
 	public static final int   ANGLE_CORRECTION           = 2;
@@ -57,4 +55,12 @@ public class R2D2Constants {
 	public static final int LENGTH_ARENA				 = 200;
 	public static final float STRENGTH_BARREL_CORRECTION = 1.55f;
 	public static final float ANGLE_ERROR				 = 1.1f;
+	
+	public static final int[] colors = {Color.YELLOW, Color.BLACK, Color.RED};
+	public final static int YELLOW = 0;
+	public final static int BLACK = 1;
+	public final static int RED = 2;
+	
+	public final static float size_sonar = 15f;
+	
 }

@@ -19,9 +19,9 @@ public class Checker implements Comparator<Palet>{
 	 */
 	@Override
 	public int compare(Palet arg0, Palet arg1) {
-		if(p.distance((Point)arg0.getP()) > p.distance((Point)arg0.getP()) ){
+		if(p.distance((Point)arg0.getP()) > p.distance((Point)arg1.getP()) ){
 			return 1;
-		}else if(p.distance((Point)arg0.getP()) < p.distance((Point)arg0.getP()) ){
+		}else if(p.distance((Point)arg0.getP()) < p.distance((Point)arg1.getP()) ){
 			return -1;
 		}else{
 			return 0;

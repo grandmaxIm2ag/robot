@@ -1,7 +1,5 @@
 package utils;
 
-import controler.Visitor;
-
 public class Move extends Instruction {
 	/**
 	 * 
@@ -18,6 +16,14 @@ public class Move extends Instruction {
 	 */
 	public Move(Coord previous, Coord next) {
 		super();
+		if(! previous.getClass().equals(next.getClass())){
+			throw new IllegalArgumentException(previous+" et "+next+" doit être" +
+					" du même type");
+		}
+		if(previous.equals(next)){
+			throw new IllegalArgumentException(previous+" et "+next+" doivent " +
+					"être différents");
+		}
 		this.previous = previous;
 		this.next = next;
 	}
@@ -101,7 +107,7 @@ public class Move extends Instruction {
 		return "Move [previous=" + previous + ", next=" + next + "]";
 	}
 	
-	public boolean accept(Visitor<Boolean> v) throws Exception{
+	public <K> K accept(Visitor<K> v) throws Exception{
 		return v.visit(this);
 	}
 	

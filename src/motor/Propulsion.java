@@ -14,57 +14,113 @@ import lejos.robotics.navigation.MoveListener;
 import lejos.robotics.navigation.MovePilot;
 import lejos.robotics.navigation.MoveProvider;
 
+/**
+ * 
+ * Classe représentant les moteurs des roues
+ */
 public class Propulsion extends TimedMotor implements MoveListener{
 
 	//chassis
+	/**
+	 * la roue droite
+	 */
 	private Wheel     left           = null;
+	/**
+	 * La roue gauche
+	 */
 	private Wheel     right          = null;
+	/**
+	 * Le chassis
+	 */
 	private Chassis   chassis        = null;
+	/**
+	 * Le pilote
+	 */
 	public MovePilot pilot          = null;
 	//Constants
+	/**
+	 * L'orientation
+	 */
 	private float     orientation    = R2D2Constants.NORTH;
+	
+	/**
+	 * Le diamètre des roues
+	 */
 	private float     DIAMETER       = R2D2Constants.WHEEL_DIAMETER;
+	/**
+	 * La valeur d'un demi tour
+	 */
 	private int       HALF_TURN      = R2D2Constants.HALF_CIRCLE;
+	/**
+	 * La valeur d'un quart de tour
+	 */
 	private int       MID_TURN       = R2D2Constants.QUART_CIRCLE;
 	//state
+	
 	private long      lastAskRunning = -1;
 	private int       time           = -1;
 	private float     lastTurnedAngle= 0;
 	private long      startTime      = 0;
 	private long      stopTime       = 0;
 	private long      lastRunTime    = 0;
+	/**
+	 * Indique que les moteurs sont en marche
+	 */
 	private boolean   running        = false;
+	/**
+	 * Une distance à parcourir
+	 */
 	private float 	  expected_dist  = 0;
+	/**
+	 * Distance parcourue
+	 */
 	private float 	  traveledDist   = 0f;
 	
-	
+	/**
+	 * Constructeur de la classe Propulsion
+	 */
 	public Propulsion(){
 		// Change this to match your robot
-		left      = WheeledChassis.modelWheel(new EV3LargeRegulatedMotor(LocalEV3.get().getPort(R2D2Constants.LEFT_WHEEL)), DIAMETER).offset(-1*R2D2Constants.DISTANCE_TO_CENTER);
-		right     = WheeledChassis.modelWheel(new EV3LargeRegulatedMotor(LocalEV3.get().getPort(R2D2Constants.RIGHT_WHEEL)), DIAMETER).offset(R2D2Constants.DISTANCE_TO_CENTER);
+		left      = WheeledChassis.modelWheel(new EV3LargeRegulatedMotor(LocalEV3.get().getPort(
+				R2D2Constants.LEFT_WHEEL)), DIAMETER).offset(-1*R2D2Constants.DISTANCE_TO_CENTER);
+		right     = WheeledChassis.modelWheel(new EV3LargeRegulatedMotor(LocalEV3.get().getPort(
+				R2D2Constants.RIGHT_WHEEL)), DIAMETER).offset(R2D2Constants.DISTANCE_TO_CENTER);
 		chassis   = new WheeledChassis(new Wheel[]{left, right},  WheeledChassis.TYPE_DIFFERENTIAL);
 		pilot     = new MovePilot(chassis);
 		pilot.addMoveListener(this);
 		pilot.setLinearAcceleration(R2D2Constants.LINEAR_ACCELERATION);
+		pilot.setLinearSpeed(150);
 		pilot.setAngularSpeed(R2D2Constants.MAX_ROTATION_SPEED);
+		
 	}
 
-	public void chech_dist(){
+	/**
+	 * Vérifie la distance parcourue par le robot
+	 */
+	public void check_dist(){
 		if (pilot.getMovement().getDistanceTraveled() > expected_dist){
 			this.stopMoving();
 		}
 		traveledDist = pilot.getMovement().getDistanceTraveled();
 	}
+	/**
+	 * Vérifie que les moteurs sont coincé
+	 * @return vrai si les moteurs sont coincé
+	 */
 	@Override
 	public boolean isStall() {
 		return chassis.isStalled();
 	}
-
+	/**
+	 * Stop les moteurs des roues
+	 */
 	@Override
 	public void stopMoving() {
 		pilot.stop();
 	}
-
+	/**
+	 * Met en route les moteurs des roues
+	 */
 	@Override
 	public void run(boolean forward) {
 		if(forward){
@@ -159,6 +215,9 @@ public class Propulsion extends TimedMotor implements MoveListener{
 			pilot.rotate(orientate, true);
 	}
 
+	/**
+	 * Orient le robot vers l'est
+	 */
 	public void orientateEast() {
 		double orientate = getRotateToNorth()+R2D2Constants.EAST;
 		if(orientate < 0)
@@ -167,12 +226,15 @@ public class Propulsion extends TimedMotor implements MoveListener{
 			pilot.rotate(orientate, true);
 	}
 	/**
-	 * 
+	 * Orient le robot vers le sud
 	 */
 	public void orientateSouth(){
-		orientateSouth( this.getOrientation() < 0);
+		orientateSouth( this.getOrientation() > utils.R2D2Constants.SOUTH);
 	}
-	
+	/**
+	 * Oriente le robot vers le sud
+	 * @param left
+	 */
 	public void orientateSouth(boolean left) {
 		double orientate = left ? getRotateToNorth()-R2D2Constants.SOUTH :
 		                          getRotateToNorth()+R2D2Constants.SOUTH;
@@ -196,14 +258,21 @@ public class Propulsion extends TimedMotor implements MoveListener{
 		}	
 	}
 	
-
+	/**
+	 * Met en route les moteurs des roues pour un temps défini
+	 * 
+	 * @param millis le temps
+	 * @param forward le sens de rotation des moteur
+	 */
 	@Override
 	public void runFor(int millis, boolean forward) {
 		lastAskRunning = new Date().getTime();
 		time           = millis;
 		run(forward);
 	}
-
+	/**
+	 * 
+	 */
 	@Override
 	public boolean isTimeRunElapsed() {
 		boolean timeElapsed = false;
@@ -222,11 +291,22 @@ public class Propulsion extends TimedMotor implements MoveListener{
 		return running;
 	}
 
+	/**
+	 * Handler pour la lise en route des moteurs
+	 * 
+	 * @param event l'évennement
+	 * @param mp
+	 */
 	public void moveStarted(Move event, MoveProvider mp) {
 		running   = true;
 		startTime = event.getTimeStamp();
 	}
-
+	/**
+	 * Handler pour l'arrêt des moteurs
+	 * 
+	 * @param event l'évennement
+	 * @param mp
+	 */
 	public void moveStopped(Move event, MoveProvider mp) {
 		running        = false;
 		stopTime       = event.getTimeStamp();
@@ -252,6 +332,7 @@ public class Propulsion extends TimedMotor implements MoveListener{
 	}
 	
 	/**
+	 * Getteur de Orientation
 	 * @return l'orientation par rapport au nord
 	 */
 	public float getOrientation(){
@@ -268,11 +349,13 @@ public class Propulsion extends TimedMotor implements MoveListener{
 	
 	/**
 	 * renvoie le dernier angle tourné
+	 * @return lastTurnAngle
 	 */
 	public double getLastTurnedAngle(){
 		return lastTurnedAngle;
 	}
 	/**
+	 * Lance les moteur pour parcourir une distance définie
 	 * 
 	 * @param dist : la distance en centimetre
 	 */
@@ -282,8 +365,10 @@ public class Propulsion extends TimedMotor implements MoveListener{
 	}
 	
 	/**
+	 * Lance les moteur pour parcourir une distance définie
 	 * 
 	 * @param dist : la distance en centimetre
+	 * @param forward le sens de rotation des roues
 	 */
 	public void runDist(float dist, boolean forward){
 		expected_dist = dist * 10;
@@ -291,12 +376,17 @@ public class Propulsion extends TimedMotor implements MoveListener{
 	}
 	
 	/**
+	 * Setteur de Orientaton
 	 * @param orientation the orientation to set
 	 */
 	public void setOrientation(float orientation) {
 		this.orientation = orientation;
 	}
 	
+	/**
+	 * Getteur de traveledDist
+	 * @return traveledDist
+	 */
 	public float getTraveledDist(){
 		return traveledDist;
 	}

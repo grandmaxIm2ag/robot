@@ -19,7 +19,13 @@ public class FactoryInstruction {
 	public static void init_map(Map<String, Node> m){
 		map = m;
 	}
-	
+	/**
+	 * 
+	 */
+	private static boolean south;
+	public static void init_south(boolean s) {
+		south = s;
+	}
 	/**
 	 * @param ins
 	 * @return
@@ -28,7 +34,14 @@ public class FactoryInstruction {
 	public static Instruction create(String ins) throws InstructionException{
 		String ins_tab[] = ins.split(" ");
 		if(ins_tab[0].equals("move")){
-			return new Move(map.get(ins_tab[1]),map.get(ins_tab[2]));
+			Node src = map.get(ins_tab[1]);
+			Node dest;
+			if(ins_tab[2].equals("dock")){
+				dest = new Node(src.getI(), south ? 1 : 5);
+			}else{
+				dest = map.get(ins_tab[2]);
+			}
+			return new Move(src, dest);
 		}else if(ins_tab[0].equals("pick")){
 			Palet p = new Palet(map.get(ins_tab[1]), true);
 			return new Pick(p, map.get(ins_tab[2]));

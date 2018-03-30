@@ -1,14 +1,11 @@
 package main;
 
 import fr.uga.pddl4j.encoding.CodedProblem;
-import fr.uga.pddl4j.heuristics.relaxation.Heuristic;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -18,7 +15,6 @@ import utils.Node;
 import utils.Point;
 
 public class TestHSP {
-	private static DatagramSocket dsocket;
 	private final static String dom = "(define (domain Robot)\n" + 
 			"  (:requirements :strips :typing)\n" + 
 			"  (:types pallet node)\n" + 
@@ -73,138 +69,7 @@ public class TestHSP {
 			"	(connected a45 dock)\n" + 
 			"	(connected a55 dock)\n";
 	
-	private final static String south = "	(connected dock a51)\n" + 
-			"	(connected dock a41)\n" + 
-			"	(connected dock a31)\n" + 
-			"	(connected dock a21)\n" + 
-			"	(connected dock a11)\n" + 
-			"	(connected a51 dock)\n" + 
-			"	(connected a41 dock)\n" + 
-			"	(connected a31 dock)\n" +
-			"	(connected a21 dock)\n" + 
-			"	(connected a11 dock)\n";	
-	
 	private final static String last = 
-			"	(connected a11 a12)\n" + 
-			"	(connected a11 a21)\n" + 
-			"	(connected a12 a11)\n" + 
-			"	(connected a12 a22)\n" + 
-			"	(connected a12 a13)\n" + 
-			"	(connected a13 a12)\n" + 
-			"	(connected a13 a23)\n" + 
-			"	(connected a13 a14)\n" + 
-			"	(connected a14 a13)\n" + 
-			"	(connected a14 a24)\n" + 
-			"	(connected a14 a15)\n" + 
-			"	(connected a15 a14)\n" + 
-			"	(connected a15 a25)\n" + 
-			"	(connected a21 a11)\n" + 
-			"	(connected a21 a31)\n" + 
-			"	(connected a21 a22)\n" + 
-			"	(connected a22 a21)\n" + 
-			"	(connected a22 a12)\n" + 
-			"	(connected a22 a32)\n" + 
-			"	(connected a22 a23)\n" + 
-			"	(connected a23 a22)\n" + 
-			"	(connected a23 a13)\n" + 
-			"	(connected a23 a33)\n" + 
-			"	(connected a23 a24)\n" + 
-			"	(connected a24 a23)\n" + 
-			"	(connected a24 a14)\n" + 
-			"	(connected a24 a34)\n" + 
-			"	(connected a24 a25)\n" + 
-			"	(connected a25 a24)\n" + 
-			"	(connected a25 a15)\n" + 
-			"	(connected a25 a35)\n" + 
-			"	(connected a31 a21)\n" + 
-			"	(connected a31 a41)\n" + 
-			"	(connected a31 a32)\n" + 
-			"	(connected a32 a31)\n" + 
-			"	(connected a32 a22)\n" + 
-			"	(connected a32 a42)\n" + 
-			"	(connected a32 a33)\n" + 
-			"	(connected a33 a32)\n" + 
-			"	(connected a33 a23)\n" + 
-			"	(connected a33 a43)\n" + 
-			"	(connected a33 a34)\n" + 
-			"	(connected a34 a33)\n" + 
-			"	(connected a34 a24)\n" + 
-			"	(connected a34 a44)\n" + 
-			"	(connected a34 a35)\n" + 
-			"	(connected a35 a34)\n" + 
-			"	(connected a35 a25)\n" + 
-			"	(connected a35 a45)\n" + 
-			"	(connected a41 a31)\n" + 
-			"	(connected a41 a51)\n" + 
-			"	(connected a41 a42)\n" + 
-			"	(connected a42 a41)\n" + 
-			"	(connected a42 a32)\n" + 
-			"	(connected a42 a52)\n" + 
-			"	(connected a42 a43)\n" + 
-			"	(connected a43 a42)\n" + 
-			"	(connected a43 a33)\n" + 
-			"	(connected a43 a53)\n" + 
-			"	(connected a43 a44)\n" + 
-			"	(connected a44 a43)\n" + 
-			"	(connected a44 a34)\n" + 
-			"	(connected a44 a54)\n" + 
-			"	(connected a44 a45)\n" + 
-			"	(connected a45 a44)\n" + 
-			"	(connected a45 a35)\n" + 
-			"	(connected a45 a55)\n" + 
-			"	(connected a51 a41)\n" + 
-			"	(connected a51 a52)\n" + 			
-			"	(connected a52 a51)\n" + 
-			"	(connected a52 a42)\n" + 
-			"	(connected a52 a53)\n" + 
-			"	(connected a53 a52)\n" + 
-			"	(connected a53 a43)\n" + 
-			"	(connected a53 a54)\n" + 
-			"	(connected a54 a53)\n" + 
-			"	(connected a54 a44)\n" + 
-			"	(connected a54 a55)\n" + 
-			"	(connected a55 a54)\n" + 
-			"	(connected a55 a45)\n" + 
-			")\n" + 
-			"\n" + 
-			"(:goal (finished)\n" + 
-			"))";
-	
-	private final static String tb = "(define (problem CoreGame)\n" + 
-			"(:domain Robot)\n" + 
-			"(:objects \n" + 
-			"	a55 a45 a35 a25 a15 - node\n" + 
-			"	a54 a44 a34 a24 a14 - node\n" + 
-			"	a53 a43 a33 a23 a13 - node\n" + 
-			"	a52 a42 a32 a22 a12 - node\n" + 
-			"	a51 a41 a31 a21 a11 - node\n" + 
-			"	pl1 pl2 pl3 pl4 pl5 - Pallet\n" + 
-			"	pl6 pl7 pl8 pl9 - Pallet)\n" + 
-			"(:init\n" + 
-			"	;; Initial configuration\n" + 
-			"	(at-robby a31)\n" + 
-			"	(gripperempty)\n" + 
-			"	(at pl1 a22)\n" + 
-			"	(at pl2 a23)\n" + 
-			"	(at pl3 a24)\n" + 
-			"	(at pl4 a32)\n" + 
-			"	(at pl5 a33)\n" + 
-			"	(at pl6 a34)\n" + 
-			"	(at pl7 a42)\n" + 
-			"	(at pl8 a43)\n" + 
-			"	(at pl9 a44)\n" + 
-			"\n" + 
-			"	;; Graph construction\n" + 
-			"	(connected dock a15)\n" + 
-			"	(connected dock a25)\n" + 
-			"	(connected dock a35)\n" + 
-			"	(connected dock a45)\n" + 
-			"	(connected dock a55)\n" + 
-			"	(connected a15 dock)\n" + 
-			"	(connected a25 dock)\n" + 
-			"	(connected a35 dock)\n" +
-			"	(connected a45 dock)\n" + 
-			"	(connected a55 dock)\n" + 
 			"	(connected a11 a12)\n" + 
 			"	(connected a11 a21)\n" + 
 			"	(connected a12 a11)\n" + 

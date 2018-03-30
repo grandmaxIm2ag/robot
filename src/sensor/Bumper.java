@@ -5,15 +5,35 @@ import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3TouchSensor;
 
+/**
+ * 
+ * Classe représentant le Bumper
+ */
 public class Bumper {
+	/**
+	 * port du bumper
+	 */
 	private Port port = null;
+	/**
+	 * le bumper
+	 */
 	private EV3TouchSensor touch = null;
-	public final static String TOUCH_SENSOR = "S1";
+	/**
+	 * Le numéro de port
+	 */
+	public final static String TOUCH_SENSOR = "S3";
+	/**
+	 * Constructeur de la classe bumper
+	 */
 	public Bumper(){
 		port = LocalEV3.get().getPort(TOUCH_SENSOR);
 		touch= new EV3TouchSensor(port);
 	}
 	
+	/**
+	 * Vérifie que le bumper est préssé
+	 * @return vrai si il est préssé
+	 */
 	public boolean isPressed(){
 		float[] sample = raw();
 		return sample[0] != 0;
@@ -35,6 +55,10 @@ public class Bumper {
 		return true;
 	}
 
+	/**
+	 * Renvoie les valeur receuillis par le capteur
+	 * @return les valeurs receuillis
+	 */
 	public float[] raw() {
 		float[] sample = new float[1];
 		touch.fetchSample(sample, 0);

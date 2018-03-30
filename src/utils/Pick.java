@@ -1,7 +1,5 @@
 package utils;
 
-import controler.Visitor;
-
 public class Pick extends Instruction {
 	/**
 	 * 
@@ -18,6 +16,10 @@ public class Pick extends Instruction {
 	 */
 	public Pick(Palet palet, Coord coord) {
 		super();
+		if(! palet.getP().equals(coord)){
+			throw new IllegalArgumentException("Le palet à attraper doit avoir "+
+					"la même position que celle indiquée par "+coord);
+		}
 		this.palet = palet;
 		this.coord = coord;
 	}
@@ -95,7 +97,7 @@ public class Pick extends Instruction {
 		return "Pick [palet=" + palet + ", coord=" + coord + "]";
 	}
 	
-	public boolean accept(Visitor<Boolean> v) throws Exception{
+	public <K> K accept(Visitor<K> v) throws Exception{
 		return v.visit(this);
 	}
 	

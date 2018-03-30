@@ -1,21 +1,21 @@
 package main;
 
-import java.io.IOException;
-
-import controler.RobotControler;
-import controler.TestRobotControler;
+import lejos.utility.Delay;
+import controler.TestControler;
 
 public class MainTestControler {
 
 	/**
 	 * @param args
-	 * @throws IOException 
-	 * @throws ClassNotFoundException 
 	 */
-	public static void main(String[] args) throws ClassNotFoundException, IOException {
-		// TODO Auto-generated method stub
-		RobotControler r = new TestRobotControler();
-		r.start();
+	public static void main(String[] args) {
+		TestControler controler = new TestControler();
+		try{
+			controler.start();
+		}catch(Throwable e){
+			e.printStackTrace();
+			Delay.msDelay(10000);
+		}
+		System.exit(0);
 	}
-
 }
