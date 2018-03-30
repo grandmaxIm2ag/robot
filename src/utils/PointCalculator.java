@@ -93,9 +93,9 @@ public class PointCalculator {
 		angle = degreesToRadians(angle);
 		float x = p.getX();
 		float y = p.getY();
-		float cos = (float) Math.cos(angle);
-		float sin = (float) Math.sin(angle);
+		double cos = Math.cos(angle);
+		double sin = Math.sin(angle);
 	
-		return new Point(x + cos*dist, y + sin*dist);
+		return new Point((float)(x + cos*dist),(float)( y + sin*dist));
 	}
 }

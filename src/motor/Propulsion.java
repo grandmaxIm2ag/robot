@@ -89,7 +89,7 @@ public class Propulsion extends TimedMotor implements MoveListener{
 		pilot     = new MovePilot(chassis);
 		pilot.addMoveListener(this);
 		pilot.setLinearAcceleration(R2D2Constants.LINEAR_ACCELERATION);
-		pilot.setLinearSpeed(50);
+		pilot.setLinearSpeed(250);
 		pilot.setAngularSpeed(R2D2Constants.MAX_ROTATION_SPEED);
 		
 	}

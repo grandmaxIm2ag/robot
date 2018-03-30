@@ -113,8 +113,7 @@ public class Robot {
 		this.south = south;
 		this.z = (south ? utils.R2D2Constants.SOUTH
 				: utils.R2D2Constants.NORTH);
-		this.propulsion.setOrientation(z);
-		
+		this.propulsion.setOrientation(z);	
 	}
 	/**
 	 * Getteur de color
@@ -216,6 +215,7 @@ public class Robot {
 				propulsion.check_dist();
 				if(color.getCurrentColor() == Color.WHITE){
 					propulsion.stopMoving();
+					dist = 0;
 				}
 				else if(color.getCurrentColor() != c){
 					propulsion.stopMoving();

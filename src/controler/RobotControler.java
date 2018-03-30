@@ -173,6 +173,7 @@ public class RobotControler {
 				robot.isSouth() ? initLeft ? 150 : 50 : initLeft ? 50 : 150,
 				robot.isSouth() ? R2D2Constants.Y_NORTH : R2D2Constants.Y_SOUTH
 				));
+		
 		//Boucle de jeu
 		screen.clearDraw();
 		screen.drawText("Lancement du robot");
