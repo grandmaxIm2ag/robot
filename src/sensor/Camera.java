@@ -7,6 +7,7 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
+import exception.MovingPaletException;
 import utils.Palet;
 import utils.Point;
 /**
@@ -55,9 +56,13 @@ public class Camera {
 		return palets;
 	}
 	
-	public static Point update(Point p_old){
+	public static Point update(Point p_old) throws IOException, MovingPaletException{
+		List<Palet> pls = getPalet();
+		for(Palet p:pls)
+			if(p_old.distance((Point) p.getP())<5)
+				return (Point) p.getP();
 		
-		return null;
+		throw new MovingPaletException();
 	}
 
 	/**
