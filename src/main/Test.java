@@ -1,5 +1,6 @@
 package main;
 
+import controler.Calibrator;
 import controler.Robot;
 import exception.FinishException;
 import motor.Graber;
@@ -13,8 +14,11 @@ public class Test {
 	public static void main(String[] args) throws FinishException {
 		Robot robot = new Robot(new Point(0,0), false,new ColorSensor(),
 				new Propulsion(), new Graber(), new Bumper(), new UltraSon());
-		controler.Calibrator.celibrateGrapber(robot.getGraber(), true);
-		System.out.println(robot.getGraber().isRunning());
-		robot.run(new Point(0, 100), true);
+		/*Calibrator.celibrateGrapber(robot.getGraber(), true);
+		robot.run(new Point(50,210), true);*/
+		robot.orientate_east();
+		robot.setZ(robot.getPropulsion().getOrientation());
+		robot.orientate(true);
+		
 	}
 }

@@ -53,7 +53,7 @@ public class RobotControler {
 	/**
 	 * Le nombre de calibration pour les couleurs
 	 */
-	protected int nb_calibration = 1;
+	protected int nb_calibration = 3;
 	/**
 	 * Booléen indiquant que le robot ramène le premier palet
 	 */
@@ -185,6 +185,9 @@ public class RobotControler {
 			try{
 				palets.clear();
 				palets = Camera.getPalet();
+				screen.clearDraw();
+				screen.drawText("En attente d'un plan", "Pos : "+robot.getP(),
+						"south : "+robot.isSouth());
 				List<Instruction> plan = Planner.getPlan(palets, robot.getP(), robot.isSouth());
 				accept(plan, first_move ? plan_first_pick : plan_norm,
 						first_move ? plan_first : plan_deliver);

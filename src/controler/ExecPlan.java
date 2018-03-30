@@ -93,8 +93,13 @@ public class ExecPlan implements Visitor<Boolean> {
 			float angle = robot.getP().angle(point);
 			angle = angle - robot.getZ();
 			robot.rotate(angle);
-			robot.run(robot.getP().distance(point)-max_dist, true);
-			robot.search_palet((Point) m.getNext());
+			float d = 0;
+			if(robot.getP().distance(point) > 50) {
+				robot.run(robot.getP().distance(point)-max_dist, true);
+				d = robot.getPropulsion().getTraveledDist();
+			}
+			
+			robot.search_palet((Point) m.getNext(), d);
 		}catch(exception.InstructionException e){
 			/*
 			 * Si la recherche du palet plannifiée échoue
