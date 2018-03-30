@@ -1,6 +1,7 @@
 package utils;
 
 import lejos.robotics.Color;
+import java.lang.Math;
 
 /**
  * 
@@ -79,5 +80,22 @@ public class PointCalculator {
 		}
 		
 		return utils.R2D2Constants.colors[i_min];
+	}
+	
+	public static float degreesToRadians(float t) {
+		float c = (float)Math.PI/180;
+		return t*c;
+	}
+	
+	
+	public static Point getPointFromAngle(Point p, float dist, float angle) {
+		//Angle en degrés, convertir en radians
+		angle = degreesToRadians(angle);
+		float x = p.getX();
+		float y = p.getY();
+		float cos = (float) Math.cos(angle);
+		float sin = (float) Math.sin(angle);
+	
+		return new Point(x + cos*dist, y + sin*dist);
 	}
 }

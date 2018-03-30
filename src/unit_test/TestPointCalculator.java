@@ -114,5 +114,20 @@ public class TestPointCalculator {
 				utils.R2D2Constants.X_YELLOW+6, 0)));
 		assertFalse(PointCalculator.is_on_vertical_line(new Point(
 				utils.R2D2Constants.X_YELLOW-6, 0)));
+	}	
+	
+	@Test
+	public void testAngleConversion() {
+		float angle = 180;
+		assertEquals((float) Math.PI, (float) PointCalculator.degreesToRadians(angle), 0.02);
+	}
+	
+	@Test
+	public void testDistanceAngle() {
+		float a = 45;
+		float dist = (float) Math.sqrt(5);
+		assertEquals(new Point(2, 1), PointCalculator.getPointFromAngle(new Point(0, 0), dist, a));
 	}
 }
+
+
