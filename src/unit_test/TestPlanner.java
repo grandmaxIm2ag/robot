@@ -103,6 +103,8 @@ public class TestPlanner {
 			assertEquals(ins, it.next());
 		}
 	}
+	
+	
 	/**
 	 * Quatrième test
 	 * @throws EmptyArenaException

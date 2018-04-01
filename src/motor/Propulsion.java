@@ -179,7 +179,7 @@ public class Propulsion extends TimedMotor implements MoveListener{
 
 	/**
 	 * Effectue une rotation à gauche
-	 * @param i defrés à tourner
+	 * @param i degrés à tourner
 	 * @param left vrai si à gauche
 	 * @param correction vrai si on doit appliquer une correction de 2%
 	 */
@@ -192,60 +192,76 @@ public class Propulsion extends TimedMotor implements MoveListener{
 			pilot.rotate(i, true);	
 		}
 	}
-
+	
+	public void orientate(float d) {
+		if(d>orientation) {
+			if(d-orientation <= R2D2Constants.HALF_CIRCLE)
+				rotate(d-orientation,false,false);
+			else
+				rotate(d-R2D2Constants.FULL_CIRCLE-orientation,false,false);
+		}
+		else {
+			if(orientation-d > R2D2Constants.HALF_CIRCLE)
+				rotate(R2D2Constants.FULL_CIRCLE-orientation+d,false,false);
+			else
+				rotate(d-orientation,false,false);
+		}
+	}
 	/**
 	 * oriente le robot au nord
 	 */
 	public void orientateNorth() {
-		double orientate = getRotateToNorth();
+		orientate(R2D2Constants.NORTH);
+		/*double orientate = getRotateToNorth();
 		if(orientate < 0)
 			pilot.rotate(orientate, false);
 		else
-			pilot.rotate(orientate, true);
+			pilot.rotate(orientate, true);*/
 	}
 	
 	/**
 	 * oriente le robot à l'ouest
 	 */
 	public void orientateWest(){
-		double orientate = getRotateToNorth()+R2D2Constants.WEST;
-		if(orientate < 0)
-			pilot.rotate(orientate, false);
-		else
-			pilot.rotate(orientate, true);
+		orientate(R2D2Constants.WEST);
+		/*double orientate = getRotateToNorth()+R2D2Constants.WEST;
+		rotate( (int) orientate, false, false);*/
 	}
 
 	/**
 	 * Orient le robot vers l'est
 	 */
 	public void orientateEast() {
-		double orientate = getRotateToNorth()+R2D2Constants.EAST;
-		rotate( (int) orientate, false, false);
+		orientate(R2D2Constants.EAST);
+		/*double orientate = getRotateToNorth()+R2D2Constants.EAST;
+		rotate( (int) orientate, false, false);*/
 	}
 	/**
 	 * Orient le robot vers le sud
 	 */
 	public void orientateSouth(){
-		orientateSouth( this.getOrientation() > utils.R2D2Constants.SOUTH);
+		orientate(R2D2Constants.SOUTH);
+		//orientateSouth( this.getOrientation() > utils.R2D2Constants.SOUTH);
 	}
+	
 	/**
 	 * Oriente le robot vers le sud
 	 * @param left
 	 */
-	public void orientateSouth(boolean left) {
-		double orientate = left ? getRotateToNorth()-R2D2Constants.SOUTH :
+	/*public void orientateSouth(boolean left) {
+		/*double orientate = left ? getRotateToNorth()-R2D2Constants.SOUTH :
 		                          getRotateToNorth()+R2D2Constants.SOUTH;
 		if(orientate < 0)
 			pilot.rotate(orientate, false);
 		else
 			pilot.rotate(orientate, true);
-	}
+	}*/
 	
 	/**
 	 * 
 	 * @return le nombre de degrés pour aller au nord
 	 */
-	public double getRotateToNorth(){
+	/*public double getRotateToNorth(){
 		if(orientation<-R2D2Constants.HALF_CIRCLE){
 			return Math.abs(orientation)-R2D2Constants.FULL_CIRCLE;
 		}else if(orientation > R2D2Constants.HALF_CIRCLE){
@@ -253,7 +269,7 @@ public class Propulsion extends TimedMotor implements MoveListener{
 		}else{
 			return orientation*-1;
 		}	
-	}
+	}*/
 	
 	/**
 	 * Met en route les moteurs des roues pour un temps défini
@@ -314,7 +330,11 @@ public class Propulsion extends TimedMotor implements MoveListener{
 		orientation = orientation + (event.getAngleTurned()+
 				(event.getAngleTurned()*R2D2Constants.PR_ANGLE_CORRECTION));
 		orientation = orientation % R2D2Constants.FULL_CIRCLE;
-
+		if(orientation < 0) {
+			orientation = -1*orientation;
+			if(event.getAngleTurned()<0)
+				orientation = R2D2Constants.FULL_CIRCLE - orientation;
+		}
 		lastTurnedAngle = event.getAngleTurned();
 	}
 	

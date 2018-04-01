@@ -10,6 +10,7 @@ import sensor.ColorSensor;
 import sensor.UltraSon;
 import utils.Point;
 import utils.PointCalculator;
+import utils.R2D2Constants;
 import vue.InputHandler;
 import vue.Screen;
 
@@ -90,6 +91,12 @@ public class Robot {
 	 */
 	public Point getP() {
 		return p;
+	}
+	/**
+	 * Getteur de screen
+	 */
+	public Screen getS() {
+		return screen;
 	}
 	/**
 	 * Setteur de p
@@ -510,14 +517,30 @@ public class Robot {
 	}
 	
 	public void orientate_east() {
-		propulsion.orientateEast();
+		propulsion.orientate(R2D2Constants.EAST);
+		//propulsion.orientateEast();
 		while(propulsion.isRunning())
 			propulsion.checkState();
 		z = propulsion.getOrientation();
 	}
 	
 	public void orientate_west() {
-		propulsion.orientateWest();
+		propulsion.orientate(R2D2Constants.WEST);
+		//propulsion.orientateWest();
+		while(propulsion.isRunning())
+			propulsion.checkState();
+		setZ(propulsion.getOrientation());
+	}
+	
+	public void orientate_north() {
+		propulsion.orientate(R2D2Constants.NORTH);
+		while(propulsion.isRunning())
+			propulsion.checkState();
+		setZ(propulsion.getOrientation());
+	}
+	
+	public void orientate_south() {
+		propulsion.orientate(R2D2Constants.SOUTH);
 		while(propulsion.isRunning())
 			propulsion.checkState();
 		setZ(propulsion.getOrientation());

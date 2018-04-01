@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import exception.EmptyArenaException;
+import exception.FinishException;
 import exception.InstructionException;
 
 import lejos.hardware.Button;
@@ -53,7 +54,7 @@ public class RobotControler {
 	/**
 	 * Le nombre de calibration pour les couleurs
 	 */
-	protected int nb_calibration = 3;
+	protected int nb_calibration = 1;
 	/**
 	 * Booléen indiquant que le robot ramène le premier palet
 	 */
@@ -81,6 +82,12 @@ public class RobotControler {
 	 * @throws ClassNotFoundException Traitée par l'appelant
 	 */
 	public void start() throws IOException, ClassNotFoundException{
+		try {
+			robot.run(10, true);
+		} catch (FinishException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if(calibration()){
 			screen.drawText("Calibration Placement", 
 					"Appuyez sur OK si","vous êtes au sud",
@@ -241,6 +248,7 @@ public class RobotControler {
 			}
 			String trace = ins.toString()+"\n";
 			trace+=move && deliver_move ? deliver : pick;
+			System.out.println(trace);
 			if(! ins.accept(move && deliver_move ? deliver : pick)){
 				throw new InstructionException("L'instruction a échouée");
 			}

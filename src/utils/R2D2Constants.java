@@ -23,7 +23,7 @@ public class R2D2Constants {
 	 * Runing parameters, may be changed
 	 */
 	public static final int   NORTH                      = 0;
-	public static final int   WEST                       = -QUART_CIRCLE;
+	public static final int   WEST                       = HALF_CIRCLE + QUART_CIRCLE;
 	public static final int   EAST                       = QUART_CIRCLE;
 	public static final int   SOUTH                      = HALF_CIRCLE;
 	public static final float ANGLE_START                = 10;

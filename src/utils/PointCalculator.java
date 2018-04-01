@@ -2,6 +2,7 @@ package utils;
 
 import lejos.robotics.Color;
 import java.lang.Math;
+import java.util.Arrays;
 
 /**
  * 
@@ -79,6 +80,8 @@ public class PointCalculator {
 				i_min = i;
 		}
 		
+		System.out.println(Arrays.toString(dist));
+		string_color(utils.R2D2Constants.colors[i_min]);
 		return utils.R2D2Constants.colors[i_min];
 	}
 	
@@ -97,5 +100,15 @@ public class PointCalculator {
 		double sin = Math.sin(angle);
 	
 		return new Point((float)(x + cos*dist),(float)( y + sin*dist));
+	}
+	
+	public static void string_color(int c){
+		if(c == utils.R2D2Constants.colors[utils.R2D2Constants.RED])
+			System.out.println("rouge");
+		if(c == utils.R2D2Constants.colors[utils.R2D2Constants.BLACK])
+			System.out.println("noir");
+		if(c == utils.R2D2Constants.colors[utils.R2D2Constants.YELLOW])
+			System.out.println("jaune");
+		
 	}
 }

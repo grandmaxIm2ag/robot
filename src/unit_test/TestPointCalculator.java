@@ -131,9 +131,9 @@ public class TestPointCalculator {
 	@Test
 	public void test_closest_color() {
 		assertEquals(R2D2Constants.colors[R2D2Constants.RED], PointCalculator
-				.closestColor(new Point(R2D2Constants.X_RED-10, 0)));
+				.closestColor(new Point(R2D2Constants.X_RED-20, 0)));
 		assertEquals(R2D2Constants.colors[R2D2Constants.RED], PointCalculator
-				.closestColor(new Point(R2D2Constants.X_RED+10, 0)));
+				.closestColor(new Point(R2D2Constants.X_RED+20, 0)));
 		
 		assertEquals(R2D2Constants.colors[R2D2Constants.YELLOW], PointCalculator
 				.closestColor(new Point(R2D2Constants.X_YELLOW-10, 0)));
