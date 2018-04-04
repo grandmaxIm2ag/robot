@@ -54,7 +54,7 @@ public class RobotControler {
 	/**
 	 * Le nombre de calibration pour les couleurs
 	 */
-	protected int nb_calibration = 1;
+	protected int nb_calibration = 2;
 	/**
 	 * Booléen indiquant que le robot ramène le premier palet
 	 */
@@ -196,10 +196,25 @@ public class RobotControler {
 				screen.clearDraw();
 				screen.drawText("En attente d'un plan", "Pos : "+robot.getP(),
 						"south : "+robot.isSouth());
-				List<Instruction> plan = Planner.getPlan(palets, robot.getP(), robot.isSouth());
+				List<Instruction> plan = new ArrayList<Instruction>();/* = Planner.getPlan(palets, robot.getP(), robot.isSouth());
+				accept(plan, first_move ? plan_first_pick : plan_norm,
+						first_move ? plan_first : plan_deliver);*/
+				robot.setP(new Point(50,30));
+				robot.setZ(0);
+				first_move = false;
+				plan.clear();
+				plan.add(new Move(new Point(50, 30), new Point(50,90)));
+				plan.add(new Pick(new Palet(new Point(50,90), true), new Point(50,90)));
+				plan.add(new Move(new Point(50,90), new Point(50,30)));
+				plan.add(new Deliver(new Palet(new Point(50,90), true)));
 				accept(plan, first_move ? plan_first_pick : plan_norm,
 						first_move ? plan_first : plan_deliver);
-				first_move = false;
+				plan.add(new Move(new Point(50, 30), new Point(100,90)));
+				plan.add(new Pick(new Palet(new Point(100,90), true), new Point(100,90)));
+				plan.add(new Move(new Point(100,90), new Point(100,30)));
+				plan.add(new Deliver(new Palet(new Point(100,90), true)));
+				accept(plan, first_move ? plan_first_pick : plan_norm,
+						first_move ? plan_first : plan_deliver);
 			}catch(InstructionException e){
 				//On recalcule le plan
 				e.printStackTrace(System.err);

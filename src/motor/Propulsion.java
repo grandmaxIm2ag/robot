@@ -103,6 +103,16 @@ public class Propulsion extends TimedMotor implements MoveListener{
 		}
 		traveledDist = pilot.getMovement().getDistanceTraveled();
 	}
+	
+	/**
+	 * Vérifie la distance parcourue par le robot
+	 */
+	public boolean check_dist(float dist){
+		if (pilot.getMovement().getDistanceTraveled() > dist*10){
+			return true;
+		}
+		return false;
+	}
 	/**
 	 * Vérifie que les moteurs sont coincé
 	 * @return vrai si les moteurs sont coincé

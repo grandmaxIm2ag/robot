@@ -177,6 +177,7 @@ public class Planner {
 	private static File tempd;
 	private static File tempt;
 	private static Properties arguments;
+	
 	public static void init(Mapper m) {
 		mapper = m;
 		arguments = HSP.getDefaultArguments();
@@ -250,7 +251,8 @@ public class Planner {
 		List<String> res = new ArrayList<>();
 		List<Node> pallets = new ArrayList<>();
 		for(Palet p:palets)
-			pallets.add((Node) mapper.pointToNode((Point)p.getP()));
+			if(p.isIn_game())
+				pallets.add((Node) mapper.pointToNode((Point)p.getP()));
 		Node pos = (Node) mapper.pointToNode(point);
 		
 		BufferedWriter bw1;
@@ -286,8 +288,10 @@ public class Planner {
 			FactoryInstruction.init_map(map);
 			FactoryInstruction.init_south(isSOuth);
 			List<Instruction> plan1 = new ArrayList<Instruction>();
-			for(String str : res)
+			for(String str : res) {
 				plan1.add(FactoryInstruction.create(str));
+			}
+				
 			
 			List<Instruction> final_plan = accept(plan1, mapper);
 			return final_plan;

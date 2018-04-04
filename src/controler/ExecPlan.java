@@ -66,32 +66,12 @@ public class ExecPlan implements Visitor<Boolean> {
 	public Boolean visit(Move m) throws Exception {
 		try{
 			float max_dist = 30;
-			//On avance de 10 centimètres
-			/*robot.run(10,  true);
-			
-			//On va jusqu'à la ligne du palet
-			robot.go_to_line(PointCalculator.closestColor((Point)m.getNext()));
-			robot.run(10, true);
-			robot.orientate(false);
-			float dist = Math.abs(robot.getP().getY()-((Point)m.getNext()).getY
-					());
-			
-			//On se rapproche du palet à attraper
-			if(dist > max_dist) {
-				dist-=max_dist;
-				robot.followLine(PointCalculator.closestColor((Point)m.getNext
-						()), dist);
-				robot.setP(new Point(PointCalculator.getWhiteLinePoint(true, 
-						PointCalculator.closestColor((Point)m.getNext())).getX(),
-						robot.isSouth() ? robot.getP().getY() + dist : robot.
-								getP().getY() - dist));
-			}
-			*/
 			
 			//On cherche le palet
 			Point point = (Point)m.getNext();
 			float angle = robot.getP().angle(point);
 			angle = angle - robot.getZ();
+			System.out.println(angle);
 			robot.rotate(angle);
 			float d = 0;
 			if(robot.getP().distance(point) > 50) {

@@ -257,6 +257,7 @@ public class Robot {
 			}
 			dist -= propulsion.getTraveledDist();
 		}
+		propulsion.stopMoving();
 		p = PointCalculator.getWhiteLinePoint(south, c);
 	}
 	
@@ -272,6 +273,7 @@ public class Robot {
 	 */
 	public void followLine(int c, float dist, boolean deliver) throws FinishException{
 		followLine(c, dist);
+		System.out.println("On lache le palet");
 		if(deliver){
 			//On avance de 15 centimètres
 			propulsion.runDist(15);
@@ -282,6 +284,7 @@ public class Robot {
 					throw new exception.FinishException();
 				}
 			}
+			System.out.println(propulsion.getTraveledDist());
 			//On ouvre a pince
 			graber.open();
 			while(graber.isRunning()){
@@ -296,6 +299,7 @@ public class Robot {
 					throw new exception.FinishException();
 				}
 			}
+			System.out.println(propulsion.getTraveledDist());
 		}
 	}
 	
@@ -346,6 +350,7 @@ public class Robot {
 		float dist = this.getP().distance(point)-d;
 		float angle = 15;
 		boolean b = true;
+		System.out.println("distance :"+dist);
 		propulsion.rotate(angle, false, false);
 		while(propulsion.isRunning()){
 			propulsion.checkState();
@@ -355,7 +360,7 @@ public class Robot {
 			}
 			float diff = Math.abs(dist - (vision.getRaw()[0]*100 + utils.R2D2Constants.
 					size_sonar));
-			System.out.println(diff);
+			System.out.println("diff :"+diff);
 			if(diff <= utils.R2D2Constants.ERROR ){
 				propulsion.stopMoving();
 				b = false;
@@ -371,7 +376,7 @@ public class Robot {
 				}
 				float diff = Math.abs(dist - (vision.getRaw()[0]*100 + utils.R2D2Constants.
 						size_sonar));
-				System.out.println(diff);
+				System.out.println("diff :"+diff);
 				if(diff <= utils.R2D2Constants.ERROR ){
 					propulsion.stopMoving();
 					b = false;
@@ -470,6 +475,25 @@ public class Robot {
 		}
 	}
 
+	/**
+	 * Déplace le robot jusqu'à qu'une couleur soit atteinte
+	 * @param c la couleur à atteindre
+	 * @param min_dist distance minimale à parcourire
+	 * @throws FinishException Traitée par l'appelant
+	 */
+	public void run_until_color(int c, float min_dist) throws FinishException{
+		propulsion.runDist(utils.R2D2Constants.LENGTH_ARENA);
+		while(propulsion.isRunning()){
+			propulsion.check_dist();
+			if(propulsion.check_dist(min_dist) && color.getCurrentColor()==c ){
+				propulsion.stopMoving();
+			}
+			if(input.escapePressed()){
+				propulsion.stopMoving();
+				throw new exception.FinishException();
+			}
+		}
+	}
 	
 	/**
 	 * Déplace le robot jusqu'à une lige horizontale noire.

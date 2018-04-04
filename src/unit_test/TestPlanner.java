@@ -33,6 +33,9 @@ public class TestPlanner {
 		palet.add(new Palet(new Point(50, 90), true));
 		palet.add(new Palet(new Point(100, 90), true));
 		palet.add(new Palet(new Point(150, 90), true));
+		palet.add(new Palet(new Point(50, 150), true));
+		palet.add(new Palet(new Point(100, 150), true));
+		palet.add(new Palet(new Point(150, 150), true));
 	}
 	
 	/**

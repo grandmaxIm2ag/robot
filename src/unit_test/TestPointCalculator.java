@@ -161,6 +161,9 @@ public class TestPointCalculator {
 				.closestColor(new Point(R2D2Constants.X_BLACK+10, 0)));
 	}
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void testDistanceAngle() {
 		float o = 0;
@@ -171,6 +174,20 @@ public class TestPointCalculator {
 		float y1 = 150;
 		float dist = (float) Math.sqrt((x-x1)*(x-x1) + (y-y1)*(y-y1));
 		assertEquals(new Point(x,y), PointCalculator.getPointFromAngle(new Point(x1,y1), dist, o, n));
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	public void testDistanceAngle2() {
+		Point p1 = new Point(0,0);
+		Point p2 = new Point(10, 0);
+		float a1 = 180;
+		float a2 = a1+(p1.angle(p2)-180);
+		float dist = p1.distance(p2);
+		System.out.println(a2+"\n"+p2+"\n"+PointCalculator.getPointFromAngle(p1, dist, a1, a2));
+		assertEquals(p2, PointCalculator.getPointFromAngle(p1, dist, a1, a2));
 	}
 }
 

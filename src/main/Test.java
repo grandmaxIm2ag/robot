@@ -1,15 +1,22 @@
 package main;
 
+import java.io.IOException;
+
 import controler.Calibrator;
+import controler.Mapper;
+import controler.Planner;
 import controler.Robot;
+import exception.EmptyArenaException;
 import exception.FinishException;
 import lejos.robotics.Color;
 import motor.Graber;
 import motor.Propulsion;
 import sensor.Bumper;
+import sensor.Camera;
 import sensor.ColorSensor;
 import sensor.UltraSon;
 import utils.Point;
+import utils.PointCalculator;
 import utils.R2D2Constants;
 
 public class Test {
@@ -23,29 +30,13 @@ public class Test {
 			return orientation*-1;
 		}	
 	}
-	public static void main(String[] args) throws FinishException {
+	public static void main(String[] args) throws FinishException, EmptyArenaException, IOException {
 
-		Robot robot = new Robot(new Point(0,0), false,new ColorSensor(),
-				new Propulsion(), new Graber(), new Bumper(), new UltraSon());
-		System.out.println("init "+robot.getZ());
-		//Calibrator.calibrateCoor(robot.getColor(), 2);
-		robot.setSouth(false);
-		System.out.println("set "+robot.getZ());
-		//robot.rotate(90);
-		System.out.println("rotate "+robot.getZ());
-		//robot.orientate_west();
-		robot.orientate_east();
-		//robot.orientate_south();
-		robot.orientate_north();
-		System.out.println("north "+robot.getZ());
-		//robot.orientate(true);
-		//System.out.println("orientate "+robot.getZ());
-		//robot.orientate_east();
-		/*robot.run(20, true);
-		robot.orientate(true);
-		robot.run_until_color(Color.GREEN);
-		robot.go_to_line(Color.YELLOW);
-		robot.orientate(true);
-		robot.followLine(Color.YELLOW, 150);*/
+		/*Robot robot = new Robot(new Point(0,0), false,new ColorSensor(),
+				new Propulsion(), new Graber(), new Bumper(), new UltraSon());*/
+		Camera.init_camera();
+		Point p = new Point(50, 30);
+		Planner.init(new Mapper(true, true));
+		System.out.println(Planner.getPlan(Camera.getPalet(), p, true));
 	}
 }
