@@ -255,7 +255,7 @@ public class Robot {
 					
 				}
 			}
-			dist -= propulsion.getTraveledDist();
+			dist -= propulsion.getTraveledDist()/10;
 		}
 		propulsion.stopMoving();
 		p = PointCalculator.getWhiteLinePoint(south, c);

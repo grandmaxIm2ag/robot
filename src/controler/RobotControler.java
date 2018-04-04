@@ -196,9 +196,9 @@ public class RobotControler {
 				screen.clearDraw();
 				screen.drawText("En attente d'un plan", "Pos : "+robot.getP(),
 						"south : "+robot.isSouth());
-				List<Instruction> plan = new ArrayList<Instruction>();/* = Planner.getPlan(palets, robot.getP(), robot.isSouth());
+				List<Instruction> plan = Planner.getPlan(palets, robot.getP(), robot.isSouth());
 				accept(plan, first_move ? plan_first_pick : plan_norm,
-						first_move ? plan_first : plan_deliver);*/
+						first_move ? plan_first : plan_deliver);
 				robot.setP(new Point(50,30));
 				robot.setZ(0);
 				first_move = false;

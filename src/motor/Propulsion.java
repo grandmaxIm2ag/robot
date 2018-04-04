@@ -101,7 +101,6 @@ public class Propulsion extends TimedMotor implements MoveListener{
 		if (pilot.getMovement().getDistanceTraveled() > expected_dist){
 			this.stopMoving();
 		}
-		traveledDist = pilot.getMovement().getDistanceTraveled();
 	}
 	
 	/**
@@ -345,6 +344,7 @@ public class Propulsion extends TimedMotor implements MoveListener{
 			if(event.getAngleTurned()<0)
 				orientation = R2D2Constants.FULL_CIRCLE - orientation;
 		}
+		traveledDist=event.getDistanceTraveled();
 		lastTurnedAngle = event.getAngleTurned();
 	}
 	
