@@ -269,8 +269,7 @@ public class Planner {
 		    for(int i=0;i<pallets.size();i++)
 		    	bw1.write("	(at pl"+i+" a"+pallets.get(i).getI()+pallets.get(i).getJ()+")\n");
 		    bw1.write("	(at-robby a"+pos.getI()+pos.getJ()+")\n");
-		    bw1.write(north);
-		    bw1.write(last);
+		    bw1.write(fin);
 		    bw1.close();
 		    
 		    // Creates the planner
