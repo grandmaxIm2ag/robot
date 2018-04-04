@@ -91,15 +91,19 @@ public class PointCalculator {
 	}
 	
 	
-	public static Point getPointFromAngle(Point p, float dist, float angle) {
+	public static Point getPointFromAngle(Point p, float dist, float currentDirection, float newDirection) {
 		//Angle en degrés, convertir en radians
+		float angle = newDirection - 90;
 		angle = degreesToRadians(angle);
 		float x = p.getX();
 		float y = p.getY();
-		double cos = Math.cos(angle);
-		double sin = Math.sin(angle);
+		float cos = (float)Math.cos(angle);
+		float sin = (float)Math.sin(angle);
 	
-		return new Point((float)(x + cos*dist),(float)( y + sin*dist));
+		if (angle > 90.0 && angle < -90.0)
+			return new Point(x + cos*dist, y + sin*dist);
+		
+		else return new Point(x - cos*dist, y - sin*dist);
 	}
 	
 	public static void string_color(int c){
@@ -109,6 +113,5 @@ public class PointCalculator {
 			System.out.println("noir");
 		if(c == utils.R2D2Constants.colors[utils.R2D2Constants.YELLOW])
 			System.out.println("jaune");
-		
 	}
 }

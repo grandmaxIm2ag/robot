@@ -159,8 +159,18 @@ public class TestPointCalculator {
 				.closestColor(new Point(R2D2Constants.X_BLACK-10, 0)));
 		assertFalse(R2D2Constants.colors[R2D2Constants.RED] == PointCalculator
 				.closestColor(new Point(R2D2Constants.X_BLACK+10, 0)));
-		
-		
+	}
+	
+	@Test
+	public void testDistanceAngle() {
+		float o = 0;
+		float n = 90;
+		float x = 0;
+		float y = 150;
+		float x1 = 50;
+		float y1 = 150;
+		float dist = (float) Math.sqrt((x-x1)*(x-x1) + (y-y1)*(y-y1));
+		assertEquals(new Point(x,y), PointCalculator.getPointFromAngle(new Point(x1,y1), dist, o, n));
 	}
 }
 
