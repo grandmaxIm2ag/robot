@@ -35,7 +35,7 @@ public class ExecFirstPlan extends ExecPlan {
 		
 		//On se décale à la droite de la ligne contenant le palet
 		robot.orientate_east();
-		robot.run(20, true);
+		robot.run(15, true);
 		robot.orientate(true);
 		robot.setP(new Point(robot.isSouth() ? robot.getP().getX() - 5 
 				: robot.getP().getX() + 5, robot.getP().getY()));
@@ -53,6 +53,7 @@ public class ExecFirstPlan extends ExecPlan {
 		robot.followLine(PointCalculator.closestColor(robot.getP()), 60,true);
 		
 		//On se retourne
+		System.out.println("angle avant rotation : "+robot.getZ());
 		robot.orientate(false);
 		return true;
 	}

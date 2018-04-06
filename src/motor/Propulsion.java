@@ -89,7 +89,7 @@ public class Propulsion extends TimedMotor implements MoveListener{
 		pilot     = new MovePilot(chassis);
 		pilot.addMoveListener(this);
 		pilot.setLinearAcceleration(R2D2Constants.LINEAR_ACCELERATION);
-		pilot.setLinearSpeed(250);
+		pilot.setLinearSpeed(200);
 		pilot.setAngularSpeed(R2D2Constants.MAX_ROTATION_SPEED);
 		
 	}
@@ -101,7 +101,6 @@ public class Propulsion extends TimedMotor implements MoveListener{
 		if (pilot.getMovement().getDistanceTraveled() > expected_dist){
 			this.stopMoving();
 		}
-		traveledDist = pilot.getMovement().getDistanceTraveled();
 	}
 	
 	/**
@@ -345,6 +344,7 @@ public class Propulsion extends TimedMotor implements MoveListener{
 			if(event.getAngleTurned()<0)
 				orientation = R2D2Constants.FULL_CIRCLE - orientation;
 		}
+		traveledDist=event.getDistanceTraveled();
 		lastTurnedAngle = event.getAngleTurned();
 	}
 	

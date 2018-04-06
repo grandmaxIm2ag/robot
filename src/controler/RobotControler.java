@@ -189,32 +189,32 @@ public class RobotControler {
 		Visitor<Boolean> plan_first_pick = new ExecFirstPick(robot, input, screen);
 		Visitor<Boolean> plan_first = new ExecFirstPlan(robot, input, screen);
 		Visitor<Boolean> plan_deliver = new ExecPlanDeliver(robot, input, screen);
+		int iter= 1;
 		while(run){
 			try{
-				palets.clear();
+				palets = new ArrayList<Palet>();
 				palets = Camera.getPalet();
 				screen.clearDraw();
 				screen.drawText("En attente d'un plan", "Pos : "+robot.getP(),
 						"south : "+robot.isSouth());
-				List<Instruction> plan = new ArrayList<Instruction>();/* = Planner.getPlan(palets, robot.getP(), robot.isSouth());
+				List<Instruction> plan = Planner.getPlan(palets, robot.getP(), robot.isSouth());
+				
+				//TRACE
+				String str = "Coup"+iter+++"\n";
+				str += "position :"+robot.getP()+"\n";
+				str += "orientation :"+robot.getZ()+"\n";
+				str += "Sortie caméra :\n";
+				for(Palet p : palets) {
+					str += p+"\n";
+				}
+				str += "Plan :\n";
+				for(Instruction i : plan) {
+					str += i+"\n";
+				}
+				System.out.println(str);
 				accept(plan, first_move ? plan_first_pick : plan_norm,
-						first_move ? plan_first : plan_deliver);*/
-				robot.setP(new Point(50,30));
-				robot.setZ(0);
+						first_move ? plan_first : plan_deliver);
 				first_move = false;
-				plan.clear();
-				plan.add(new Move(new Point(50, 30), new Point(50,90)));
-				plan.add(new Pick(new Palet(new Point(50,90), true), new Point(50,90)));
-				plan.add(new Move(new Point(50,90), new Point(50,30)));
-				plan.add(new Deliver(new Palet(new Point(50,90), true)));
-				accept(plan, first_move ? plan_first_pick : plan_norm,
-						first_move ? plan_first : plan_deliver);
-				plan.add(new Move(new Point(50, 30), new Point(100,90)));
-				plan.add(new Pick(new Palet(new Point(100,90), true), new Point(100,90)));
-				plan.add(new Move(new Point(100,90), new Point(100,30)));
-				plan.add(new Deliver(new Palet(new Point(100,90), true)));
-				accept(plan, first_move ? plan_first_pick : plan_norm,
-						first_move ? plan_first : plan_deliver);
 			}catch(InstructionException e){
 				//On recalcule le plan
 				e.printStackTrace(System.err);

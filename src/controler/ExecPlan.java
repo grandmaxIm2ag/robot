@@ -65,18 +65,18 @@ public class ExecPlan implements Visitor<Boolean> {
 	@Override
 	public Boolean visit(Move m) throws Exception {
 		try{
-			float max_dist = 30;
+			float max_dist = 50;
 			
 			//On cherche le palet
 			Point point = (Point)m.getNext();
 			float angle = robot.getP().angle(point);
 			angle = angle - robot.getZ();
-			System.out.println(angle);
+			System.out.println("angle : "+angle);
 			robot.rotate(angle);
 			float d = 0;
-			if(robot.getP().distance(point) > 50) {
+			if(robot.getP().distance(point) > max_dist) {
 				robot.run(robot.getP().distance(point)-max_dist, true);
-				d = robot.getPropulsion().getTraveledDist();
+				d = robot.getPropulsion().getTraveledDist()/10;
 			}
 			
 			robot.search_palet((Point) m.getNext(), d);
