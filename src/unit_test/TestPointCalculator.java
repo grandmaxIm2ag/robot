@@ -165,17 +165,18 @@ public class TestPointCalculator {
 	 * 
 	 */
 	@Test
-	public void testDistanceAngleNE() {
-		float o = 0;
-		float n = 45;
+	public void testDistanceAngleSE() {
+		float current = 180;
+		float angle = 270;
 		
 		float x = 0;
-		float y = 200;
+		float y = 150;
 		
 		float x1 = 50;
 		float y1 = 150;
 		float dist = (float) Math.sqrt((x-x1)*(x-x1) + (y-y1)*(y-y1));
-		assertEquals(new Point(x,y), PointCalculator.getPointFromAngle(new Point(x1,y1), dist, o, n));
+		Point res = PointCalculator.getPointFromAngle(new Point(x1,y1), dist, current, angle);
+		assertEquals(new Point(x,y), res);
 	}
 	/**
 	 * 

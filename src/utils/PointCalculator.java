@@ -91,10 +91,11 @@ public class PointCalculator {
 	}
 	
 	
-	public static Point getPointFromAngle(Point p, float dist, float currentDirection, float newDirection) {
+	public static Point getPointFromAngle(Point p, float dist, float currentDirection, float a) {
 		//Angle en degrés, convertir en radians
-		double angle = newDirection;
+		double angle = (currentDirection + a) % 360;
 		angle = Math.toRadians(90 - angle);
+		
 		float x = p.getX();
 		float y = p.getY();
 		float cos = (float)Math.cos(angle);
