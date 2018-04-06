@@ -37,13 +37,13 @@ public class R2D2Constants {
 	public static final int   GRAB_RUNNING_SPEED         = 2000;
 	public static final float LINEAR_ACCELERATION        = 0.1f;
 	public static final int   VOLTE_FACE_ROTATION        = 80;
-	public static final int   MAX_ROTATION_SPEED         = 40;
+	public static final int   MAX_ROTATION_SPEED         = 25;
 	public static final int   SEARCH_SPEED               = 30;
 	public static final int   SLOW_SEARCH_SPEED          = 20;
 	public static final int   ANGLE_CORRECTION           = 2;
 	public static final float PR_ANGLE_CORRECTION        = ANGLE_CORRECTION/100f;
 	public static final float SIZE_ARENA				 = 200f;
-	public static final float ERROR						 = 15f;
+	public static final float ERROR						 = 10f;
 	public static final float DIST_AVOID_OBSTACLE 		 = 50f;
 	public static final float Y_SOUTH 					 = 30f;
 	public static final float Y_NORTH 					 = 270f;
@@ -52,8 +52,8 @@ public class R2D2Constants {
 	public static final float X_YELLOW					 = 50f;
 	public static final int PORT_CAMERA					 = 8888;
 	public static final int WIDTH_ARENA					 = 200;
-	public static final int LENGTH_ARENA				 = 200;
-	public static final float STRENGTH_BARREL_CORRECTION = 2f;
+	public static final int LENGTH_ARENA				 = 300;
+	public static final float STRENGTH_BARREL_CORRECTION = 0f;
 	public static final float ANGLE_ERROR				 = 1.1f;
 	
 	public static final int[] colors = {Color.YELLOW, Color.BLACK, Color.RED};

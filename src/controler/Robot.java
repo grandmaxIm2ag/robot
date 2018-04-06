@@ -241,6 +241,7 @@ public class Robot {
 							b = false;
 						}
 					}
+					setZ(propulsion.getOrientation());
 					if(b){
 						propulsion.rotate(angle_search_color*3, true, false);
 						while(propulsion.isRunning()){
@@ -251,14 +252,16 @@ public class Robot {
 								b = false;
 							}
 						}
+						setZ(propulsion.getOrientation());
 					}
 					
 				}
 			}
-			dist -= propulsion.getTraveledDist();
+			dist -= propulsion.getTraveledDist()/10;
 		}
 		propulsion.stopMoving();
 		p = PointCalculator.getWhiteLinePoint(south, c);
+		setZ(propulsion.getOrientation());
 	}
 	
 	/**
@@ -290,8 +293,8 @@ public class Robot {
 			while(graber.isRunning()){
 				graber.checkState();
 			}
-			//On recule de 5 centimètres
-			propulsion.runDist(5, false);
+			//On recule de 6 centimètres
+			propulsion.runDist(7, false);
 			while(propulsion.isRunning()){
 				propulsion.check_dist();
 				if(input.escapePressed()){
@@ -299,7 +302,6 @@ public class Robot {
 					throw new exception.FinishException();
 				}
 			}
-			System.out.println(propulsion.getTraveledDist());
 		}
 	}
 	
@@ -360,7 +362,6 @@ public class Robot {
 			}
 			float diff = Math.abs(dist - (vision.getRaw()[0]*100 + utils.R2D2Constants.
 					size_sonar));
-			System.out.println("diff :"+diff);
 			if(diff <= utils.R2D2Constants.ERROR ){
 				propulsion.stopMoving();
 				b = false;
@@ -376,7 +377,6 @@ public class Robot {
 				}
 				float diff = Math.abs(dist - (vision.getRaw()[0]*100 + utils.R2D2Constants.
 						size_sonar));
-				System.out.println("diff :"+diff);
 				if(diff <= utils.R2D2Constants.ERROR ){
 					propulsion.stopMoving();
 					b = false;

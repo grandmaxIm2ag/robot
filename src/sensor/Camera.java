@@ -5,6 +5,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import exception.MovingPaletException;
@@ -26,7 +27,6 @@ public class Camera {
 	 * @throws SocketException problème de comunication
 	 */
 	public static void init_camera() throws SocketException{
-		dsocket = new DatagramSocket(utils.R2D2Constants.PORT_CAMERA);
 		theoric_points = new ArrayList<Point>();
 		theoric_points.add(new Point(50,15));
 		theoric_points.add(new Point(100,15));
@@ -51,7 +51,7 @@ public class Camera {
 	 * @throws IOException problème de communication
 	 */
 	public static List<Palet> getPalet() throws IOException {
-		
+		dsocket = new DatagramSocket(utils.R2D2Constants.PORT_CAMERA);
 		byte[]buffer=new byte[2048];
 		DatagramPacket packet=new DatagramPacket(buffer, buffer.length);
 		dsocket.receive(packet);
@@ -66,9 +66,22 @@ public class Camera {
 		}
 		List<Palet> palets = new ArrayList<Palet>();
 		for(Point p : points){
-			palets.add(new Palet(p, p.getY() > utils.R2D2Constants.Y_SOUTH &&
-					p.getY() < utils.R2D2Constants.Y_NORTH));
+			palets.add(new Palet(p, p.getY() > utils.R2D2Constants.Y_SOUTH+10 &&
+					p.getY() < utils.R2D2Constants.Y_NORTH-10));
 		}
+		
+		//On supprime les palets hors jeu
+		Iterator<Palet> it = palets.iterator();
+		while(it.hasNext())
+			if(!((Palet)it.next()).isIn_game())
+				it.remove();
+		
+		//On afiche les palets
+		it = palets.iterator();
+		while(it.hasNext())
+			System.out.println(it.next());
+		System.out.println("###################################");
+		dsocket.close();
 		return palets;
 	}
 	
@@ -110,6 +123,7 @@ public class Camera {
 		float sourceY = halflength+ theta * newY;
 		
 		Point res = new Point(sourceX, sourceY);
+		
 		
 		for(Point tmp: theoric_points) {
 			if(tmp.distance(res) < 20) {
