@@ -2,6 +2,7 @@ package utils;
 
 import lejos.robotics.Color;
 import java.lang.Math;
+import java.util.Arrays;
 
 /**
  * 
@@ -79,6 +80,8 @@ public class PointCalculator {
 				i_min = i;
 		}
 		
+		System.out.println(Arrays.toString(dist));
+		string_color(utils.R2D2Constants.colors[i_min]);
 		return utils.R2D2Constants.colors[i_min];
 	}
 	
@@ -90,16 +93,23 @@ public class PointCalculator {
 	
 	public static Point getPointFromAngle(Point p, float dist, float currentDirection, float newDirection) {
 		//Angle en degrés, convertir en radians
-		float angle = newDirection - 90;
-		angle = degreesToRadians(angle);
+		double angle = newDirection;
+		angle = Math.toRadians(angle > 180 ? 360 - angle : angle);
 		float x = p.getX();
 		float y = p.getY();
-		float cos = (float) Math.cos(angle);
-		float sin = (float) Math.sin(angle);
+		float cos = (float)Math.cos(angle);
+		float sin = (float)Math.sin(angle);
 	
-		if (angle > 90.0 && angle < -90.0)
-			return new Point(x + cos*dist, y + sin*dist);
-		
-		else return new Point(x - cos*dist, y - sin*dist);
+		System.out.println(cos+" "+angle+" "+newDirection+"!!");
+		return new Point(x + cos*dist, y + sin*dist);
+	}
+	
+	public static void string_color(int c){
+		if(c == utils.R2D2Constants.colors[utils.R2D2Constants.RED])
+			System.out.println("rouge");
+		if(c == utils.R2D2Constants.colors[utils.R2D2Constants.BLACK])
+			System.out.println("noir");
+		if(c == utils.R2D2Constants.colors[utils.R2D2Constants.YELLOW])
+			System.out.println("jaune");
 	}
 }

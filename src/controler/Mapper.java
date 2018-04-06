@@ -20,6 +20,7 @@ public class Mapper implements Visitor<Instruction>{
 	private final int MAP_HEIGHT = 300;
 	private final int nbX = MAP_WIDTH / NODE_WIDTH + 2;
 	private final int nbY = (MAP_HEIGHT - 2*END) / NODE_HEIGHT + 2; 
+	private static boolean b = true;
 	/**
 	 * 
 	 */
@@ -103,7 +104,6 @@ public class Mapper implements Visitor<Instruction>{
 	 * @return : le point associé à ce noeud (par défaut si ce point n'est pas connu)
 	 */
 	public Point nodeToPoint(Node n) {
-		
 		if (nodesToPoints.containsKey(n)) {
 			return nodesToPoints.get(n);
 		}

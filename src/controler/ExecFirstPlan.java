@@ -34,15 +34,15 @@ public class ExecFirstPlan extends ExecPlan {
 	public Boolean visit(Move m) throws Exception {
 		
 		//On se décale à la droite de la ligne contenant le palet
-		robot.rotate(90); 
+		robot.orientate_east();
 		robot.run(20, true);
 		robot.orientate(true);
-		robot.setP(new Point(robot.isSouth() ? robot.getP().getX() + 20 
-				: robot.getP().getX() - 20, robot.getP().getY()));
+		robot.setP(new Point(robot.isSouth() ? robot.getP().getX() - 5 
+				: robot.getP().getX() + 5, robot.getP().getY()));
 		
 		//On avance jusqu'à la dernière ligne horizontale
-		robot.run_until_color(robot.isSouth() ? Color.GREEN : Color.BLUE);
-		robot.run(25, true);
+		robot.run_until_color(robot.isSouth() ? Color.GREEN : Color.BLUE, 100);
+		robot.run(20, true);
 		
 		//On se déplace jusqu'à la ligne à suivre
 		robot.go_to_line(PointCalculator.closestColor(robot.getP()));

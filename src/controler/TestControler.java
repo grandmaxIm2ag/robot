@@ -166,37 +166,6 @@ public class TestControler extends RobotControler{
 			robot.go_to_line(Color.BLACK);
 			current_test++;
 			
-			/*
-			 * Quatrième Test : 
-			 * 
-			 *  On va tester le méthode de recherche de palet
-			 *
-			 *  Suivez les instructions sur le robot, et vérifiez le bon 
-			 *  déroulement du test
-			 */
-			
-			screen.drawText("Partie I test IV : ",
-					"Le robot va devoir avancer de"
-					,"80 cm pour attraper un palet après s'être tourener"
-					,"Placer le robot sur (50, 270) et le palet sur (100, 210)"
-					,"Press ENTER");
-			input.waitOkEscape(Button.ID_ENTER);
-			Point pal = new Point(100,210);
-			robot.setP(new Point(50, 270));
-			robot.setZ(180);
-			robot.run(10, true);
-			robot.setP(new Point(50, 260));
-			robot.go_to_line(PointCalculator.closestColor(pal));
-			robot.orientate(false);
-			float dist = Math.abs(robot.getP().getY() - pal.getY());
-			if(dist > 30)	
-				robot.followLine(PointCalculator.closestColor(pal), dist-30);
-			robot.search_palet(new Point(100,210));
-			robot.run(new Point(100,210), true);
-			robot.getGraber().open();
-			while(robot.graber.isRunning());
-				robot.getGraber().checkState();
-			
 			screen.drawText("FIN DES TESTS", "XP");
 		}
 		catch(Throwable t){

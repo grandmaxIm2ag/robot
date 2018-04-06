@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import exception.EmptyArenaException;
+import exception.FinishException;
 import exception.InstructionException;
 
 import lejos.hardware.Button;
@@ -53,7 +54,7 @@ public class RobotControler {
 	/**
 	 * Le nombre de calibration pour les couleurs
 	 */
-	protected int nb_calibration = 1;
+	protected int nb_calibration = 2;
 	/**
 	 * Booléen indiquant que le robot ramène le premier palet
 	 */
@@ -81,6 +82,12 @@ public class RobotControler {
 	 * @throws ClassNotFoundException Traitée par l'appelant
 	 */
 	public void start() throws IOException, ClassNotFoundException{
+		try {
+			robot.run(10, true);
+		} catch (FinishException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if(calibration()){
 			screen.drawText("Calibration Placement", 
 					"Appuyez sur OK si","vous êtes au sud",
@@ -173,6 +180,7 @@ public class RobotControler {
 				robot.isSouth() ? initLeft ? 150 : 50 : initLeft ? 50 : 150,
 				robot.isSouth() ? R2D2Constants.Y_NORTH : R2D2Constants.Y_SOUTH
 				));
+		
 		//Boucle de jeu
 		screen.clearDraw();
 		screen.drawText("Lancement du robot");
@@ -185,10 +193,28 @@ public class RobotControler {
 			try{
 				palets.clear();
 				palets = Camera.getPalet();
-				List<Instruction> plan = Planner.getPlan(palets, robot.getP(), robot.isSouth());
+				screen.clearDraw();
+				screen.drawText("En attente d'un plan", "Pos : "+robot.getP(),
+						"south : "+robot.isSouth());
+				List<Instruction> plan = new ArrayList<Instruction>();/* = Planner.getPlan(palets, robot.getP(), robot.isSouth());
+				accept(plan, first_move ? plan_first_pick : plan_norm,
+						first_move ? plan_first : plan_deliver);*/
+				robot.setP(new Point(50,30));
+				robot.setZ(0);
+				first_move = false;
+				plan.clear();
+				plan.add(new Move(new Point(50, 30), new Point(50,90)));
+				plan.add(new Pick(new Palet(new Point(50,90), true), new Point(50,90)));
+				plan.add(new Move(new Point(50,90), new Point(50,30)));
+				plan.add(new Deliver(new Palet(new Point(50,90), true)));
 				accept(plan, first_move ? plan_first_pick : plan_norm,
 						first_move ? plan_first : plan_deliver);
-				first_move = false;
+				plan.add(new Move(new Point(50, 30), new Point(100,90)));
+				plan.add(new Pick(new Palet(new Point(100,90), true), new Point(100,90)));
+				plan.add(new Move(new Point(100,90), new Point(100,30)));
+				plan.add(new Deliver(new Palet(new Point(100,90), true)));
+				accept(plan, first_move ? plan_first_pick : plan_norm,
+						first_move ? plan_first : plan_deliver);
 			}catch(InstructionException e){
 				//On recalcule le plan
 				e.printStackTrace(System.err);
@@ -237,6 +263,7 @@ public class RobotControler {
 			}
 			String trace = ins.toString()+"\n";
 			trace+=move && deliver_move ? deliver : pick;
+			System.out.println(trace);
 			if(! ins.accept(move && deliver_move ? deliver : pick)){
 				throw new InstructionException("L'instruction a échouée");
 			}

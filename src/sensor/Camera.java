@@ -7,6 +7,7 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
+import exception.MovingPaletException;
 import utils.Palet;
 import utils.Point;
 /**
@@ -19,13 +20,29 @@ public class Camera {
 	 */
 	private static DatagramSocket dsocket;
 
+	private static List<Point> theoric_points;
 	/**
 	 * initialise la caméra
 	 * @throws SocketException problème de comunication
 	 */
 	public static void init_camera() throws SocketException{
-		System.err.println("COucou");
 		dsocket = new DatagramSocket(utils.R2D2Constants.PORT_CAMERA);
+		theoric_points = new ArrayList<Point>();
+		theoric_points.add(new Point(50,15));
+		theoric_points.add(new Point(100,15));
+		theoric_points.add(new Point(150,15));
+		theoric_points.add(new Point(50,90));
+		theoric_points.add(new Point(100,90));
+		theoric_points.add(new Point(150,90));
+		theoric_points.add(new Point(50,150));
+		theoric_points.add(new Point(100,150));
+		theoric_points.add(new Point(150,150));
+		theoric_points.add(new Point(50,210));
+		theoric_points.add(new Point(100,210));
+		theoric_points.add(new Point(150,210));
+		theoric_points.add(new Point(50,285));
+		theoric_points.add(new Point(100,285));
+		theoric_points.add(new Point(150,285));
 	}
 	/**
 	 * Renvoie la liste des palets sur la table
@@ -55,6 +72,15 @@ public class Camera {
 		return palets;
 	}
 	
+	public static Point update(Point p_old) throws IOException, MovingPaletException{
+		List<Palet> pls = getPalet();
+		for(Palet p:pls)
+			if(p_old.distance((Point) p.getP())<5)
+				return (Point) p.getP();
+		
+		throw new MovingPaletException();
+	}
+
 	/**
 	 * Corrige la distorsion de Barrel en un point
 	 * @param p le point à corriger
@@ -83,6 +109,15 @@ public class Camera {
 		float sourceX = halfwidth + theta * newX;
 		float sourceY = halflength+ theta * newY;
 		
-		return new Point(sourceX, sourceY);
+		Point res = new Point(sourceX, sourceY);
+		
+		for(Point tmp: theoric_points) {
+			if(tmp.distance(res) < 20) {
+				res = new Point(tmp.getX(), tmp.getY());
+				break;
+			}			
+		}
+		
+		return res;
 	}
 }

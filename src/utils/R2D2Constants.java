@@ -23,7 +23,7 @@ public class R2D2Constants {
 	 * Runing parameters, may be changed
 	 */
 	public static final int   NORTH                      = 0;
-	public static final int   WEST                       = -QUART_CIRCLE;
+	public static final int   WEST                       = HALF_CIRCLE + QUART_CIRCLE;
 	public static final int   EAST                       = QUART_CIRCLE;
 	public static final int   SOUTH                      = HALF_CIRCLE;
 	public static final float ANGLE_START                = 10;
@@ -53,7 +53,7 @@ public class R2D2Constants {
 	public static final int PORT_CAMERA					 = 8888;
 	public static final int WIDTH_ARENA					 = 200;
 	public static final int LENGTH_ARENA				 = 200;
-	public static final float STRENGTH_BARREL_CORRECTION = 1.55f;
+	public static final float STRENGTH_BARREL_CORRECTION = 2f;
 	public static final float ANGLE_ERROR				 = 1.1f;
 	
 	public static final int[] colors = {Color.YELLOW, Color.BLACK, Color.RED};

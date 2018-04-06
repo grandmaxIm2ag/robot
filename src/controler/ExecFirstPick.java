@@ -23,6 +23,7 @@ public class ExecFirstPick extends ExecPlan {
 	@Override
 	public Boolean visit(Move m) throws Exception {
 		robot.run((Point) m.getNext(), true);
+		System.out.println(robot.getP()+" "+robot.getZ());
 		return true;
 	}
 }

@@ -8,11 +8,11 @@ public class Point extends Coord{
 	/**
 	 * 
 	 */
-	private final float x;
+	private float x;
 	/**
 	 * 
 	 */
-	private final float y;
+	private float y;
 	
 	/**
 	 * 
@@ -113,5 +113,13 @@ public class Point extends Coord{
 				return 180-(float)Math.toDegrees(r);
 			else
 				return (float)-Math.toDegrees(r);
+	}
+
+	public void setX(float x) {
+		this.x = x;
+	}
+
+	public void setY(float y) {
+		this.y = y;
 	}
 }

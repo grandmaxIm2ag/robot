@@ -45,7 +45,7 @@ public class Main2 {
 			points.add(pt);
 		}
 		for (Point p : points) {
-			//System.out.println(p);
+			System.out.println(p);
 		}
 	}
 

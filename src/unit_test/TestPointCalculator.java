@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import utils.R2D2Constants;
 import java.util.Random;
 
 import org.junit.Before;
@@ -83,7 +84,6 @@ public class TestPointCalculator {
 	public void testOnVertical() {
 		assertTrue(PointCalculator.is_on_vertical_line(new Point(
 				utils.R2D2Constants.X_BLACK, 0)));
-		System.out.println((Math.abs(utils.R2D2Constants.X_BLACK+5 - utils.R2D2Constants.X_BLACK)<5));
 		assertTrue(PointCalculator.is_on_vertical_line(new Point(
 				utils.R2D2Constants.X_BLACK+5, 0)));
 		assertTrue(PointCalculator.is_on_vertical_line(new Point(
@@ -116,12 +116,54 @@ public class TestPointCalculator {
 				utils.R2D2Constants.X_YELLOW-6, 0)));
 	}	
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void testAngleConversion() {
 		float angle = 180;
 		assertEquals((float) Math.PI, (float) PointCalculator.degreesToRadians(angle), 0.02);
 	}
 	
+	/**
+	 * 
+	 */
+	@Test
+	public void test_closest_color() {
+		assertEquals(R2D2Constants.colors[R2D2Constants.RED], PointCalculator
+				.closestColor(new Point(R2D2Constants.X_RED-20, 0)));
+		assertEquals(R2D2Constants.colors[R2D2Constants.RED], PointCalculator
+				.closestColor(new Point(R2D2Constants.X_RED+20, 0)));
+		
+		assertEquals(R2D2Constants.colors[R2D2Constants.YELLOW], PointCalculator
+				.closestColor(new Point(R2D2Constants.X_YELLOW-10, 0)));
+		assertEquals(R2D2Constants.colors[R2D2Constants.YELLOW], PointCalculator
+				.closestColor(new Point(R2D2Constants.X_YELLOW+10, 0)));
+		
+		assertEquals(R2D2Constants.colors[R2D2Constants.BLACK], PointCalculator
+				.closestColor(new Point(R2D2Constants.X_BLACK-10, 0)));
+		assertEquals(R2D2Constants.colors[R2D2Constants.BLACK], PointCalculator
+				.closestColor(new Point(R2D2Constants.X_BLACK+10, 0)));
+		
+		assertFalse(R2D2Constants.colors[R2D2Constants.YELLOW] == PointCalculator
+				.closestColor(new Point(R2D2Constants.X_RED-10, 0)));
+		assertFalse(R2D2Constants.colors[R2D2Constants.BLACK] == PointCalculator
+				.closestColor(new Point(R2D2Constants.X_RED+10, 0)));
+		
+		assertFalse(R2D2Constants.colors[R2D2Constants.RED] == PointCalculator
+				.closestColor(new Point(R2D2Constants.X_YELLOW-10, 0)));
+		assertFalse(R2D2Constants.colors[R2D2Constants.BLACK] == PointCalculator
+				.closestColor(new Point(R2D2Constants.X_YELLOW+10, 0)));
+		
+		assertFalse(R2D2Constants.colors[R2D2Constants.YELLOW] == PointCalculator
+				.closestColor(new Point(R2D2Constants.X_BLACK-10, 0)));
+		assertFalse(R2D2Constants.colors[R2D2Constants.RED] == PointCalculator
+				.closestColor(new Point(R2D2Constants.X_BLACK+10, 0)));
+	}
+	
+	/**
+	 * 
+	 */
 	@Test
 	public void testDistanceAngle() {
 		float o = 0;
@@ -132,6 +174,20 @@ public class TestPointCalculator {
 		float y1 = 150;
 		float dist = (float) Math.sqrt((x-x1)*(x-x1) + (y-y1)*(y-y1));
 		assertEquals(new Point(x,y), PointCalculator.getPointFromAngle(new Point(x1,y1), dist, o, n));
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	public void testDistanceAngle2() {
+		Point p1 = new Point(0,0);
+		Point p2 = new Point(10, 0);
+		float a1 = 180;
+		float a2 = a1+(p1.angle(p2)-180);
+		float dist = p1.distance(p2);
+		System.out.println(a2+"\n"+p2+"\n"+PointCalculator.getPointFromAngle(p1, dist, a1, a2));
+		assertEquals(p2, PointCalculator.getPointFromAngle(p1, dist, a1, a2));
 	}
 }
 

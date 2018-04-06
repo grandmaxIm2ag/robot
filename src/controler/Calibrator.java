@@ -103,6 +103,22 @@ public class Calibrator {
 				Button.waitForAnyPress();
 				color.calibrateColor(Color.WHITE);
 			}
+			
+			for(int i=1; i<=nbIter; i++){
+				//calibration vert
+				screen.clearDraw();
+				screen.drawText("Vert "+i+"/"+nbIter);
+				Button.waitForAnyPress();
+				color.calibrateColor(Color.GREEN);
+			}
+			
+			for(int i=1; i<=nbIter; i++){
+				//calibration bleu
+				screen.clearDraw();
+				screen.drawText("Bleu "+i+"/"+nbIter);
+				Button.waitForAnyPress();
+				color.calibrateColor(Color.BLUE);
+			}
 		}
 	}
 
