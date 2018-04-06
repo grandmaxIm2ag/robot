@@ -128,7 +128,7 @@ public class TestPointCalculator {
 	/**
 	 * 
 	 */
-	@Test
+	//@Test
 	public void test_closest_color() {
 		assertEquals(R2D2Constants.colors[R2D2Constants.RED], PointCalculator
 				.closestColor(new Point(R2D2Constants.X_RED-20, 0)));
@@ -160,26 +160,27 @@ public class TestPointCalculator {
 		assertFalse(R2D2Constants.colors[R2D2Constants.RED] == PointCalculator
 				.closestColor(new Point(R2D2Constants.X_BLACK+10, 0)));
 	}
-	
+
 	/**
 	 * 
 	 */
 	@Test
-	public void testDistanceAngle() {
+	public void testDistanceAngleNE() {
 		float o = 0;
-		float n = 135;
+		float n = 45;
+		
 		float x = 0;
-		float y = 100;
+		float y = 200;
+		
 		float x1 = 50;
 		float y1 = 150;
 		float dist = (float) Math.sqrt((x-x1)*(x-x1) + (y-y1)*(y-y1));
 		assertEquals(new Point(x,y), PointCalculator.getPointFromAngle(new Point(x1,y1), dist, o, n));
 	}
-	
 	/**
 	 * 
 	 */
-	@Test
+	//@Test
 	public void testDistanceAngle2() {
 		Point p1 = new Point(0,0);
 		Point p2 = new Point(10, 0);
@@ -190,5 +191,3 @@ public class TestPointCalculator {
 		assertEquals(p2, PointCalculator.getPointFromAngle(p1, dist, a1, a2));
 	}
 }
-
-

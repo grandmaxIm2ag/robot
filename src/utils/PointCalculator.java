@@ -94,14 +94,16 @@ public class PointCalculator {
 	public static Point getPointFromAngle(Point p, float dist, float currentDirection, float newDirection) {
 		//Angle en degrés, convertir en radians
 		double angle = newDirection;
-		angle = Math.toRadians(angle > 180 ? 360 - angle : angle);
+		angle = Math.toRadians(90 - angle);
 		float x = p.getX();
 		float y = p.getY();
 		float cos = (float)Math.cos(angle);
 		float sin = (float)Math.sin(angle);
 	
-		System.out.println(cos+" "+angle+" "+newDirection+"!!");
-		return new Point(x + cos*dist, y + sin*dist);
+		System.out.println("cos = " + cos + " & sin = " + sin + " & angle = " + angle);
+		Point r = new Point(x - cos*dist, y + sin*dist);
+		System.out.println(r);
+		return r;
 	}
 	
 	public static void string_color(int c){
