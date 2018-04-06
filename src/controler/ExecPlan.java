@@ -71,7 +71,7 @@ public class ExecPlan implements Visitor<Boolean> {
 			Point point = (Point)m.getNext();
 			float angle = robot.getP().angle(point);
 			angle = angle - robot.getZ();
-			System.out.println(angle);
+			System.out.println("angle : "+angle);
 			robot.rotate(angle);
 			float d = 0;
 			if(robot.getP().distance(point) > max_dist) {

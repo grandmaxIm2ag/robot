@@ -35,11 +35,15 @@ public class Test {
 
 		Robot robot = new Robot(new Point(0,0), false,new ColorSensor(),
 				new Propulsion(), new Graber(), new Bumper(), new UltraSon());
-		robot.setSouth(true);
-		robot.setP(new Point(50,90));
-		robot.setZ(0);
-		robot.followLine(Color.YELLOW, 80, true);
-		/*Point p = new Point(50, 30);
+		float z = 3.3960876f;
+		Point p = new Point(50,30);
+		Point p2 = new Point(0,90);
+		robot.setP(p);
+		robot.setZ(z);
+		float angle = z-p.angle(p2);
+		robot.rotate(angle);
+		/*Camera.init_camera();
+		Point p = new Point(50, 30);
 		Planner.init(new Mapper(true, true));
 		System.out.println(Planner.getPlan(Camera.getPalet(), p, true));*/
 	}
