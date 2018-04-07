@@ -53,7 +53,8 @@ public class R2D2Constants {
 	public static final int PORT_CAMERA					 = 8888;
 	public static final int WIDTH_ARENA					 = 200;
 	public static final int LENGTH_ARENA				 = 300;
-	public static final float STRENGTH_BARREL_CORRECTION = 0f;
+	public static final float STRENGTH_BARREL_CORRECTION = 1.4f;
+	public static final boolean ADVANCED_CORRECTION      = true;
 	public static final float ANGLE_ERROR				 = 1.1f;
 	
 	public static final int[] colors = {Color.YELLOW, Color.BLACK, Color.RED};
