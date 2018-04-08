@@ -173,7 +173,7 @@ public class RobotControler {
 	 * 
 	 */
 	public void mainLoop(boolean initLeft) throws SocketException {
-		Camera.init_camera();
+		Camera.initCamera();
 		Planner.init(new Mapper(true, robot.isSouth()));
 		boolean run = true;
 		robot.setP(new Point(
@@ -193,7 +193,7 @@ public class RobotControler {
 		while(run){
 			try{
 				palets = new ArrayList<Palet>();
-				palets = Camera.getPalet();
+				palets = Camera.getPalets();
 				screen.clearDraw();
 				screen.drawText("En attente d'un plan", "Pos : "+robot.getP(),
 						"south : "+robot.isSouth());
