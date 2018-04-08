@@ -276,7 +276,6 @@ public class Robot {
 	 */
 	public void followLine(int c, float dist, boolean deliver) throws FinishException{
 		followLine(c, dist);
-		System.out.println("On lache le palet");
 		if(deliver){
 			//On avance de 15 centimètres
 			propulsion.runDist(15);
@@ -287,7 +286,6 @@ public class Robot {
 					throw new exception.FinishException();
 				}
 			}
-			System.out.println(propulsion.getTraveledDist());
 			//On ouvre a pince
 			graber.open();
 			while(graber.isRunning()){
@@ -362,6 +360,7 @@ public class Robot {
 			}
 			float diff = Math.abs(dist - (vision.getRaw()[0]*100 + utils.R2D2Constants.
 					size_sonar));
+			System.out.println("diff :"+diff);
 			if(diff <= utils.R2D2Constants.ERROR ){
 				propulsion.stopMoving();
 				b = false;
@@ -377,6 +376,7 @@ public class Robot {
 				}
 				float diff = Math.abs(dist - (vision.getRaw()[0]*100 + utils.R2D2Constants.
 						size_sonar));
+				System.out.println("diff :"+diff);
 				if(diff <= utils.R2D2Constants.ERROR ){
 					propulsion.stopMoving();
 					b = false;
@@ -397,7 +397,7 @@ public class Robot {
 	 * @throws FinishException Traitée par l'appelant
 	 */
 	public void rotate(float angle) throws FinishException{
-		propulsion.rotate(angle, false, false);
+		propulsion.rotate(angle,false,true);
 		while(propulsion.isRunning()){
 			propulsion.checkState();
 			if(input.escapePressed()){

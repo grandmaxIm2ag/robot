@@ -203,17 +203,18 @@ public class Propulsion extends TimedMotor implements MoveListener{
 	}
 	
 	public void orientate(float d) {
+		
 		if(d>orientation) {
 			if(d-orientation <= R2D2Constants.HALF_CIRCLE)
-				rotate(d-orientation,false,false);
+				rotate(d-orientation,false,true);
 			else
-				rotate(d-R2D2Constants.FULL_CIRCLE-orientation,false,false);
+				rotate(d-R2D2Constants.FULL_CIRCLE-orientation,false,true);
 		}
 		else {
 			if(orientation-d > R2D2Constants.HALF_CIRCLE)
-				rotate(R2D2Constants.FULL_CIRCLE-orientation+d,false,false);
+				rotate(R2D2Constants.FULL_CIRCLE-orientation+d,false,true);
 			else
-				rotate(d-orientation,false,false);
+				rotate(d-orientation,false,true);
 		}
 	}
 	/**
@@ -340,7 +341,7 @@ public class Propulsion extends TimedMotor implements MoveListener{
 				(event.getAngleTurned()*R2D2Constants.PR_ANGLE_CORRECTION));
 		orientation = orientation % R2D2Constants.FULL_CIRCLE;
 		if(orientation < 0) {
-			orientation = -1*orientation;
+			orientation = -1*orientation % R2D2Constants.FULL_CIRCLE;
 			if(event.getAngleTurned()<0)
 				orientation = R2D2Constants.FULL_CIRCLE - orientation;
 		}

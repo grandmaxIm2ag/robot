@@ -8,7 +8,7 @@ import lejos.hardware.Sound;
 public class FileWriteTest {
 	  public static void main(String[] args) { 
 	    FileOutputStream out = null; // declare outside the try block
-	    File data = new File("log.dat");
+	    File data = new File("colors.dat");
 
 	    try {
 	      out = new FileOutputStream(data);

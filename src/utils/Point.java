@@ -107,12 +107,12 @@ public class Point extends Coord{
 			if(y>point.y)
 				return 180+(float)Math.toDegrees(r);
 			else
-				return (float)Math.toDegrees(r);
+				return (float)-Math.toDegrees(r);
 		else
 			if(y>point.y)
 				return 180-(float)Math.toDegrees(r);
 			else
-				return (float)-Math.toDegrees(r);
+				return (float)Math.toDegrees(r);
 	}
 
 	public void setX(float x) {
