@@ -246,7 +246,7 @@ public class Camera {
 		Point res = new Point(sourceX, sourceY);
 
 		for(Point tmp: theoreticalPoints) {
-			if(tmp.distance(res) <= 10) {
+			if(tmp.distance(res) <= 25) {
 				res = new Point(tmp.getX(), tmp.getY());
 				break;
 			}			

@@ -240,6 +240,7 @@ public class RobotControler {
 		
 		while(it.hasNext()){
 			Instruction ins = it.next();
+			System.out.println(ins.toString());
 			boolean move = (ins instanceof Move);
 			if(move) {
 				Point p = (Point)((Move)ins).getNext();

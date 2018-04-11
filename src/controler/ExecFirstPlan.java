@@ -35,7 +35,7 @@ public class ExecFirstPlan extends ExecPlan {
 		
 		//On se décale à la droite de la ligne contenant le palet
 		robot.orientate_east();
-		robot.run(15, true);
+		robot.run(20, true);
 		robot.orientate(true);
 		robot.setP(new Point(robot.isSouth() ? robot.getP().getX() - 5 
 				: robot.getP().getX() + 5, robot.getP().getY()));
@@ -46,7 +46,7 @@ public class ExecFirstPlan extends ExecPlan {
 		
 		//On se déplace jusqu'à la ligne à suivre
 		robot.go_to_line(PointCalculator.closestColor(robot.getP()));
-		robot.run(8, true);
+		robot.run(5, true);
 		robot.orientate(true);
 		
 		//On suit la ligne

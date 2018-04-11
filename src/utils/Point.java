@@ -1,5 +1,8 @@
 package utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  *
@@ -121,5 +124,50 @@ public class Point extends Coord{
 
 	public void setY(float y) {
 		this.y = y;
+	}
+	
+	public void apply_coeff(Point coeff) {
+		x *= coeff.getX();
+		y *= coeff.getY();
+	}
+	
+	public void applay_mult_coeff(List<Point> coeff, List<Point> p) {
+		float D = 0;
+		
+		for(int i=0; i<coeff.size(); i++)
+			D+=distance(p.get(i));
+		
+		float alpha=0, beta=0;
+		for(int i=0; i<coeff.size(); i++) {
+			alpha+=((D-distance(p.get(i)))/D)*coeff.get(i).getX();
+			beta+=((D-distance(p.get(i)))/D)*coeff.get(i).getY();
+		}
+		
+		apply_coeff(new Point(alpha, beta));
+	}
+	
+	public Point compute_coeff(Point p) {
+		return new Point((float)p.getX()/x, (float)p.getY()/y);
+	}
+	
+	public List<Point> n_closest(int n, List<Point> p) {
+		if(n >= p.size())
+			throw new IllegalArgumentException("n plus grand que lee tableau");
+		List<Point > res = new ArrayList<Point>();
+		List<Point> close = new ArrayList<Point>();
+		for(int j = 0; j<n; j++) {
+			float max = 0;
+			int i_max = -1;
+			for(int k =0; k<p.size(); k++) {
+				if(!close.contains(p.get(k)))
+					if(max <= distance(p.get(k))) {
+						i_max = k;
+						max = distance(p.get(i_max));
+					}
+			}
+			res.add(p.get(i_max));
+			close.add(p.get(i_max));
+		}
+		return res;
 	}
 }

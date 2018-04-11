@@ -65,7 +65,7 @@ public class ExecPlan implements Visitor<Boolean> {
 	@Override
 	public Boolean visit(Move m) throws Exception {
 		try{
-			float max_dist = 50;
+			float max_dist = 35;
 			
 			//On cherche le palet
 			Point point = (Point)m.getNext();

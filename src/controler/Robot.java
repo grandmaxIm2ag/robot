@@ -350,7 +350,6 @@ public class Robot {
 		float dist = this.getP().distance(point)-d;
 		float angle = 15;
 		boolean b = true;
-		System.out.println("distance :"+dist);
 		propulsion.rotate(angle, false, false);
 		while(propulsion.isRunning()){
 			propulsion.checkState();
