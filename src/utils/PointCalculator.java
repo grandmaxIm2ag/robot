@@ -80,9 +80,58 @@ public class PointCalculator {
 				i_min = i;
 		}
 		
-		System.out.println(Arrays.toString(dist));
 		string_color(utils.R2D2Constants.colors[i_min]);
 		return utils.R2D2Constants.colors[i_min];
+	}
+	
+	public static float closest_column(Point p){
+ 		int r=0, y=1, b=2;
+ 		float dist [] = new float[3];
+ 		
+ 		dist[r] = Math.abs(p.getX()-R2D2Constants.X_RED);
+ 		dist[y] = Math.abs(p.getX()-R2D2Constants.X_YELLOW);
+ 		dist[b] = Math.abs(p.getX()-R2D2Constants.X_BLACK);
+ 		
+ 		int i_min=0;
+		for(int i =1; i<dist.length; i++) {
+			if(dist[i] < dist[i_min])
+				i_min = i;
+		}
+		
+		if(i_min==r)
+			return R2D2Constants.X_RED;
+		if(i_min==y)
+			return R2D2Constants.X_YELLOW;
+		if(i_min==b)
+			return R2D2Constants.X_BLACK;
+		
+		return 0;
+		
+	}
+	
+	public static float closest_line(Point p){
+ 		int r=0, y=1, b=2;
+ 		float dist [] = new float[3];
+ 		
+ 		dist[r] = Math.abs(p.getY()-R2D2Constants.Y_GREEN);
+ 		dist[y] = Math.abs(p.getY()-R2D2Constants.Y_BLUE);
+ 		dist[b] = Math.abs(p.getY()-R2D2Constants.Y_BLACK);
+ 		
+ 		int i_min=0;
+		for(int i =1; i<dist.length; i++) {
+			if(dist[i] < dist[i_min])
+				i_min = i;
+		}
+		
+		if(i_min==r)
+			return R2D2Constants.Y_GREEN;
+		if(i_min==y)
+			return R2D2Constants.Y_BLUE;
+		if(i_min==b)
+			return R2D2Constants.Y_BLACK;
+		
+		return 0;
+		
 	}
 	
 	public static float degreesToRadians(float t) {

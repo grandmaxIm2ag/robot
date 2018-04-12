@@ -50,6 +50,11 @@ public class R2D2Constants {
 	public static final float X_RED						 = 150f;
 	public static final float X_BLACK					 = 100f;
 	public static final float X_YELLOW					 = 50f;
+	
+	public static final float Y_GREEN						 = 90f;
+	public static final float Y_BLACK					 = 150f;
+	public static final float Y_BLUE					 = 210f;
+	
 	public static final int PORT_CAMERA					 = 8888;
 	public static final int WIDTH_ARENA					 = 200;
 	public static final int LENGTH_ARENA				 = 300;

@@ -13,6 +13,7 @@ import java.util.TreeMap;
 
 import utils.Palet;
 import utils.Point;
+import utils.PointCalculator;
 
 public class Camera2 {
 
@@ -34,28 +35,17 @@ public class Camera2 {
 		
 		theoricalPoints = new ArrayList<Point>();
 
-		theoricalPoints.add(new Point(200,270));
-		theoricalPoints.add(new Point(200,210));
-		theoricalPoints.add(new Point(200,150));
-		theoricalPoints.add(new Point(200,90));
-		theoricalPoints.add(new Point(200,30));
-		
-		theoricalPoints.add(new Point(100,270));
-		theoricalPoints.add(new Point(100,210));
+		theoricalPoints.add(new Point(150,150));
+		theoricalPoints.add(new Point(50,150));
 		theoricalPoints.add(new Point(100,150));
-		theoricalPoints.add(new Point(100,90));
-		theoricalPoints.add(new Point(100,30));
-
-		theoricalPoints.add(new Point(0,270));
-		theoricalPoints.add(new Point(0,210));
-		theoricalPoints.add(new Point(0,150));
-		theoricalPoints.add(new Point(0,90));
-		theoricalPoints.add(new Point(0,30));
 		
-		theoricalPoints.add(new Point(150,270));
-		theoricalPoints.add(new Point(50,270));
-		theoricalPoints.add(new Point(150,30));
-		theoricalPoints.add(new Point(50,30));
+		theoricalPoints.add(new Point(150,210));
+		theoricalPoints.add(new Point(50,210));
+		theoricalPoints.add(new Point(100,210));
+		
+		theoricalPoints.add(new Point(150,90));
+		theoricalPoints.add(new Point(50,90));
+		theoricalPoints.add(new Point(100,90));
 
 		init_coeff();
 	}
@@ -69,11 +59,12 @@ public class Camera2 {
 		System.out.println(msg);
 		for(String s:trames) {
 			String []pl=s.split(";");
-			Point tmp = new Point(Integer.parseInt(pl[0]), Integer.parseInt(pl[0]));
-			Point init = tmp.n_closest(1, theoricalPoints).get(0);
+			Point tmp = new Point(Integer.parseInt(pl[1]), Integer.parseInt(pl[2]));
+			Point init = new Point(PointCalculator.closest_column(tmp),
+					PointCalculator.closest_line(tmp));
 			Point c = tmp.compute_coeff(init);
 			init_point.add(tmp);
-			coeff.put(init, c);
+			coeff.put(tmp, c);
 		}
 		dsocket.close();
 	}
@@ -85,7 +76,6 @@ public class Camera2 {
 		for(Point key : lp) {
 			c.add(coeff.get(key));
 		}
-		System.out.println(lp);
 		p.applay_mult_coeff(c, lp);
 		return p;
 	}
@@ -107,7 +97,7 @@ public class Camera2 {
 		List<Point> lp = new ArrayList<Point>();
 		for(String s:trames) {
 			String []pl=s.split(";");
-			Point p = correction(new Point(Integer.parseInt(pl[0]),Integer.parseInt(pl[0])));
+			Point p = correction(new Point(Integer.parseInt(pl[1]),Integer.parseInt(pl[2])));
 			lp.add(p);
 		}
 		List<Palet> palets = new ArrayList<Palet>();

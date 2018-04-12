@@ -132,15 +132,27 @@ public class Point extends Coord{
 	}
 	
 	public void applay_mult_coeff(List<Point> coeff, List<Point> p) {
-		float D = 0;
+		float D = 0, R=0;
+		float dist[] = new float[coeff.size()];
+ 		for(int i=0; i<coeff.size(); i++) {
+			D+=distance(p.get(i));
+			dist[i] = distance(p.get(i));
+ 		}
+ 		
+ 		for(int i=0; i<coeff.size();i++){
+ 			dist[i] = 1- (dist[i]-D);
+ 			R+=dist[i];
+ 		}
+		
+		float P[] = new float[coeff.size()];
 		
 		for(int i=0; i<coeff.size(); i++)
-			D+=distance(p.get(i));
+			P[i] = (dist[i]/R);
 		
 		float alpha=0, beta=0;
 		for(int i=0; i<coeff.size(); i++) {
-			alpha+=((D-distance(p.get(i)))/D)*coeff.get(i).getX();
-			beta+=((D-distance(p.get(i)))/D)*coeff.get(i).getY();
+			alpha += P[i]*coeff.get(i).getX();
+			beta += P[i]*coeff.get(i).getY();
 		}
 		
 		apply_coeff(new Point(alpha, beta));
