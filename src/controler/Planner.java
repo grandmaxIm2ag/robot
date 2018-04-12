@@ -220,9 +220,11 @@ public class Planner {
 	}
 
 	/**
+	 * Convertie les coordonnées pour l'arène
 	 * 
-	 * @param l
-	 * @return
+	 * @param l le plan
+	 * @return le plan mappé au terrain
+	 * 
 	 * @throws Exception 
 	 */
 	public static List<Instruction> accept(List<Instruction> l, 
@@ -239,8 +241,8 @@ public class Planner {
 	 * 
 	 * @param palets List des palets enjeux
 	 * @param point Position du robot
-	 * @param isSouth Indique le robot doit déposer les palets "au sud"
-	 * @return
+	 *
+	 * @return le plan
 	 * @throws EmptyArenaException
 	 */
 	public static List<Instruction> getPlan(List<Palet> palets, Point point,

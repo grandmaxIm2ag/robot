@@ -36,15 +36,15 @@ public class Point extends Coord{
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Getteur de Y
+	 * @return Y
 	 */
 	public float getY() {
 		return this.y;
 	}
 
 	/**
-	 * 
+	 * @rturn le hashcode
 	 */
 	@Override
 	public int hashCode() {
@@ -57,7 +57,7 @@ public class Point extends Coord{
 
 	/**
 	 * 
-	 * return
+	 * return la version textuelle
 	 */
 	@Override
 	public String toString() {
@@ -65,7 +65,8 @@ public class Point extends Coord{
 	}
 
 	/**
-	 * return
+	 * Fonction d'galité
+	 * return true si o et this sont équivalent
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -89,17 +90,17 @@ public class Point extends Coord{
 	}
 	
 	/**
-	 * 
-	 * @param p
-	 * @return
+	 * la distance entre deux points
+	 * @param p le second point
+	 * @return la distance
 	 */
 	public float distance (Point p) {
 		return (float)Math.sqrt(Math.pow(p.getX()-x, 2)+Math.pow(p.getY()-y, 2));
 	}
 	/**
-	 * 
-	 * @param point
-	 * @return
+	 * L'angle entre deux points
+	 * @param point le second points
+	 * @return l'angle calculé
 	 */
 	public float angle (Point point) {
 		Point tmp = new Point(x, point.getY());
@@ -118,10 +119,18 @@ public class Point extends Coord{
 				return (float)Math.toDegrees(r);
 	}
 
+	/**
+	 * Setteur de X
+	 * @param x valeur de x
+	 */
 	public void setX(float x) {
 		this.x = x;
 	}
 
+	/**
+	 * Setteur de Y
+	 * @param y valeur xed Y
+	 */
 	public void setY(float y) {
 		this.y = y;
 	}
@@ -130,7 +139,7 @@ public class Point extends Coord{
 		x *= coeff.getX();
 		y *= coeff.getY();
 	}
-	
+	/*
 	public void applay_mult_coeff(List<Point> coeff, List<Point> p) {
 		float D = 0, R=0;
 		float dist[] = new float[coeff.size()];
@@ -181,5 +190,5 @@ public class Point extends Coord{
 			close.add(p.get(i_max));
 		}
 		return res;
-	}
+	}*/
 }

@@ -87,15 +87,15 @@ public class Palet {
 		this.in_game = in_game;
 	}
 	/**
-	 * 
-	 * @return
+	 * Getteur de p
+	 * @return la position du palet
 	 */
 	public Coord getP() {
 		return p;
 	}
 	/**
-	 * 
-	 * @param p
+	 * Setteur de p
+	 * @param p la nouvelle position
 	 */
 	public void setP(Coord p) {
 		this.p = p;

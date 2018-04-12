@@ -341,7 +341,7 @@ public class Robot {
 	/**
 	 * Cherche un paletaux alentours d'une position
 	 * 
-	 * @param point la position théorique du palet
+	 * @param dist la distance à laquelle se trouve le palet
 	 * 
 	 * @throws FinishException Traitée par l'appelant
 	 * @throws InstructionException Traitée par l'appelant

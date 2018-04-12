@@ -27,7 +27,7 @@ public class Calibrator {
 	 * ouvertes
 	 * 
 	 * @param g : la pince
-	 * @param b : booléen indiquant si la pince est ouverte ou fermée
+	 * @param isOpen : booléen indiquant si la pince est ouverte ou fermée
 	 */
 	public static void celibrateGrapber(Graber g, boolean isOpen){
 		screen.drawText("Calibration", 

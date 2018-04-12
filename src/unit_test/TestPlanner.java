@@ -104,6 +104,105 @@ public class TestPlanner {
 		}
 	}
 	
+	/**
+	 * Quatrième test
+	 * @throws EmptyArenaException
+	 */
+	@Test
+	public void testGetPlan4() throws EmptyArenaException{
+		Planner.init(new Mapper(true,false));
+		
+		palet.add(new Palet(new Point(50, 150), true));
+		palet.add(new Palet(new Point(100, 150), true));
+		palet.add(new Palet(new Point(150, 150), true));
+		
+		palet.add(new Palet(new Point(50, 210), true));
+		palet.add(new Palet(new Point(100, 210), true));
+		palet.add(new Palet(new Point(150, 210), true));
+		
+		Point p = new Point(150,270);
+		
+		List<Instruction> expected_plan = new ArrayList<Instruction>();
+		expected_plan.add(new Move(p, new Point(150,210)));
+		expected_plan.add(new Pick(new Palet(new Point(150,210), true), new Point(150,210)));
+		expected_plan.add(new Move(new Point(150,210), new Point(150, 270)));
+		expected_plan.add(new Deliver(new Palet(new Point(150,210), true)));
+		
+		
+		List<Instruction> plan = Planner.getPlan(palet, p, false);
+		System.out.println(plan);
+		assertEquals(plan.size(), expected_plan.size());
+		Iterator<Instruction> it = plan.iterator();
+		for(Instruction ins : expected_plan){
+			assertEquals(ins, it.next());
+		}
+	}
+	
+	/**
+	 * Cinquième test
+	 * @throws EmptyArenaException
+	 */
+	@Test
+	public void testGetPlan5() throws EmptyArenaException{
+		Planner.init(new Mapper(true,false));
+		
+		palet.add(new Palet(new Point(50, 150), true));
+		palet.add(new Palet(new Point(100, 150), true));
+		palet.add(new Palet(new Point(150, 150), true));
+		
+		palet.add(new Palet(new Point(50, 210), true));
+		palet.add(new Palet(new Point(100, 210), true));
+		palet.add(new Palet(new Point(150, 210), true));
+		
+		Point p = new Point(50,270);
+		
+		List<Instruction> expected_plan = new ArrayList<Instruction>();
+		expected_plan.add(new Move(p, new Point(50,210)));
+		expected_plan.add(new Pick(new Palet(new Point(50,210), true), new Point(50,210)));
+		expected_plan.add(new Move(new Point(50,210), new Point(50, 270)));
+		expected_plan.add(new Deliver(new Palet(new Point(50,210), true)));
+		
+		
+		List<Instruction> plan = Planner.getPlan(palet, p, false);
+		System.out.println(plan);
+		assertEquals(plan.size(), expected_plan.size());
+		Iterator<Instruction> it = plan.iterator();
+		for(Instruction ins : expected_plan){
+			assertEquals(ins, it.next());
+		}
+	}
+	
+	/**
+	 * Sixième test
+	 * @throws EmptyArenaException
+	 */
+	@Test
+	public void testGetPlan6() throws EmptyArenaException{
+		Planner.init(new Mapper(true,false));
+		
+		palet.add(new Palet(new Point(50, 150), true));
+		palet.add(new Palet(new Point(100, 150), true));
+		palet.add(new Palet(new Point(150, 150), true));
+		
+		palet.add(new Palet(new Point(100, 210), true));
+		
+		Point p = new Point(50,270);
+		
+		List<Instruction> expected_plan = new ArrayList<Instruction>();
+		expected_plan.add(new Move(p, new Point(100,210)));
+		expected_plan.add(new Pick(new Palet(new Point(100,210), true), new Point(100,210)));
+		expected_plan.add(new Move(new Point(100,210), new Point(100, 270)));
+		expected_plan.add(new Deliver(new Palet(new Point(100,210), true)));
+		
+		
+		List<Instruction> plan = Planner.getPlan(palet, p, false);
+		System.out.println(plan);
+		assertEquals(plan.size(), expected_plan.size());
+		Iterator<Instruction> it = plan.iterator();
+		for(Instruction ins : expected_plan){
+			assertEquals(ins, it.next());
+		}
+	}
 	
 	/**
 	 * Quatrième test

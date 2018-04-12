@@ -6,25 +6,29 @@ import java.util.Arrays;
 
 /**
  * 
- *
+ * Classe utilitaire pour le calcul de position
  */
 public class PointCalculator {
 
 	/**
+	 * Renvoie le point d'un absice  sur la ligne d'en-but
 	 * 
-	 * @param isSouth
-	 * @param x
-	 * @return
+	 * @param isSouth la ligne d'en-but
+	 * @param x l'absice
+	 * 
+	 * @return la position
 	 */
 	public static Point getWhiteLinePoint(boolean isSouth, float x){
 		return new Point(x, isSouth ? R2D2Constants.Y_SOUTH : R2D2Constants.Y_NORTH);
 	}
 	
 	/**
+	 * Renvoie le point d'embranchement sur la ligne d'en-but
 	 * 
-	 * @param isSouth
-	 * @param color
-	 * @return
+	 * @param isSouth la ligne d'en-but
+	 * @param color la ligne verticale
+	 * 
+	 * @return la position de l'embranchement
 	 */
 	public static Point getWhiteLinePoint(boolean isSouth, int color){
 		float x = color == Color.RED ? R2D2Constants.X_RED : color == Color.YELLOW ?
@@ -34,10 +38,11 @@ public class PointCalculator {
 	}
 	
 	/**
+	 * Vérifie que le point se trouve sur la ligne d'en-but
+	 * @param p la position
+	 * @param s le coté de la ligne d'en-but
 	 * 
-	 * @param p
-	 * @param s
-	 * @return
+	 * @return vrai si la position se trouve sur la ligne d'en-but
 	 */
 	public static boolean is_on_goal(Point p, boolean s) {
 		if(s) {
@@ -61,9 +66,9 @@ public class PointCalculator {
 	}
 	
 	/**
-	 * 
+	 * Renvoie la couleur de la ligne verticale la plus proche
 	 * @param p
-	 * @return
+	 * @return la couleur la plus de la position p
 	 */
 	public static int closestColor(Point p){
  		int [] dist = new int[3];

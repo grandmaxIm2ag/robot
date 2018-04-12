@@ -14,7 +14,7 @@ public class FactoryInstruction {
 	private static Map<String, Node> map;
 	/**
 	 * Initialise map
-	 * @param n la nouvelle map
+	 * @param m la nouvelle map
 	 */
 	public static void init_map(Map<String, Node> m){
 		map = m;
@@ -27,8 +27,9 @@ public class FactoryInstruction {
 		south = s;
 	}
 	/**
-	 * @param ins
-	 * @return
+	 * Fabrique d'instruction
+	 * @param ins un string représentant l'instruction
+	 * @return l'instruction
 	 * @throws InstructionException 
 	 */
 	public static Instruction create(String ins) throws InstructionException{

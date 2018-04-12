@@ -43,7 +43,7 @@ public class TestPointCalculator {
 	}
 	
 	/**
-	 * test de la classe
+	 * test de la fonction getWhiteLinePoint
 	 */
 	@Test
 	public void testWhiteLine(){
@@ -82,7 +82,7 @@ public class TestPointCalculator {
 	}
 	
 	/**
-	 * 
+	 * Test de la fonction is_on_vertical_line
 	 */
 	@Test
 	public void testOnVertical() {
@@ -107,30 +107,22 @@ public class TestPointCalculator {
 		
 		
 		assertFalse(PointCalculator.is_on_vertical_line(new Point(
-				utils.R2D2Constants.X_BLACK+6, 0)));
+				utils.R2D2Constants.X_BLACK+11, 0)));
 		assertFalse(PointCalculator.is_on_vertical_line(new Point(
-				utils.R2D2Constants.X_BLACK-6, 0)));
+				utils.R2D2Constants.X_BLACK-11, 0)));
 		assertFalse(PointCalculator.is_on_vertical_line(new Point(
-				utils.R2D2Constants.X_RED+6, 0)));
+				utils.R2D2Constants.X_RED+11, 0)));
 		assertFalse(PointCalculator.is_on_vertical_line(new Point(
-				utils.R2D2Constants.X_RED-6, 0)));
+				utils.R2D2Constants.X_RED-11, 0)));
 		assertFalse(PointCalculator.is_on_vertical_line(new Point(
-				utils.R2D2Constants.X_YELLOW+6, 0)));
+				utils.R2D2Constants.X_YELLOW+11, 0)));
 		assertFalse(PointCalculator.is_on_vertical_line(new Point(
-				utils.R2D2Constants.X_YELLOW-6, 0)));
+				utils.R2D2Constants.X_YELLOW-11, 0)));
 	}	
 	
-	/**
-	 * 
-	 */
-	@Test
-	public void testAngleConversion() {
-		float angle = 180;
-		assertEquals((float) Math.PI, (float) PointCalculator.degreesToRadians(angle), 0.02);
-	}
 	
 	/**
-	 * 
+	 * Test la fonction closest_color
 	 */
 	//@Test
 	public void test_closest_color() {
@@ -167,7 +159,7 @@ public class TestPointCalculator {
 
 
 	/**
-	 * 
+	 * Test de la fonction getPointFromAngle
 	 */
 	@Test
 	public void testDistanceAngle2() {

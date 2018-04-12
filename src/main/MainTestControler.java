@@ -3,9 +3,14 @@ package main;
 import lejos.utility.Delay;
 import controler.TestControler;
 
+/**
+ * 
+ * Classe pour les tests des différentes fonction de Robot
+ */
 public class MainTestControler {
 
 	/**
+	 * Programme de test
 	 * @param args
 	 */
 	public static void main(String[] args) {

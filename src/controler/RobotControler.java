@@ -203,9 +203,6 @@ public class RobotControler {
 				first_move = false;
 			}catch(InstructionException e){
 				//On recalcule le plan
-				e.printStackTrace(System.err);
-				run = false;
-				continue;
 			}catch(EmptyArenaException e){
 				//Il n'y a plus aucun palet prenable sur le terrain
 				screen.drawText("FIn", "Il n'y a plus aucun palet");
@@ -230,7 +227,9 @@ public class RobotControler {
 	/**
 	 * Accepte un visteur renvoyant des booléens
 	 * 
-	 * @param v
+	 * @param pick Visiteur pour attraper
+	 * @param deliver Visiteur pour déposere
+	 * 
 	 * @param plan
 	 * @throws Exception
 	 */
