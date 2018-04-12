@@ -27,7 +27,7 @@ public class Camera {
 	 * Initialise la camera
 	 * @throws SocketException probleme de comunication
 	 */
-	public static void initCamera() throws SocketException{
+	public static void init_camera() throws SocketException{
 		theoreticalPoints = new ArrayList<Point>();
 		theoreticalPoints.add(new Point(50,15));
 		theoreticalPoints.add(new Point(100,15));
@@ -292,7 +292,7 @@ public class Camera {
         
         Point res = new Point(srcX,srcY);
 		for(Point tmp: theoreticalPoints) {
-			if(tmp.distance(res) <= 10) {
+			if(tmp.distance(res) <= 15) {
 				res = new Point(tmp.getX(), tmp.getY());
 				break;
 			}

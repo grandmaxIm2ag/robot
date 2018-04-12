@@ -173,7 +173,7 @@ public class RobotControler {
 	 * 
 	 */
 	public void mainLoop(boolean initLeft) throws SocketException {
-		Camera.initCamera();
+		Camera.init_camera();
 		Planner.init(new Mapper(true, robot.isSouth()));
 		boolean run = true;
 		robot.setP(new Point(

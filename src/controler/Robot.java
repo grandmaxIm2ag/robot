@@ -215,7 +215,7 @@ public class Robot {
 	 * @param dist la distance maximale à parcourir sur la ligne
 	 */
 	public void followLine(int c, float dist){
-		float angle_search_color = 30f;
+		float angle_search_color = 35f;
 		while(color.getCurrentColor() != Color.WHITE && dist > 0){
 			propulsion.runDist(dist);
 			while(propulsion.isRunning()){

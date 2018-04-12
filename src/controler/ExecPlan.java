@@ -65,7 +65,7 @@ public class ExecPlan implements Visitor<Boolean> {
 	@Override
 	public Boolean visit(Move m) throws Exception {
 		try{
-			float max_dist = 35;
+			float max_dist = 50;
 			
 			//On cherche le palet
 			Point point = (Point)m.getNext();
@@ -133,6 +133,8 @@ public class ExecPlan implements Visitor<Boolean> {
 		if(!b){
 			robot.orientate(false);
 		}
+		else
+			robot.run(2, true);
 		return b;
 	}
 	

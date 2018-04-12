@@ -2,7 +2,6 @@ package controler;
 
 import utils.Move;
 import utils.Point;
-import utils.PointCalculator;
 import vue.InputHandler;
 import vue.Screen;
 
