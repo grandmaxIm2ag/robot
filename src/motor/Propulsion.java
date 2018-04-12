@@ -94,6 +94,9 @@ public class Propulsion extends TimedMotor implements MoveListener{
 		
 	}
 
+	public void change_rotation_speed(float v) {
+		pilot.setAngularSpeed(v);
+	}
 	/**
 	 * Vérifie la distance parcourue par le robot
 	 */

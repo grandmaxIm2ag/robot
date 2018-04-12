@@ -184,8 +184,11 @@ public class Planner {
 		arguments.put(HSP.Argument.TRACE_LEVEL, 0);
 		if(m.getDirecttion())
 			fin = south+last;
-		else
+		else {
+			System.out.println("Test");
 			fin = north+last;
+		}
+			
 		try {
 			tempd = File.createTempFile("dom", ".tmp"); 
 			BufferedWriter bw = new BufferedWriter(new FileWriter(tempd));
@@ -291,7 +294,7 @@ public class Planner {
 				plan1.add(FactoryInstruction.create(str));
 			}
 				
-			
+			System.out.println(plan1);
 			List<Instruction> final_plan = accept(plan1, mapper);
 			return final_plan;
 			

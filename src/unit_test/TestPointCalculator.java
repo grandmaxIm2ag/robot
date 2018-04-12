@@ -10,6 +10,7 @@ import java.util.Random;
 import org.junit.Before;
 import org.junit.Test;
 
+import junit.runner.Version;
 import utils.Point;
 import utils.PointCalculator;
 
@@ -27,7 +28,10 @@ public class TestPointCalculator {
 	 * Une coordonnée aléatoire
 	 */
 	float y;
-	
+	/**
+	 * delta pour l'imprecision de l'arrondie
+	 */
+	static final float delta = 0.1f;
 	/**
 	 * initialise x et y
 	 */
@@ -161,34 +165,27 @@ public class TestPointCalculator {
 				.closestColor(new Point(R2D2Constants.X_BLACK+10, 0)));
 	}
 
+
 	/**
 	 * 
 	 */
 	@Test
-	public void testDistanceAngleSE() {
-		float current = 180;
-		float angle = 270;
-		
-		float x = 0;
-		float y = 150;
-		
-		float x1 = 50;
-		float y1 = 150;
-		float dist = (float) Math.sqrt((x-x1)*(x-x1) + (y-y1)*(y-y1));
-		Point res = PointCalculator.getPointFromAngle(new Point(x1,y1), dist, current, angle);
-		assertEquals(new Point(x,y), res);
-	}
-	/**
-	 * 
-	 */
-	//@Test
 	public void testDistanceAngle2() {
-		Point p1 = new Point(0,0);
-		Point p2 = new Point(10, 0);
-		float a1 = 180;
-		float a2 = a1+(p1.angle(p2)-180);
-		float dist = p1.distance(p2);
-		System.out.println(a2+"\n"+p2+"\n"+PointCalculator.getPointFromAngle(p1, dist, a1, a2));
-		assertEquals(p2, PointCalculator.getPointFromAngle(p1, dist, a1, a2));
+		Random rand = new Random();
+		for(int i=0; i<100000; i++) {
+			float x1, x2, y1, y2;
+			x1 = rand.nextFloat()*100;
+			x2 = rand.nextFloat()*100;
+			y1 = rand.nextFloat()*100;
+			y2 = rand.nextFloat()*100;
+					
+			Point p1 = new Point(x1, y1);
+			Point p2 = new Point(x2, y2);
+			float a2 = (p1.angle(p2));
+			float dist = p1.distance(p2);	
+			assertEquals(p2.getX(), PointCalculator.getPointFromAngle(p1, dist, a2).getX(), delta);
+			assertEquals(p2.getY(), PointCalculator.getPointFromAngle(p1, dist, a2).getY(), delta);
+		}
 	}
+	
 }

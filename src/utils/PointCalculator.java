@@ -140,19 +140,16 @@ public class PointCalculator {
 	}
 	
 	
-	public static Point getPointFromAngle(Point p, float dist, float currentDirection, float a) {
+	public static Point getPointFromAngle(Point p, float dist, float currentDirection) {
 		//Angle en degrés, convertir en radians
-		double angle = (currentDirection + a) % 360;
+		double angle = currentDirection % 360;
 		angle = Math.toRadians(90 - angle);
 		
 		float x = p.getX();
 		float y = p.getY();
 		float cos = (float)Math.cos(angle);
 		float sin = (float)Math.sin(angle);
-	
-		System.out.println("cos = " + cos + " & sin = " + sin + " & angle = " + angle);
 		Point r = new Point(x - cos*dist, y + sin*dist);
-		System.out.println(r);
 		return r;
 	}
 	

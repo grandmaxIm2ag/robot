@@ -38,20 +38,7 @@ public class Test {
 		
 		robot.setP(new Point(50,270f));
 		robot.setSouth(true);
-		robot.setZ(180);
-		robot.rotate(30);
-		robot.orientate(false);
-		/*float z = 3.3960876f;
-		Point p = new Point(50,30);
-		Point p2 = new Point(-100,90);
-		robot.setP(p);
-		robot.setZ(z);
-		float angle = p.angle(p2);
-		robot.rotate(angle);
-		System.out.println(angle);
-		
-		Point p = new Point(50, 30);
-		Planner.init(new Mapper(true, true));
-		System.out.println(Planner.getPlan(Camera.getPalet(), p, true));*/
+		robot.setZ(5);
+		robot.orientate(0);
 	}
 }

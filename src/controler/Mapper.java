@@ -1,5 +1,6 @@
 package controler;
 
+import java.util.HashMap;
 import java.util.TreeMap;
 
 import exception.InstructionException;
@@ -26,8 +27,8 @@ public class Mapper implements Visitor<Instruction>{
 	 */
 	private final boolean south;
 	
-	private TreeMap<Node, Point> nodesToPoints;
-	private TreeMap<Node, Point> defaultPoints;
+	private HashMap<Node, Point> nodesToPoints;
+	private HashMap<Node, Point> defaultPoints;
 	/**
 	 * 
 	 * @param fromPlanner
@@ -37,8 +38,8 @@ public class Mapper implements Visitor<Instruction>{
 		super();
 		this.fromPlanner = fromPlanner;
 		this.south = south;
-		this.nodesToPoints = new TreeMap<Node,Point>();
-		this.defaultPoints = new TreeMap<Node,Point>();
+		this.nodesToPoints = new HashMap<Node,Point>();
+		this.defaultPoints = new HashMap<Node,Point>();
 		System.out.println(1);
 		for (int i = 1; i < nbX; i++) {
 			for (int j = 1; j < nbY; j++) {
@@ -129,12 +130,6 @@ public class Mapper implements Visitor<Instruction>{
 		xOut = (xIn - NODE_WIDTH/2)/NODE_WIDTH + 2;
 		yOut = yIn / NODE_HEIGHT + 1;
 		
-		
-		/* Inverse les noeuds en fonction des camps
-		if (!south) {
-			yOut = nbY - (int) yOut;
-			xOut = nbX - (int) xOut;
-		}*/
 		Node n = new Node((int)xOut, (int)yOut);
 
 		nodesToPoints.put(n, p);

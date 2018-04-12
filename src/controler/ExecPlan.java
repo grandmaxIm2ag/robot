@@ -65,20 +65,32 @@ public class ExecPlan implements Visitor<Boolean> {
 	@Override
 	public Boolean visit(Move m) throws Exception {
 		try{
-			float max_dist = 35;
+			float max_dist = 50;
 			
 			//On cherche le palet
 			Point point = (Point)m.getNext();
 			float angle = robot.getP().angle(point);
 			//System.out.println("angle : "+angle);
-			robot.rotate(angle);
+			System.out.println("z = "+robot.getZ());
+			System.out.println(angle);
+			robot.orientate(angle);
 			float d = 0;
 			if(robot.getP().distance(point) > max_dist) {
 				robot.run(robot.getP().distance(point)-max_dist, true);
 				d = robot.getPropulsion().getTraveledDist()/10;
 			}
 			
-			robot.search_palet((Point) m.getNext(), d);
+			
+			robot.setP(PointCalculator.getPointFromAngle(robot.getP(), d, robot.getZ()));
+			point = (Point)m.getNext();
+			angle = robot.getP().angle(point);
+			robot.orientate(angle);
+			System.out.println("z2 = "+robot.getZ());
+			System.out.println(angle);
+			System.out.println(robot.getP());
+			float dd = robot.balayage((Point)m.getNext());
+			System.out.println("palet a :"+dd);
+			robot.search_palet(dd);
 		}catch(exception.InstructionException e){
 			/*
 			 * Si la recherche du palet plannifiée échoue
@@ -93,6 +105,8 @@ public class ExecPlan implements Visitor<Boolean> {
 			throw e;
 		}
 		robot.run((Point) m.getNext(), true);
+		robot.setP(PointCalculator.getPointFromAngle(robot.getP(), robot.
+				getPropulsion().getTraveledDist()/10, robot.getZ()));
 		return true;
 	}
 	
@@ -132,6 +146,8 @@ public class ExecPlan implements Visitor<Boolean> {
 		boolean b =robot.graber.isClose();
 		if(!b){
 			robot.orientate(false);
+		}else {
+			robot.run(5, true);
 		}
 		return b;
 	}

@@ -37,8 +37,7 @@ public class ExecFirstPlan extends ExecPlan {
 		robot.orientate_east();
 		robot.run(20, true);
 		robot.orientate(true);
-		robot.setP(new Point(robot.isSouth() ? robot.getP().getX() - 5 
-				: robot.getP().getX() + 5, robot.getP().getY()));
+		robot.setP(new Point(robot.getP().getX() - 5,  robot.getP().getY()));
 		
 		//On avance jusqu'à la dernière ligne horizontale
 		robot.run_until_color(robot.isSouth() ? Color.GREEN : Color.BLUE, 100);
