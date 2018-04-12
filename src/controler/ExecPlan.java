@@ -105,8 +105,7 @@ public class ExecPlan implements Visitor<Boolean> {
 			throw e;
 		}
 		robot.run((Point) m.getNext(), true);
-		robot.setP(PointCalculator.getPointFromAngle(robot.getP(), robot.
-				getPropulsion().getTraveledDist()/10, robot.getZ()));
+		robot.setP((Point)m.getNext());
 		return true;
 	}
 	

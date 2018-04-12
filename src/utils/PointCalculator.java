@@ -55,9 +55,9 @@ public class PointCalculator {
 	 */
 	public static boolean is_on_vertical_line(Point p){
 		return
-				(Math.abs(p.getX() - utils.R2D2Constants.X_BLACK) <= 5) ||
-				(Math.abs(p.getX() - utils.R2D2Constants.X_RED) <= 5) ||
-				(Math.abs(p.getX() - utils.R2D2Constants.X_YELLOW) <= 5);
+				(Math.abs(p.getX() - utils.R2D2Constants.X_BLACK) <= 10) ||
+				(Math.abs(p.getX() - utils.R2D2Constants.X_RED) <= 10) ||
+				(Math.abs(p.getX() - utils.R2D2Constants.X_YELLOW) <= 10);
 	}
 	
 	/**
