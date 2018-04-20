@@ -204,6 +204,7 @@ public class TestPlanner {
 		}
 	}
 	
+	
 	/**
 	 * Quatrième test
 	 * @throws EmptyArenaException

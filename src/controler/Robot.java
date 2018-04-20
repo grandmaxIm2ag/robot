@@ -502,7 +502,7 @@ public class Robot {
 	 * @throws FinishException Traitée par l'appelant
 	 */
 	public void run_until_color(int c, float min_dist) throws FinishException{
-		propulsion.runDist(utils.R2D2Constants.LENGTH_ARENA);
+		propulsion.runDist(min_dist + 50);
 		while(propulsion.isRunning()){
 			propulsion.check_dist();
 			if(propulsion.check_dist(min_dist) && color.getCurrentColor()==c ){

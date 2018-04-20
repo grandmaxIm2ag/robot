@@ -15,8 +15,10 @@ import exception.EmptyArenaException;
 import fr.uga.pddl4j.encoding.CodedProblem;
 import fr.uga.pddl4j.planners.hsp.HSP;
 import utils.Palet;
+import utils.Pick;
 import utils.FactoryInstruction;
 import utils.Instruction;
+import utils.Move;
 import utils.Node;
 import utils.Point;
 import utils.PointCalculator;
@@ -298,6 +300,7 @@ public class Planner {
 				
 			System.out.println(plan1);
 			List<Instruction> final_plan = accept(plan1, mapper);
+			
 			return final_plan;
 			
 		} catch (Exception e) {

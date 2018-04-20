@@ -1,5 +1,6 @@
 package controler;
 
+import lejos.robotics.Color;
 import utils.Deliver;
 import utils.Instruction;
 import utils.Move;
@@ -97,7 +98,7 @@ public class ExecPlan implements Visitor<Boolean> {
 			 * Si la recherche du palet plannifiée échoue
 			 * alors l'exécution du plan échoue
 			 */
-			return false;
+			return true;
 		}catch(Exception e){
 			/*
 			 * Pour toutes les autres exceptions, 
@@ -145,6 +146,13 @@ public class ExecPlan implements Visitor<Boolean> {
 	public Boolean visit(Pick p) throws Exception {
 		boolean b =robot.graber.isClose();
 		if(!b){
+			//robot.orientate(true);
+			//robot.run(5, true);
+			//robot.setP(PointCalculator.getPointFromAngle(robot.getP(), 5, robot.getZ()));
+			robot.go_to_line(Color.BLACK);
+			robot.run(5, true);
+			robot.orientate(true);
+			robot.followLine(Color.BLACK, 210, false);
 			robot.orientate(false);
 		}else {
 			robot.run(5, true);
