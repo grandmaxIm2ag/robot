@@ -1,5 +1,9 @@
 package controler;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import lejos.hardware.Button;
 import lejos.robotics.Color;
 import motor.Graber;
@@ -121,5 +125,4 @@ public class Calibrator {
 			}
 		}
 	}
-
 }

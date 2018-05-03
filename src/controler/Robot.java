@@ -2,6 +2,7 @@ package controler;
 
 import exception.FinishException;
 import exception.InstructionException;
+import exception.LostLineException;
 import lejos.robotics.Color;
 import motor.Graber;
 import motor.Propulsion;
@@ -213,8 +214,9 @@ public class Robot {
 	 * 
 	 * @param c la couleur de la ligne suivie
 	 * @param dist la distance maximale à parcourir sur la ligne
+	 * @throws LostLineException 
 	 */
-	public void followLine(int c, float dist){
+	public void followLine(int c, float dist) throws LostLineException{
 		propulsion.change_rotation_speed(R2D2Constants.SEARCH_SPEED);
 		float angle_search_color = 30f;
 		while(color.getCurrentColor() != Color.WHITE && dist > 0){
@@ -254,6 +256,8 @@ public class Robot {
 						}
 						
 					}
+					if(b)
+						throw new exception.LostLineException();
 					
 				}
 			}
@@ -274,8 +278,9 @@ public class Robot {
 	 * @param deliver booléen indiquant s'il faut lacher un palet
 	 * 
 	 * @throws FinishException Traîtée par l'appelant
+	 * @throws LostLineException 
 	 */
-	public void followLine(int c, float dist, boolean deliver) throws FinishException{
+	public void followLine(int c, float dist, boolean deliver) throws FinishException, LostLineException{
 		followLine(c, dist);
 		if(deliver){
 			//On avance de 15 centimètres

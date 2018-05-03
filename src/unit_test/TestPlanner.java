@@ -13,6 +13,7 @@ import org.junit.Test;
 import utils.*;
 import controler.Planner;
 import controler.Mapper;
+import controler.Planner2;
 import exception.EmptyArenaException;
 /**
  * Test du plannificateur
@@ -50,7 +51,7 @@ public class TestPlanner {
 		expected_plan.add(new Move(palet.get(0).getP(), p));
 		expected_plan.add(new Deliver(palet.get(0)));
 		
-		List<Instruction> plan = Planner.getPlan(palet, p, true);
+		List<Instruction> plan = Planner2.getPlan(palet, p, true);
 		assertEquals(plan.size(), expected_plan.size());
 		Iterator<Instruction> it = plan.iterator();
 		for(Instruction ins : expected_plan){
@@ -72,7 +73,7 @@ public class TestPlanner {
 		expected_plan.add(new Move(palet.get(1).getP(), new Point(100, 30)));
 		expected_plan.add(new Deliver(palet.get(1)));
 		
-		List<Instruction> plan = Planner.getPlan(palet, p, true);
+		List<Instruction> plan = Planner2.getPlan(palet, p, true);
 		
 		assertEquals(plan.size(), expected_plan.size());
 		Iterator<Instruction> it = plan.iterator();
@@ -96,7 +97,7 @@ public class TestPlanner {
 		expected_plan.add(new Deliver(palet.get(2)));
 		
 		
-		List<Instruction> plan = Planner.getPlan(palet, p, true);
+		List<Instruction> plan = Planner2.getPlan(palet, p, true);
 		assertEquals(plan.size(), expected_plan.size());
 		Iterator<Instruction> it = plan.iterator();
 		for(Instruction ins : expected_plan){
@@ -129,7 +130,7 @@ public class TestPlanner {
 		expected_plan.add(new Deliver(new Palet(new Point(150,210), true)));
 		
 		
-		List<Instruction> plan = Planner.getPlan(palet, p, false);
+		List<Instruction> plan = Planner2.getPlan(palet, p, false);
 		System.out.println(plan);
 		assertEquals(plan.size(), expected_plan.size());
 		Iterator<Instruction> it = plan.iterator();
@@ -195,7 +196,7 @@ public class TestPlanner {
 		expected_plan.add(new Deliver(new Palet(new Point(100,210), true)));
 		
 		
-		List<Instruction> plan = Planner.getPlan(palet, p, false);
+		List<Instruction> plan = Planner2.getPlan(palet, p, false);
 		System.out.println(plan);
 		assertEquals(plan.size(), expected_plan.size());
 		Iterator<Instruction> it = plan.iterator();
@@ -212,7 +213,7 @@ public class TestPlanner {
 	@Test(expected=EmptyArenaException.class)
 	public void testGetPlanEmptyArena() throws EmptyArenaException{
 		Point p = new Point(50,30);
-		Planner.getPlan(new ArrayList<Palet>(), p, true);
+		Planner2.getPlan(new ArrayList<Palet>(), p, true);
 	}
 	
 	/**

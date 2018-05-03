@@ -47,9 +47,20 @@ public class ExecPlanDeliver extends ExecPlan {
 		robot.orientate(true);
 		
 		//On roule jusqu'à la ligne blanche et on dépose le palet
-		robot.followLine(PointCalculator.closestColor(robot.getP()), Math.abs(
-				robot.getP().getY() - (robot.isSouth() ? utils.R2D2Constants.
-						Y_SOUTH : utils.R2D2Constants.Y_NORTH)), true);
+		boolean c = true;
+		while(c)
+			try{
+				robot.followLine(PointCalculator.closestColor(robot.getP()), Math.abs(
+						robot.getP().getY() - (robot.isSouth() ? utils.R2D2Constants.
+								Y_SOUTH : utils.R2D2Constants.Y_NORTH)), true);
+				c = false;
+			}catch(exception.LostLineException el){
+				int couleur = PointCalculator.closestColor(robot.getP()) == Color.BLACK ?
+						Color.RED : Color.BLACK;
+				robot.go_to_line(couleur);
+				robot.run(5, true);
+				robot.orientate(true);
+			}
 		
 		//On se retourne
 		robot.orientate(false);
