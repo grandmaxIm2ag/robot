@@ -21,7 +21,7 @@ public class Bumper {
 	/**
 	 * Le numéro de port
 	 */
-	public final static String TOUCH_SENSOR = "S3";
+	public final static String TOUCH_SENSOR = "S2";
 	/**
 	 * Constructeur de la classe bumper
 	 */

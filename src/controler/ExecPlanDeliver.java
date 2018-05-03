@@ -48,7 +48,7 @@ public class ExecPlanDeliver extends ExecPlan {
 		
 		//On roule jusqu'à la ligne blanche et on dépose le palet
 		boolean c = true;
-		while(c)
+		while(c){
 			try{
 				robot.followLine(PointCalculator.closestColor(robot.getP()), Math.abs(
 						robot.getP().getY() - (robot.isSouth() ? utils.R2D2Constants.
@@ -61,7 +61,7 @@ public class ExecPlanDeliver extends ExecPlan {
 				robot.run(5, true);
 				robot.orientate(true);
 			}
-		
+		}	 
 		//On se retourne
 		robot.orientate(false);
 		

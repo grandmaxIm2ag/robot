@@ -19,7 +19,7 @@ public class UltraSon {
 	/**
 	 * Le numéro de port
 	 */
-	public final static String IR_SENSOR = "S2";
+	public final static String IR_SENSOR = "S1";
 	
 	/**
 	 * Constructeur de la classe UltraSon

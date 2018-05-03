@@ -3,9 +3,9 @@ package utils;
 import lejos.robotics.Color;
 
 public class R2D2Constants {
-	public static final String LEFT_WHEEL = "D";
+	public static final String LEFT_WHEEL = "C";
 	public static final String RIGHT_WHEEL= "A";
-	public static final String PINCH      = "C";
+	public static final String PINCH      = "B";
 	
 	public static final int   QUARTER_SECOND        = 250;
 	public static final int   HALF_SECOND           = 500;
