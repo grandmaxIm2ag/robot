@@ -40,7 +40,10 @@ public class ExecFirstPlan extends ExecPlan {
 		robot.setP(new Point(robot.getP().getX() - 5,  robot.getP().getY()));
 		
 		//On avance jusqu'à la dernière ligne horizontale
-		robot.run_until_color(robot.isSouth() ? Color.GREEN : Color.BLUE, 100);
+		if(PointCalculator.closest_line(robot.getP()) == Color.GREEN && robot.isSouth()){}
+		else if(PointCalculator.closest_line(robot.getP()) == Color.BLUE && !robot.isSouth()){}
+		else robot.run_until_color(robot.isSouth() ? Color.GREEN : Color.BLUE, 
+				PointCalculator.closest_line( 	robot.getP()) == Color.BLACK ? 20 : 80 );
 		robot.run(20, true);
 		
 		//On se déplace jusqu'à la ligne à suivre

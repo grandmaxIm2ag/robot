@@ -22,10 +22,13 @@ public class ExecFirstPick extends ExecPlan {
 	 */
 	@Override
 	public Boolean visit(Move m) throws Exception {
+		//On cherche le palet
+		Point point = (Point)m.getNext();
+		float angle = robot.getP().angle(point);
+		robot.orientate(angle);
 		robot.run((Point) m.getNext(), true);
 		robot.setP(PointCalculator.getPointFromAngle(robot.getP(), robot.
 				getPropulsion().getTraveledDist()/10, robot.getZ()));
-		//System.out.println(robot.getP()+" "+robot.getZ());
 		return true;
 	}
 }

@@ -149,8 +149,8 @@ public class Camera {
 		}
 		List<Palet> palets = new ArrayList<Palet>();
 		for(Point p : correctedPoints){
-			palets.add(new Palet(p, p.getY() > utils.R2D2Constants.Y_SOUTH+10 &&
-					p.getY() < utils.R2D2Constants.Y_NORTH-10));
+			palets.add(new Palet(p, p.getY() > utils.R2D2Constants.Y_SOUTH+15 &&
+					p.getY() < utils.R2D2Constants.Y_NORTH-15));
 		}
 		
 		//On supprime les palets hors jeu
@@ -246,7 +246,7 @@ public class Camera {
 		Point res = new Point(sourceX, sourceY);
 
 		for(Point tmp: theoreticalPoints) {
-			if(tmp.distance(res) <= 30) {
+			if(tmp.distance(res) <= 25) {
 				res = new Point(tmp.getX(), tmp.getY());
 				break;
 			}			
