@@ -29,6 +29,7 @@ public class ExecFirstPick extends ExecPlan {
 		robot.run((Point) m.getNext(), true);
 		robot.setP(PointCalculator.getPointFromAngle(robot.getP(), robot.
 				getPropulsion().getTraveledDist()/10, robot.getZ()));
+		System.out.println("Point du palet : "+robot.getP());
 		return true;
 	}
 }

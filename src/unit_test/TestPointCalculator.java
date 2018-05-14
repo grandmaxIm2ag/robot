@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import junit.runner.Version;
+import lejos.robotics.Color;
 import utils.Point;
 import utils.PointCalculator;
 
@@ -178,6 +179,14 @@ public class TestPointCalculator {
 			assertEquals(p2.getX(), PointCalculator.getPointFromAngle(p1, dist, a2).getX(), delta);
 			assertEquals(p2.getY(), PointCalculator.getPointFromAngle(p1, dist, a2).getY(), delta);
 		}
+	}
+	
+	@Test
+	public void testYLine(){
+		System.out.println(Color.BLUE);
+		Point p = new Point(102, 203);
+		int c = PointCalculator.closest_line(p);
+		System.out.println(c);
 	}
 	
 }

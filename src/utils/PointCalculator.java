@@ -114,12 +114,12 @@ public class PointCalculator {
 		
 	}
 	
-	public static float closest_line(Point p){
- 		int r=0, y=1, b=2;
+	public static int closest_line(Point p){
+ 		int g=0, blue=1, b=2;
  		float dist [] = new float[3];
  		
- 		dist[r] = Math.abs(p.getY()-R2D2Constants.Y_GREEN);
- 		dist[y] = Math.abs(p.getY()-R2D2Constants.Y_BLUE);
+ 		dist[g] = Math.abs(p.getY()-R2D2Constants.Y_GREEN);
+ 		dist[blue] = Math.abs(p.getY()-R2D2Constants.Y_BLUE);
  		dist[b] = Math.abs(p.getY()-R2D2Constants.Y_BLACK);
  		
  		int i_min=0;
@@ -128,14 +128,7 @@ public class PointCalculator {
 				i_min = i;
 		}
 		
-		if(i_min==r)
-			return R2D2Constants.Y_GREEN;
-		if(i_min==y)
-			return R2D2Constants.Y_BLUE;
-		if(i_min==b)
-			return R2D2Constants.Y_BLACK;
-		
-		return 0;
+		return R2D2Constants.colors_line[i_min];
 		
 	}
 	

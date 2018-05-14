@@ -52,7 +52,7 @@ public class R2D2Constants {
 	public static final float X_BLACK					 = 100f;
 	public static final float X_YELLOW					 = 50f;
 	
-	public static final float Y_GREEN						 = 90f;
+	public static final float Y_GREEN					 = 90f;
 	public static final float Y_BLACK					 = 150f;
 	public static final float Y_BLUE					 = 210f;
 	
@@ -64,10 +64,13 @@ public class R2D2Constants {
 	public static final float ANGLE_ERROR				 = 1.1f;
 	
 	public static final int[] colors = {Color.YELLOW, Color.BLACK, Color.RED};
+	public static final int[] colors_line = {Color.GREEN, Color.BLUE, Color.BLACK};
 	public final static int YELLOW = 0;
 	public final static int BLACK = 1;
 	public final static int RED = 2;
-	
+	public final static int GREEN= 0;
+	public final static int BLUE = 1;
+	public final static int BLACK2 = 2;
 	public final static float size_sonar = 10f;
 	
 }

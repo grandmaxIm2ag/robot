@@ -513,12 +513,15 @@ public class Robot {
 	 * @throws FinishException Traitée par l'appelant
 	 */
 	public void run_until_color(int c, float min_dist) throws FinishException{
+		System.out.println("black : "+(PointCalculator.closest_line(getP()) == Color.BLACK ));
 		propulsion.runDist(min_dist + 50);
 		while(propulsion.isRunning()){
 			propulsion.check_dist();
-			if(propulsion.check_dist(min_dist) && color.getCurrentColor()==c ){
+			if(propulsion.check_dist(min_dist) && color.getCurrentColor()==c){
+				// 
 				propulsion.stopMoving();
 			}
+			System.out.println("check_dist : "+propulsion.check_dist(min_dist));
 			if(input.escapePressed()){
 				propulsion.stopMoving();
 				throw new exception.FinishException();

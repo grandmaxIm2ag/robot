@@ -155,7 +155,8 @@ public class ExecPlan implements Visitor<Boolean> {
 			robot.run(5, true);
 			robot.orientate(true);
 			
-			robot.followLine(color, 210, false);
+			robot.followLine(color, 210);
+			robot.run(10, false);
 			robot.orientate(false);
 		}else {
 			robot.run(6.5f, true);

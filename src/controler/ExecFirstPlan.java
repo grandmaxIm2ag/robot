@@ -43,11 +43,13 @@ public class ExecFirstPlan extends ExecPlan {
 		if(PointCalculator.closest_line(robot.getP()) == Color.GREEN && robot.isSouth()){}
 		else if(PointCalculator.closest_line(robot.getP()) == Color.BLUE && !robot.isSouth()){}
 		else robot.run_until_color(robot.isSouth() ? Color.GREEN : Color.BLUE, 
-				PointCalculator.closest_line( 	robot.getP()) == Color.BLACK ? 20 : 80 );
+				PointCalculator.closest_line(robot.getP()) == Color.BLACK ? 0 : 80 );
 		robot.run(20, true);
 		
 		//On se déplace jusqu'à la ligne à suivre
-		robot.go_to_line(PointCalculator.closestColor(robot.getP()));
+		if(PointCalculator.closest_line(robot.getP()) == Color.GREEN && robot.isSouth()){}
+		else if(PointCalculator.closest_line(robot.getP()) == Color.BLUE && !robot.isSouth()){}
+		else robot.go_to_line(PointCalculator.closestColor(robot.getP()));
 		robot.run(5, true);
 		robot.orientate(true);
 		
