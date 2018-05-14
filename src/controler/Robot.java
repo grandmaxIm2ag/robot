@@ -217,7 +217,7 @@ public class Robot {
 	 * @throws LostLineException 
 	 */
 	public void followLine(int c, float dist) throws LostLineException{
-		propulsion.change_rotation_speed(R2D2Constants.SEARCH_SPEED);
+		propulsion.change_rotation_speed(R2D2Constants.COLOR_SPEED);
 		float angle_search_color = 30f;
 		while(color.getCurrentColor() != Color.WHITE && dist > 0){
 			propulsion.runDist(dist);
@@ -235,6 +235,7 @@ public class Robot {
 							propulsion.check_dist();
 					}
 					boolean b = true;
+					propulsion.change_rotation_speed(R2D2Constants.COLOR_SPEED);
 					propulsion.rotate(angle_search_color, false, false);
 					while(propulsion.isRunning()){
 						propulsion.checkState();
@@ -245,6 +246,7 @@ public class Robot {
 						}
 					}
 					if(b){
+						propulsion.change_rotation_speed(R2D2Constants.COLOR_SPEED);
 						propulsion.rotate(angle_search_color*3, true, false);
 						while(propulsion.isRunning()){
 							propulsion.checkState();
@@ -265,6 +267,7 @@ public class Robot {
 		}
 		propulsion.stopMoving();
 		p = PointCalculator.getWhiteLinePoint(south, c);
+		p.setY(isSouth() ? p.getY() + 10 : p.getY() - 10);
 		setZ(propulsion.getOrientation());
 		propulsion.change_rotation_speed(R2D2Constants.MAX_ROTATION_SPEED);
 	}
@@ -283,22 +286,13 @@ public class Robot {
 	public void followLine(int c, float dist, boolean deliver) throws FinishException, LostLineException{
 		followLine(c, dist);
 		if(deliver){
-			//On avance de 15 centimètres
-			propulsion.runDist(15);
-			while(propulsion.isRunning()){
-				propulsion.check_dist();
-				if(input.escapePressed()){
-					propulsion.stopMoving();
-					throw new exception.FinishException();
-				}
-			}
 			//On ouvre a pince
 			graber.open();
 			while(graber.isRunning()){
 				graber.checkState();
 			}
 			//On recule de 6 centimètres
-			propulsion.runDist(7, false);
+			propulsion.runDist(6, false);
 			while(propulsion.isRunning()){
 				propulsion.check_dist();
 				if(input.escapePressed()){
@@ -308,6 +302,17 @@ public class Robot {
 			}
 		}
 		setZ(south ? 180 : 0);
+		//On se retourne
+		orientate(false);
+		//On avance de 7 centimètres
+		/*propulsion.runDist(10, false);
+		while(propulsion.isRunning()){
+			propulsion.check_dist();
+			if(input.escapePressed()){
+				propulsion.stopMoving();
+				throw new exception.FinishException();
+			}
+		}*/
 	}
 	
 	
@@ -353,9 +358,9 @@ public class Robot {
 	 */
 	public void search_palet(float dist)
 			throws FinishException, InstructionException{
-		propulsion.change_rotation_speed(R2D2Constants.SEARCH_SPEED);
 		float angle = 15;
 		boolean b = true;
+		propulsion.change_rotation_speed(R2D2Constants.SEARCH_SPEED);
 		propulsion.rotate(angle, false, false);
 		while(propulsion.isRunning()){
 			propulsion.checkState();
@@ -372,6 +377,7 @@ public class Robot {
 			}
 		}
 		if(b) {
+			propulsion.change_rotation_speed(R2D2Constants.SEARCH_SPEED);
 			propulsion.rotate(-2*angle, false, false);
 			while(propulsion.isRunning()){
 				propulsion.checkState();
@@ -392,7 +398,6 @@ public class Robot {
 		if(b){
 			throw new exception.InstructionException();
 		}
-		propulsion.change_rotation_speed(R2D2Constants.MAX_ROTATION_SPEED);
 	}
 	
 	/**
@@ -403,6 +408,7 @@ public class Robot {
 	 * @throws FinishException Traitée par l'appelant
 	 */
 	public void rotate(float angle) throws FinishException{
+		System.out.println(propulsion.pilot.getAngularSpeed());
 		propulsion.rotate(angle,false,true);
 		while(propulsion.isRunning()){
 			propulsion.checkState();
@@ -596,11 +602,10 @@ public class Robot {
 	}
 	
 	public float balayage(Point p2) throws Exception {
-		propulsion.change_rotation_speed(R2D2Constants.SEARCH_SPEED);
-		float angle = 15;
+		float angle = 25;
 		float min_value = Float.MAX_VALUE;
 		float dist = p.distance(p2);
-		
+		propulsion.change_rotation_speed(R2D2Constants.SEARCH_SPEED);
 		propulsion.rotate(angle, false, false);
 		while(propulsion.isRunning()){
 			propulsion.checkState();
@@ -609,10 +614,12 @@ public class Robot {
 				throw new exception.FinishException();
 			}
 			float diff = vision.getRaw()[0]*100 + utils.R2D2Constants.size_sonar;
+			System.out.println("diff_balayage = "+dist);
 			if(diff <= min_value ){
 				min_value = diff;
 			}
 		}
+		propulsion.change_rotation_speed(R2D2Constants.SEARCH_SPEED);
 		propulsion.rotate(-2*angle, false, false);
 		while(propulsion.isRunning()){
 			propulsion.checkState();
@@ -621,18 +628,27 @@ public class Robot {
 				throw new exception.FinishException();
 			}
 			float diff = vision.getRaw()[0]*100 + utils.R2D2Constants.size_sonar;
+			System.out.println("diff_balayage = "+dist);
 			if(diff <= min_value ){
 				min_value = diff;
 			}
 		}
 		
-		if(Math.abs(min_value - dist) > 30)
+		if(Math.abs(min_value - dist) > 45)
 			throw new exception.InstructionException("Pas de palet");
 		
 		rotate(angle);
 		z  = propulsion.getOrientation();
-		
-		propulsion.change_rotation_speed(R2D2Constants.MAX_ROTATION_SPEED);
 		return min_value;
+	}
+	
+	public void homologation(){
+		input.waitAny();
+		propulsion.runDist(utils.R2D2Constants.LENGTH_ARENA);
+		while(propulsion.isRunning()){
+			propulsion.checkState();
+			if(color.getCurrentColor() == Color.WHITE)
+				propulsion.stopMoving();
+		}
 	}
 }

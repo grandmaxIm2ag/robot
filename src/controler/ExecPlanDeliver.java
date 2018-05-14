@@ -62,8 +62,6 @@ public class ExecPlanDeliver extends ExecPlan {
 				robot.orientate(true);
 			}
 		}	 
-		//On se retourne
-		robot.orientate(false);
 		
 		return true;
 	}

@@ -35,11 +35,12 @@ public class R2D2Constants {
 	public static final float COLLISION_DISTANCE         = 0.20f;
 	public static final int   GRAB_CALIBRATE_SPEED       = 200;
 	public static final int   GRAB_RUNNING_SPEED         = 2000;
-	public static final float LINEAR_ACCELERATION        = 0.9f;
+	public static final float LINEAR_ACCELERATION        = 0.7f;
 	public static final int   VOLTE_FACE_ROTATION        = 80;
-	public static final int   MAX_ROTATION_SPEED         = 30;
-	public static final int   SEARCH_SPEED               = 10;
+	public static final int   MAX_ROTATION_SPEED         = 50;
+	public static final int   SEARCH_SPEED               = 30;
 	public static final int   SLOW_SEARCH_SPEED          = 20;
+	public static final int   COLOR_SPEED          		 = 50;
 	public static final int   ANGLE_CORRECTION           = 2;
 	public static final float PR_ANGLE_CORRECTION        = ANGLE_CORRECTION/100f;
 	public static final float SIZE_ARENA				 = 200f;
@@ -67,6 +68,6 @@ public class R2D2Constants {
 	public final static int BLACK = 1;
 	public final static int RED = 2;
 	
-	public final static float size_sonar = 15f;
+	public final static float size_sonar = 10f;
 	
 }

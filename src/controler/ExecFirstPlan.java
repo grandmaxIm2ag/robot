@@ -50,10 +50,6 @@ public class ExecFirstPlan extends ExecPlan {
 		
 		//On suit la ligne
 		robot.followLine(PointCalculator.closestColor(robot.getP()), 60,true);
-		
-		//On se retourne
-		System.out.println("angle avant rotation : "+robot.getZ());
-		robot.orientate(false);
 		return true;
 	}
 }

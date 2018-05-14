@@ -7,6 +7,7 @@ import utils.Move;
 import utils.Pick;
 import utils.Point;
 import utils.PointCalculator;
+import utils.R2D2Constants;
 import utils.Visitor;
 import vue.InputHandler;
 import vue.Screen;
@@ -66,7 +67,7 @@ public class ExecPlan implements Visitor<Boolean> {
 	@Override
 	public Boolean visit(Move m) throws Exception {
 		try{
-			float max_dist = 50;
+			float max_dist = 55;
 			
 			//On cherche le palet
 			Point point = (Point)m.getNext();
@@ -80,8 +81,6 @@ public class ExecPlan implements Visitor<Boolean> {
 				robot.run(robot.getP().distance(point)-max_dist, true);
 				d = robot.getPropulsion().getTraveledDist()/10;
 			
-			
-			
 				robot.setP(PointCalculator.getPointFromAngle(robot.getP(), d, robot.getZ()));
 				point = (Point)m.getNext();
 				angle = robot.getP().angle(point);
@@ -92,6 +91,7 @@ public class ExecPlan implements Visitor<Boolean> {
 				float dd = robot.balayage((Point)m.getNext());
 				System.out.println("palet a :"+dd);
 				robot.search_palet(dd);
+				robot.propulsion.change_rotation_speed(R2D2Constants.MAX_ROTATION_SPEED);
 			}
 		}catch(exception.InstructionException e){
 			/*
@@ -149,13 +149,16 @@ public class ExecPlan implements Visitor<Boolean> {
 			//robot.orientate(true);
 			//robot.run(5, true);
 			//robot.setP(PointCalculator.getPointFromAngle(robot.getP(), 5, robot.getZ()));
-			robot.go_to_line(Color.BLACK);
+			int color = PointCalculator.closestColor(robot.getP()) == Color.BLACK
+					? Color.RED : Color.BLACK;
+			robot.go_to_line(color);
 			robot.run(5, true);
 			robot.orientate(true);
-			robot.followLine(Color.BLACK, 210, false);
+			
+			robot.followLine(color, 210, false);
 			robot.orientate(false);
 		}else {
-			robot.run(5, true);
+			robot.run(6.5f, true);
 		}
 		return b;
 	}

@@ -90,13 +90,15 @@ public class RobotControler {
 		}
 		if(calibration()){
 			screen.drawText("Calibration Placement", 
-					"Appuyez sur OK si","vous êtes au sud",
-					"Appuyez sur toute autre si","vous êtes au nord");
-			robot.setSouth(input.isThisButtonPressed(input.waitAny(), Button.ID_ENTER));
+					"Appuyez sur BAS si","vous déposez au sud",
+					"Appuyez sur toute HAUT si","vous déposez au nord");
+			robot.setSouth(input.isThisButtonPressed(input.waitAny(), Button.ID_DOWN));
+			
 			screen.drawText("Lancer", 
-				"Appuyez sur OK si la","ligne noire est à gauche",
-				"Appuyez sur tout autre", "elle est à droite");
-			if(input.isThisButtonPressed(input.waitAny(), Button.ID_ENTER)){
+				"Appuyez sur GAUCHE si la","ligne noire est à gauche",
+				"Appuyez sur DROITE autre", "elle est à droite");
+			
+			if(input.isThisButtonPressed(input.waitAny(), Button.ID_LEFT)){
 				mainLoop(true);
 			}else{
 				mainLoop(false);
@@ -183,7 +185,7 @@ public class RobotControler {
 		
 		//Boucle de jeu
 		screen.clearDraw();
-		screen.drawText("Lancement du robot");
+		screen.drawText("Lancement du robot","Position :", robot.getP().toString());
 		input.waitAny();
 		Visitor<Boolean> plan_norm = new ExecPlan(robot, input, screen);
 		Visitor<Boolean> plan_first_pick = new ExecFirstPick(robot, input, screen);

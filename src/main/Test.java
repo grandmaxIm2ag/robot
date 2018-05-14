@@ -14,6 +14,7 @@ public class Test {
 	public static void main(String[] args) throws FinishException {
 		Robot robot = new Robot(new Point(0,0), false,new ColorSensor(),
 				new Propulsion(), new Graber(), new Bumper(), new UltraSon());
-		robot.run(60, true);
+		robot.getPropulsion().change_rotation_speed(10);
+		
 	}
 }

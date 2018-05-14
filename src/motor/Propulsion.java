@@ -95,6 +95,7 @@ public class Propulsion extends TimedMotor implements MoveListener{
 	}
 
 	public void change_rotation_speed(float v) {
+		System.out.println("coucou");
 		pilot.setAngularSpeed(v);
 	}
 	/**
